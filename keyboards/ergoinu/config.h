@@ -77,10 +77,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define ws2812_PORTREG  PORTB
 #define ws2812_DDRREG   DDRB
 
-#define RGBLED_NUM 6
+#define RGBLED_NUM 7
 
 #ifndef IOS_DEVICE_ENABLE
-  #if RGBLED_NUM <= 6
+  #if RGBLED_NUM <= 7
   #define RGBLIGHT_LIMIT_VAL 255
   #define RGBLIGHT_VAL_STEP 17
 #else
