@@ -30,21 +30,11 @@ static void setup_handedness(void) {
 }
 
 static void keyboard_master_setup(void) {
-
-#ifdef USE_MATRIX_I2C
-    i2c_master_init();
-#else
-    serial_master_init();
-#endif
+  serial_master_init();
 }
 
 static void keyboard_slave_setup(void) {
-
-#ifdef USE_MATRIX_I2C
-    i2c_slave_init(SLAVE_I2C_ADDRESS);
-#else
-    serial_slave_init();
-#endif
+  serial_slave_init();
 }
 
 bool has_usb(void) {

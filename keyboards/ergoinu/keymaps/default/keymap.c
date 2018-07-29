@@ -80,11 +80,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     //   break;
     case RGB_TYPE:
       #ifdef RGBLIGHT_ENABLE
-          if (record->event.pressed) {
-            rgblight_enable_noeeprom();
-            rgblight_mode_noeeprom(1);
-            enableLEDTypeAnime = !enableLEDTypeAnime;
-          }
+        if (record->event.pressed) {
+          rgblight_enable_noeeprom();
+          rgblight_mode_noeeprom(1);
+          enableLEDTypeAnime = !enableLEDTypeAnime;
+        }
       #endif
       return false;
       break;
