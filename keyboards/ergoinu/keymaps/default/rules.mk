@@ -24,14 +24,17 @@ SLEEP_LED_ENABLE = no    # Breathing sleep LED during USB suspend
 # ergoinu configs
 FORCE_MASTER = no
 FORCE_SLAVE = no
+DISABLE_PROMICRO_LEDs = yes
 
 ifneq ($(strip $(ERGOINU)),)
+  ifeq ($(findstring promicroled, $(ERGOINU)), promicroled)
+    DISABLE_PROMICRO_LEDs = no
+  endif
   ifeq ($(findstring master, $(ERGOINU)), master)
     FORCE_MASTER = yes
-  else
-    ifeq ($(findstring slave, $(ERGOINU)), slave)
-      FORCE_SLAVE = yes
-    endif
+  endif
+  ifeq ($(findstring slave, $(ERGOINU)), slave)
+    FORCE_SLAVE = yes
   endif
 endif
 
@@ -41,6 +44,10 @@ ifeq ($(strip $(FORCE_MASTER)), yes)
   endif
 endif
 
+ifeq ($(strip $(DISABLE_PROMICRO_LEDs)), yes)
+  OPT_DEFS += -DDISABLE_PROMICRO_LEDs
+endif
+
 ifeq ($(strip $(FORCE_MASTER)), yes)
   OPT_DEFS += -DFORSE_MASTER
 endif
@@ -48,6 +55,7 @@ endif
 ifeq ($(strip $(FORCE_SLAVE)), yes)
   OPT_DEFS += -DFORSE_SLAVE
 endif
+
 
 
 # Uncomment these for debugging

@@ -32,18 +32,26 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "serial.h"
 
+// from pro_micro.h
+#define TX_RX_LED_INIT  DDRD |= (1<<5), DDRB |= (1<<0)
+
+#ifndef DISABLE_PROMICRO_LEDs
+  #define TXLED0          PORTD |= (1<<5)
+  #define TXLED1          PORTD &= ~(1<<5)
+  #define RXLED0          PORTB |= (1<<0)
+  #define RXLED1          PORTB &= ~(1<<0)
+#else
+  #define TXLED0
+  #define TXLED1
+  #define RXLED0
+  #define RXLED1
+#endif
+
 #ifndef DEBOUNCE
 #  define DEBOUNCE	5
 #endif
 
 #define ERROR_DISCONNECT_COUNT 5
-
-// from pro_micro.h
-#define TX_RX_LED_INIT  DDRD |= (1<<5), DDRB |= (1<<0)
-#define TXLED0          PORTD |= (1<<5)
-#define TXLED1          PORTD &= ~(1<<5)
-#define RXLED0          PORTB |= (1<<0)
-#define RXLED1          PORTB &= ~(1<<0)
 
 static uint8_t debouncing = DEBOUNCE;
 static const int ROWS_PER_HAND = MATRIX_ROWS/2;
@@ -104,6 +112,11 @@ void matrix_init(void)
     init_cols();
 
     TX_RX_LED_INIT;
+
+    #ifdef DISABLE_PROMICRO_LEDs
+      PORTD |= (1<<5);
+      PORTB |= (1<<0);
+    #endif
 
     // initialize matrix state: all keys off
     for (uint8_t i=0; i < MATRIX_ROWS; i++) {
