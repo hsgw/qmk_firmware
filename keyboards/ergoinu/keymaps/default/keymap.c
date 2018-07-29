@@ -1,6 +1,13 @@
 #include QMK_KEYBOARD_H
 
-extern keymap_config_t keymap_config;
+// extern keymap_config_t keymap_config;
+
+#ifdef RGBLIGHT_ENABLE
+//Following line allows macro to read current RGB settings
+extern rgblight_config_t rgblight_config;
+#endif
+
+int RGB_current_mode;
 
 #define JA_CLON KC_QUOT  // : and +
 #define JA_AT   KC_LBRC  // @ and `
@@ -14,7 +21,11 @@ enum LAYER_NO {
   BASE = 0,
   META,
   CONF
-}
+};
+
+enum CUSTOM_KEYCODES {
+  RGB_RST = SAFE_RANGE
+};
 
 // Fillers to make layering more clear
 #define ______ KC_TRNS
@@ -37,13 +48,43 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_LSHIFT,          ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  KC_LEFT, KC_DOWN, KC_RGHT, \
                         ______,  ______,  ______,  ______,  ______,  ______,  KC_DEL,  KC_HENK, ______,  ______ \
   ),
-
-  [CONF] = LAYOUT( \
-    MO(CONF),  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,   XXXXXX, XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX, \
-    XXXXXX,    XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX, \
+ [CONF] = LAYOUT( \
+    MO(CONF),  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,   XXXXXX, XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  MO(CONF), \
+    RGB_RST,   RGB_TOG, RGB_HUI, RGB_MOD, XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  RGB_RST, \
     KC_LCTRL,           XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX, \
     KC_LSHIFT,          XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX, \
                         XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX \
   )
 
 };
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  switch(keycode) {
+    case RGB_RST:
+      #ifdef RGBLIGHT_ENABLE
+        if (record->event.pressed) {
+          eeconfig_update_rgblight_default();
+          rgblight_enable();
+          RGB_current_mode = rgblight_config.mode;
+        }
+      #endif
+      break;
+    case RGB_MOD:
+      #ifdef RGBLIGHT_ENABLE
+          if (record->event.pressed) {
+            rgblight_mode(RGB_current_mode);
+            rgblight_step();
+            RGB_current_mode = rgblight_config.mode;
+          }
+      #endif
+      return false;
+      break;
+  }
+  return true;
+}
+
+void matrix_init_user(void) {
+    #ifdef RGBLIGHT_ENABLE
+      RGB_current_mode = rgblight_config.mode;
+    #endif
+}
