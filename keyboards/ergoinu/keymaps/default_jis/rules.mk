@@ -58,7 +58,7 @@ endif
 
 
 
-# Uncomment these for debugging
+# # Uncomment these for debugging
 # $(info -- RGBLIGHT_ENABLE=$(RGBLIGHT_ENABLE))
 # $(info -- OPT_DEFS=$(OPT_DEFS))
 # $(info )
