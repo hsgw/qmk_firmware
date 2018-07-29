@@ -20,11 +20,41 @@ SWAP_HANDS_ENABLE = no        # Enable one-hand typing
 # Do not enable SLEEP_LED_ENABLE. it uses the same timer as BACKLIGHT_ENABLE
 SLEEP_LED_ENABLE = no    # Breathing sleep LED during USB suspend
 
+
+# ergoinu configs
+FORCE_MASTER = no
+FORCE_SLAVE = no
+
+ifneq ($(strip $(ERGOINU)),)
+  ifeq ($(findstring master, $(ERGOINU)), master)
+    FORCE_MASTER = yes
+  else
+    ifeq ($(findstring slave, $(ERGOINU)), slave)
+      FORCE_SLAVE = yes
+    endif
+  endif
+endif
+
+ifeq ($(strip $(FORCE_MASTER)), yes)
+  ifeq ($(strip $(FORCE_SLAVE)), yes)
+    $(error FORSE_MASTER and FORSE_SLAVE are both 'yes')
+  endif
+endif
+
+ifeq ($(strip $(FORCE_MASTER)), yes)
+  OPT_DEFS += -DFORSE_MASTER
+endif
+
+ifeq ($(strip $(FORCE_SLAVE)), yes)
+  OPT_DEFS += -DFORSE_SLAVE
+endif
+
+
+# Uncomment these for debugging
+$(info -- RGBLIGHT_ENABLE=$(RGBLIGHT_ENABLE))
+$(info -- OPT_DEFS=$(OPT_DEFS))
+$(info )
+
 ifndef QUANTUM_DIR
 	include ../../../../Makefile
 endif
-
-# Uncomment these for debugging
-# $(info -- RGBLIGHT_ENABLE=$(RGBLIGHT_ENABLE))
-# $(info -- OPT_DEFS=$(OPT_DEFS))
-# $(info )
