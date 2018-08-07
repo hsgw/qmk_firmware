@@ -69,3 +69,16 @@ SLEEP_LED_ENABLE = no    # Breathing sleep LED during USB suspend
 CUSTOM_MATRIX = yes
 
 DEFAULT_FOLDER = ergoinu
+
+# ergoinu configs
+DISABLE_PROMICRO_LEDs = yes
+
+ifneq ($(strip $(ERGOINU)),)
+  ifeq ($(findstring promicroled, $(ERGOINU)), promicroled)
+    DISABLE_PROMICRO_LEDs = no
+  endif
+endif
+
+ifeq ($(strip $(DISABLE_PROMICRO_LEDs)), yes)
+  OPT_DEFS += -DDISABLE_PROMICRO_LEDs
+endif

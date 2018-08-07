@@ -20,43 +20,8 @@ SWAP_HANDS_ENABLE = no        # Enable one-hand typing
 # Do not enable SLEEP_LED_ENABLE. it uses the same timer as BACKLIGHT_ENABLE
 SLEEP_LED_ENABLE = no    # Breathing sleep LED during USB suspend
 
-
 # ergoinu configs
-FORCE_MASTER = no
-FORCE_SLAVE = no
 DISABLE_PROMICRO_LEDs = yes
-
-ifneq ($(strip $(ERGOINU)),)
-  ifeq ($(findstring promicroled, $(ERGOINU)), promicroled)
-    DISABLE_PROMICRO_LEDs = no
-  endif
-  ifeq ($(findstring master, $(ERGOINU)), master)
-    FORCE_MASTER = yes
-  endif
-  ifeq ($(findstring slave, $(ERGOINU)), slave)
-    FORCE_SLAVE = yes
-  endif
-endif
-
-ifeq ($(strip $(FORCE_MASTER)), yes)
-  ifeq ($(strip $(FORCE_SLAVE)), yes)
-    $(error FORSE_MASTER and FORSE_SLAVE are both 'yes')
-  endif
-endif
-
-ifeq ($(strip $(DISABLE_PROMICRO_LEDs)), yes)
-  OPT_DEFS += -DDISABLE_PROMICRO_LEDs
-endif
-
-ifeq ($(strip $(FORCE_MASTER)), yes)
-  OPT_DEFS += -DFORSE_MASTER
-endif
-
-ifeq ($(strip $(FORCE_SLAVE)), yes)
-  OPT_DEFS += -DFORSE_SLAVE
-endif
-
-
 
 # Uncomment these for debugging
 # $(info -- RGBLIGHT_ENABLE=$(RGBLIGHT_ENABLE))
