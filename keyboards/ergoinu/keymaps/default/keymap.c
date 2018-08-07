@@ -76,7 +76,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
           }
       #endif
       return false;
-      break;
     case RGB_TYPE:
       #ifdef RGBLIGHT_ENABLE
         if (record->event.pressed) {
@@ -86,6 +85,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
       #endif
       return false;
+    default:
       break;
   }
   #ifdef RGBLIGHT_ENABLE
