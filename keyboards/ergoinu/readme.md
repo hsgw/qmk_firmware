@@ -1,11 +1,11 @@
 ErgoInu
 ===
 
-[ergoinu]
+[ergoinu](https://i.imgur.com/4CCM8Vl.jpg)
 
 A (Not Portable But Small) Ergonomic Split Keyboard.
 
-Keyboard Maintainer: [hsgw](https://github.com/hsgw/) [@hsgw](https://twitter.com/hsgw)
+Keyboard Maintainer: [hsgw](https://github.com/hsgw/)   [@hsgw](https://twitter.com/hsgw)
 Hardware Supported: Pro Micro
 Hardware Availability: TODO
 Hardware Repository: TODO
