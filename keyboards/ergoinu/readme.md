@@ -5,10 +5,10 @@ ErgoInu
 
 A (Not Portable But Small) Ergonomic Split Keyboard.
 
-Keyboard Maintainer: [hsgw](https://github.com/hsgw/)   [@hsgw](https://twitter.com/hsgw)
-Hardware Supported: Pro Micro
-Hardware Availability: TODO
-Hardware Repository: TODO
+Keyboard Maintainer: [hsgw](https://github.com/hsgw/)   [@hsgw](https://twitter.com/hsgw)  
+Hardware Supported: Pro Micro  
+Hardware Availability: TODO  
+Hardware Repository: TODO  
 
 Make example for this keyboard (after setting up your build environment):
 
