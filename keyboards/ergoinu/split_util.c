@@ -8,11 +8,7 @@
 #include "matrix.h"
 #include "keyboard.h"
 
-#ifdef USE_MATRIX_I2C
-#  include "i2c.h"
-#else
-#  include "serial.h"
-#endif
+#include "serial.h"
 
 volatile bool isLeftHand = true;
 
