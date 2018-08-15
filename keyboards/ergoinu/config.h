@@ -23,13 +23,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "config_common.h"
 #include <serial_config.h>
 
-/* USB Device descriptor parameter */
+/* USB Device descriptor parameter
+   VID & PID are lisenced from microchip sublisence program, Don't use other project! */
 #define VENDOR_ID       0x04D8
 #define PRODUCT_ID      0xEE60
 #define DEVICE_VER      0x0001
 #define MANUFACTURER    Dm9Records
 #define PRODUCT         ergoinu
-#define DESCRIPTION     (not portable) Ergonomic split keyboard
+#define DESCRIPTION     An (Not Portable But Small) Ergonomic split keyboard
 
 
 #define PREVENT_STUCK_MODIFIERS

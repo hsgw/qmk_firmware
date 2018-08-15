@@ -43,10 +43,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [META] = LAYOUT( \
     MO(CONF),KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  KC_INS, \
-    ______,  KC_CAPS, ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  KC_SLCK, KC_PSCR, KC_HOME, KC_END, \
-    ______,           ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  KC_PAUS, KC_PGUP, KC_UP,   KC_PGDN, \
+    ______,  KC_CAPS, ______,  KC_UP,   ______,  ______,  ______,  ______,  ______,  ______,  KC_SLCK, KC_PSCR, KC_HOME, KC_END, \
+    ______,           KC_LEFT, KC_DOWN, KC_RGHT, ______,  ______,  ______,  ______,  ______,  KC_PAUS, KC_PGUP, KC_UP,   KC_PGDN, \
     ______,           ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  KC_LEFT, KC_DOWN, KC_RGHT, \
-                      ______,  ______,  KC_RGUI, KC_DEL,  ______,  ______,  KC_DEL,  KC_HENK, KC_LGUI, ______ \
+                      ______,  ______,  KC_RGUI, KC_DEL,  KC_ENT,  ______,  KC_DEL,  KC_HENK, KC_LGUI, ______ \
   ),
  [CONF] = LAYOUT( \
     ______,  RGB_TYPE,RGB_MOD,  RGB_VAI, RGB_HUI, RGB_HUI,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX, \
