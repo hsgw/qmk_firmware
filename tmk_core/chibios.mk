@@ -198,8 +198,6 @@ ifneq ("$(SERIAL)","")
 	DFU_ARGS += -S $(SERIAL)
 endif
 
-ST-LINK_ARGS ?=
-
 # List any extra directories to look for libraries here.
 EXTRALIBDIRS = $(RULESPATH)/ld
 
