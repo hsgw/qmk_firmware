@@ -41,6 +41,24 @@ static void init_cols(void);
 static void unselect_rows(void);
 static void select_row(uint8_t row);
 
+__attribute__ ((weak))
+void matrix_init_kb(void) {
+    matrix_init_user();
+}
+
+__attribute__ ((weak))
+void matrix_scan_kb(void) {
+    matrix_scan_user();
+}
+
+__attribute__ ((weak))
+void matrix_init_user(void) {
+}
+
+__attribute__ ((weak))
+void matrix_scan_user(void) {
+}
+
 
 inline
 uint8_t matrix_rows(void)
@@ -81,10 +99,13 @@ void matrix_init(void)
     }
 
     //debug
+    debug_enable = true;
     debug_matrix = true;
-    LED_ON();
-    wait_ms(500);
-    LED_OFF();
+    // LED_ON();
+    // wait_ms(500);
+    // LED_OFF();
+
+    matrix_init_quantum();
 }
 
 uint8_t matrix_scan(void)
@@ -112,6 +133,8 @@ uint8_t matrix_scan(void)
             }
         }
     }
+
+    matrix_scan_quantum();
 
     return 1;
 }
