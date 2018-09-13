@@ -1,7 +1,5 @@
-#include <LUFA/Drivers/USB/USB.h>
 #include "qmk_midi.h"
 #include "sysex_tools.h"
-#include "midi.h"
 #include "usb_descriptor.h"
 #include "process_midi.h"
 #if API_SYSEX_ENABLE
