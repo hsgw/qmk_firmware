@@ -16,12 +16,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "maple_test.h"
+#include "ext_eeprom.h"
 
 #include <print.h>
 #include <qmk_midi.h>
 #include <wait.h>
-
-#include "macro_keycodes.h"
 
 extern MidiDevice midi_device;
 
@@ -30,7 +29,7 @@ enum custom_keycode {
 };
 
 const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-    {{MACRO01}},
+    {{CK_DBG}},
 };
 
 #define SYSEX_BUFFER_LENGTH 64
