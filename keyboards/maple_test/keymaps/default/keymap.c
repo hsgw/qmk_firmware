@@ -15,9 +15,13 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include "maple_test.h"
+
 #include <print.h>
 #include <qmk_midi.h>
-#include "maple_test.h"
+#include <wait.h>
+
+#include "ext_eeprom.h"
 
 extern MidiDevice midi_device;
 
@@ -83,16 +87,34 @@ void my_fallthrough_callback(MidiDevice * device,
 void matrix_init_user(void) {
   midi_register_sysex_callback(&midi_device, my_sysex_callback);
   midi_register_fallthrough_callback(&midi_device, my_fallthrough_callback);
+  ext_eeprom_init();
+}
+
+void printArray(uint8_t* array, uint16_t length) {
+  for(int i=0; i<length;i++) {
+    printf("%d ", array[i]);
+  }
+  print("\n");
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     case CK_DBG:
       print("debug\n");
-      return false;
+      uint16_t address = 0;
+      int16_t ret = 0;
+      uint8_t data1[16] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16};
+      ret = ext_eeprom_write(address, data1, 16);
+      printf("write %d ", ret);
+      printf("State: %d error %d\n", I2CD1.state, I2CD1.errors);
+      wait_ms(1000);
+      uint8_t data2[16] = {0};
+      ret = ext_eeprom_read(address, data2, 16);
+      printf("read %d ", ret);
+      printf("State: %d error %d\n", I2CD1.state, I2CD1.errors);
+      printArray(data2, 16);
+      return true;
     default:
       return true;
   }
 }
-
-

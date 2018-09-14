@@ -72,13 +72,6 @@ uint8_t matrix_cols(void)
     return MATRIX_COLS;
 }
 
-/* generic STM32F103C8T6 board */
-#ifdef BOARD_GENERIC_STM32_F103
-#define LED_ON()    do { palClearPad(GPIOC, GPIOC_LED) ;} while (0)
-#define LED_OFF()   do { palSetPad(GPIOC, GPIOC_LED); } while (0)
-#define LED_TGL()   do { palTogglePad(GPIOC, GPIOC_LED); } while (0)
-#endif
-
 /* Maple Mini */
 #ifdef BOARD_MAPLEMINI_STM32_F103
 #define LED_ON()    do { palSetPad(GPIOB, 1) ;} while (0)
