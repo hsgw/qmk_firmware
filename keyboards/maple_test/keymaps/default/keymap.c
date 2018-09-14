@@ -21,7 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <qmk_midi.h>
 #include <wait.h>
 
-#include "ext_eeprom.h"
+#include "macro_keycodes.h"
 
 extern MidiDevice midi_device;
 
@@ -30,7 +30,7 @@ enum custom_keycode {
 };
 
 const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-    {{CK_DBG}},
+    {{MACRO01}},
 };
 
 #define SYSEX_BUFFER_LENGTH 64
