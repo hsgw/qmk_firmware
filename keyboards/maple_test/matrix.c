@@ -27,6 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "matrix.h"
 #include "wait.h"
 
+
 #ifndef DEBOUNCE
 #   define DEBOUNCE 5
 #endif
@@ -47,12 +48,12 @@ void matrix_init_kb(void) {
 }
 
 __attribute__ ((weak))
-void matrix_scan_kb(void) {
-    matrix_scan_user();
+void matrix_init_user(void) {
 }
 
 __attribute__ ((weak))
-void matrix_init_user(void) {
+void matrix_scan_kb(void) {
+    matrix_scan_user();
 }
 
 __attribute__ ((weak))
