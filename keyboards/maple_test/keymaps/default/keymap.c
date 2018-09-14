@@ -100,20 +100,22 @@ void printArray(uint8_t* array, uint16_t length) {
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     case CK_DBG:
-      print("debug\n");
-      uint16_t address = 0;
-      int16_t ret = 0;
-      uint8_t data1[16] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16};
-      ret = ext_eeprom_write(address, data1, 16);
-      printf("write %d ", ret);
-      printf("State: %d error %d\n", I2CD1.state, I2CD1.errors);
-      wait_ms(1000);
-      uint8_t data2[16] = {0};
-      ret = ext_eeprom_read(address, data2, 16);
-      printf("read %d ", ret);
-      printf("State: %d error %d\n", I2CD1.state, I2CD1.errors);
-      printArray(data2, 16);
-      return true;
+      if (record->event.pressed) {
+        print("debug\n");
+        uint16_t address = 0;
+        int16_t ret = 0;
+        uint8_t data1[16] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16};
+        ret = ext_eeprom_write(address, data1, 16);
+        printf("write %d ", ret);
+        printf("State: %d error %d\n", I2CD1.state, I2CD1.errors);
+        chThdSleepMilliseconds(10);
+        uint8_t data2[16] = {0};
+        ret = ext_eeprom_read(address, data2, 16);
+        printf("read %d ", ret);
+        printf("State: %d error %d\n", I2CD1.state, I2CD1.errors);
+        printArray(data2, 16);
+      }
+      return false;
     default:
       return true;
   }
