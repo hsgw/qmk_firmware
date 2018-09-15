@@ -3,7 +3,7 @@
 #include "eeprom.h"
 #include "eeconfig.h"
 
-#ifdef STM32F303xC
+#ifdef STM32_EEPROM_ENABLE
 #include "hal.h"
 #include "eeprom_stm32.h"
 #endif
