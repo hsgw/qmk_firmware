@@ -32,6 +32,11 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     {{CK_DBG}},
 };
 
+uint16_t keymap_key_to_keycode(uint8_t layer, keypos_t key)
+{
+    return KC_A;
+}
+
 #define SYSEX_BUFFER_LENGTH 64
 
 uint8_t sysex_buffer[SYSEX_BUFFER_LENGTH] = {0};
