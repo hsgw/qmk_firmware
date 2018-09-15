@@ -57,7 +57,6 @@ COMMAND_ENABLE = yes    # Commands for debug and configuration
 SLEEP_LED_ENABLE = no  # Breathing sleep LED during USB suspend
 NKRO_ENABLE = yes	    # USB Nkey Rollover
 MIDI_ENABLE = no            # MIDI controls
-EEPROM_EMULATION_ENABLE = yes # STM32 EEPROM emulation
 
 CUSTOM_MATRIX = yes # Custom matrix file
 

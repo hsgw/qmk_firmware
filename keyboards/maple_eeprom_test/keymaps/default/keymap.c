@@ -17,7 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "maple_eeprom_test.h"
 
-#include <print.h>
+#include "print.h"
 
 enum custom_keycode {
   CK_DBG = SAFE_RANGE
@@ -28,7 +28,8 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 void matrix_init_user(void) {
-
+  eeconfig_enable();
+  eeconfig_update_debug(0x12);
 }
 
 void printArray(uint8_t* array, uint16_t length) {
@@ -43,6 +44,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case CK_DBG:
       if (record->event.pressed) {
         print("debug\n");
+        printf("eeconfig debug: 0x%x\n", eeconfig_read_debug());
       }
       return false;
     default:
