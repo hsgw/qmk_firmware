@@ -18,6 +18,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "maple_test.h"
 
 #include "print.h"
+#include "eeprom.h"
+#include "eeprom_stm32.h"
 
 enum custom_keycode {
   CK_DBG = SAFE_RANGE
@@ -28,8 +30,9 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 void matrix_init_user(void) {
-  eeconfig_enable();
-  eeconfig_update_debug(0x1);
+  if(!eeconfig_is_enabled()){
+    eeconfig_init();
+  }
 }
 
 void printArray(uint8_t* array, uint16_t length) {
@@ -44,9 +47,19 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case CK_DBG:
       if (record->event.pressed) {
         print("debug\n");
-        uint8_t debug_byte = eeconfig_read_debug();
-        printf("eeconfig debug: 0x%x\n", debug_byte);
-        eeconfig_update_debug(++debug_byte);
+        uint16_t read;
+        uint16_t status = EEPROM_read(0, &read);
+        printf("eeconfig magic: 0x%x status:%d\n", read, status);
+
+        status = EEPROM_read(11, &read);
+        printf("eeconfig data: 0x%x status:%d\n", read, status);
+        status = EEPROM_update(11, read+2);
+        printf("eeconfig data write: status:%d\n", status);
+
+
+        // uint8_t debug_byte = eeconfig_read_debug();
+        // printf("eeconfig debug: 0x%x\n", debug_byte);
+        // eeconfig_update_debug(debug_byte+1);
       }
       return false;
     default:
