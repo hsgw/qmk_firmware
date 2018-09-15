@@ -1,9 +1,7 @@
 #pragma once
 
 #ifdef MIDI_ENABLE
-  #include <LUFA/Drivers/USB/USB.h>
   #include "midi.h"
-
   extern MidiDevice midi_device;
   void setup_midi(void);
   void send_midi_packet(MIDI_EventPacket_t* event);
