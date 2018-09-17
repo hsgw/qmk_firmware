@@ -1,6 +1,8 @@
 # project specific files
 SRC =	matrix.c \
 			led.c \
+			flash_keymaps.c \
+			midi_callbacks.c \
 	    ext_eeprom.c
 
 # GENERIC STM32F103C8T6 board - stm32duino bootloader
@@ -17,7 +19,7 @@ SRC =	matrix.c \
 
 # MAPLE MINI - no bootloader (programmer over serial or SWD)
 OPT_DEFS =
-MCU_LDSCRIPT = STM32F103xB
+MCU_LDSCRIPT = STM32F103xB_maple_test
 BOARD = MAPLEMINI_STM32_F103
 
 ## chip/board settings

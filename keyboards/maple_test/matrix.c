@@ -26,7 +26,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "util.h"
 #include "matrix.h"
 #include "wait.h"
+#include "eeconfig.h"
 
+#include "midi_callbacks.h"
 
 #ifndef DEBOUNCE
 #   define DEBOUNCE 5
@@ -46,16 +48,18 @@ __attribute__ ((weak))
 void matrix_init_user(void) {
 }
 
-__attribute__ ((weak))
 void matrix_init_kb(void) {
-    matrix_init_user();
+  if(!eeconfig_is_enabled()){
+    eeconfig_init();
+  }
+  midi_register_callbacks();
+  matrix_init_user();
 }
 
 __attribute__ ((weak))
 void matrix_scan_user(void) {
 }
 
-__attribute__ ((weak))
 void matrix_scan_kb(void) {
     matrix_scan_user();
 }
