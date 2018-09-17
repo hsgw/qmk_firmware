@@ -16,10 +16,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "maple_test.h"
+#include "ext_eeprom.h"
+#include "flash_keymaps.h"
 
-#include "print.h"
-#include "eeprom.h"
-#include "eeprom_stm32.h"
+#include <print.h>
+#include <wait.h>
 
 enum custom_keycode {
   CK_DBG = SAFE_RANGE
@@ -28,6 +29,11 @@ enum custom_keycode {
 const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] __attribute__((section(".KEYMAPS"))) = {
     {{CK_DBG}},
 };
+
+// uint16_t keymap_key_to_keycode(uint8_t layer, keypos_t key)
+// {
+//     return KC_A;
+// }
 
 void matrix_init_user(void) {
 }
@@ -40,24 +46,12 @@ void printArray(uint8_t* array, uint16_t length) {
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  printf("keymaps address %lx\n", keymaps);
+  printf("keycode: %x\n", keycode);
   switch (keycode) {
     case CK_DBG:
       if (record->event.pressed) {
         print("debug\n");
-        printf("keymaps address %lx\n", keymaps);
-        uint16_t read;
-        uint16_t status = EEPROM_read(0, &read);
-        printf("eeconfig magic: 0x%x status:%d\n", read, status);
-
-        status = EEPROM_read(11, &read);
-        printf("eeconfig data: 0x%x status:%d\n", read, status);
-        status = EEPROM_update(11, read+2);
-        printf("eeconfig data write: status:%d\n", status);
-
-
-        // uint8_t debug_byte = eeconfig_read_debug();
-        // printf("eeconfig debug: 0x%x\n", debug_byte);
-        // eeconfig_update_debug(debug_byte+1);
       }
       return false;
     default:
