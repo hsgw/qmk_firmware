@@ -24,6 +24,90 @@ enum CUSTOM_KEYCODES {
   RGB_TYPE,
 };
 
+enum TAP_DANCE_KEYCODES {
+  TD_LBRT,
+  TD_RBRT,
+  TD_SC
+};
+
+void td_lbrt_finished(qk_tap_dance_state_t *state, void *user_data) {
+  switch (state->count) {
+    case 1:
+      register_code(KC_RSFT);
+      register_code(KC_8);
+      break;
+    case 2:
+      register_code(JA_LBRC);
+      break;
+    case 3:
+      register_code(KC_RSFT);
+      register_code(JA_LBRC);
+      break;
+    default:
+      break;
+  }
+}
+
+void td_lbrt_reset(qk_tap_dance_state_t *state, void *user_data){
+  switch (state->count) {
+    case 1:
+      unregister_code(KC_RSFT);
+      unregister_code(KC_8);
+      break;
+    case 2:
+      unregister_code(JA_LBRC);
+      break;
+    case 3:
+      unregister_code(KC_RSFT);
+      unregister_code(JA_LBRC);
+      break;
+    default:
+      break;
+  }
+}
+
+void td_rbrt_finished(qk_tap_dance_state_t *state, void *user_data) {
+  switch (state->count) {
+    case 1:
+      register_code(KC_RSFT);
+      register_code(KC_9);
+      break;
+    case 2:
+      register_code(JA_RBRC);
+      break;
+    case 3:
+      register_code(KC_RSFT);
+      register_code(JA_RBRC);
+      break;
+    default:
+      break;
+  }
+}
+
+void td_rbrt_reset(qk_tap_dance_state_t *state, void *user_data){
+  switch (state->count) {
+    case 1:
+      unregister_code(KC_RSFT);
+      unregister_code(KC_9);
+      break;
+    case 2:
+      unregister_code(JA_RBRC);
+      break;
+    case 3:
+      unregister_code(KC_RSFT);
+      unregister_code(JA_RBRC);
+      break;
+    default:
+      break;
+  }
+}
+
+qk_tap_dance_action_t tap_dance_actions[] = {
+  [TD_LBRT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_lbrt_finished, td_lbrt_reset),
+  [TD_RBRT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_rbrt_finished, td_rbrt_reset),
+  [TD_SC] = ACTION_TAP_DANCE_DOUBLE(KC_LSFT, KC_LCTL),
+};
+
 // Fillers to make layering more clear
 #define ______ KC_TRNS
 #define XXXXXX KC_NO
@@ -32,19 +116,19 @@ enum CUSTOM_KEYCODES {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [BASE] = LAYOUT( \
-    KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,   KC_8,    KC_9,    KC_0,    KC_MINS, JA_HAT,   KC_JYEN, \
-    KC_DEL,  KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,   KC_U,    KC_I,    KC_O,    KC_P,    JA_AT,    JA_LBRC, \
-    KC_LCTL,          KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,   KC_J,    KC_K,    KC_L,    KC_SCLN, JA_CLON,  JA_RBRC, \
-    KC_LSFT,          KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,   KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RO,    KC_RSFT, \
-                      MO(META),KC_LALT, META_ZK, KC_BSPC, KC_SPC,  KC_ENT, KC_BSPC, KC_DOWN, KC_UP,   KC_RGHT \
+    KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,                     KC_7,   KC_8,    KC_9,    KC_0,    KC_MINS, JA_HAT,   KC_JYEN, \
+    KC_DEL,  KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                     KC_Y,   KC_U,    KC_I,    KC_O,    KC_P,    JA_AT,    JA_LBRC, \
+    KC_LCTL,          KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                     KC_H,   KC_J,    KC_K,    KC_L,    KC_SCLN, JA_CLON,  JA_RBRC, \
+    KC_LSFT,          KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                     KC_N,   KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RO,    KC_RSFT, \
+                               KC_LALT, KC_TAB,  META_ZK, KC_LSFT, KC_SPC,  KC_ENT, KC_BSPC, MO(META), ______,   ______ \
   ),
 
   [META] = LAYOUT( \
-    MO(CONF),KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  KC_INS, \
-    ______,  KC_CAPS, ______,  KC_UP,   ______,  ______,  ______,  ______,  ______,  ______,  KC_SLCK, KC_PSCR, KC_HOME, KC_END, \
-    ______,           KC_LEFT, KC_DOWN, KC_RGHT, ______,  JA_LBRC, JA_RBRC, ______,  ______,  KC_PAUS, KC_PGUP, ______,  KC_PGDN, \
-    ______,           ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______, \
-                      ______,  ______,  KC_LGUI, KC_DEL,  KC_ENT,  ______,  KC_LEFT, ______,  ______,  ______ \
+    MO(CONF),KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,                     KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  KC_INS, \
+    ______,  KC_CAPS, ______,  ______,  ______,  ______,  ______,                    ______,  ______,  ______,  KC_SLCK, KC_PSCR, KC_HOME, KC_END, \
+    ______,           ______,  ______,  ______,  ______,  TD(TD_LBRT),          TD(TD_RBRT),  KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_PGUP,  KC_PGDN, \
+    ______,           ______,  ______,  ______,  ______,  ______,                    ______,  ______,  ______,  ______,   ______,  ______,  ______, \
+                               ______,  ______,  ______,  ______,  KC_ENT,  KC_SPC,  KC_DEL,  ______,  ______,  ______ \
   ),
 
  [CONF] = LAYOUT( \
