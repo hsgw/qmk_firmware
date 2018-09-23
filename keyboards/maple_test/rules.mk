@@ -22,6 +22,14 @@ OPT_DEFS =
 MCU_LDSCRIPT = STM32F103xB_maple_test
 BOARD = MAPLEMINI_STM32_F103
 
+# OPENOCD setting
+# $(OPENOCD) $(OPENOCD_PRE_COMMAND) -s $(OPENOCD_SOURCE) -f $(OPENOCD_INTERFACE) -f $(OPENOCD_TARGET) $(OPENOCD_COMMAND)
+OPENOCD_PRE_COMMAND = -c "set FLASH_SIZE 0x20000"
+OPENOCD_SOURCE      = /c/dev/ocd/tcl
+OPENOCD_INTERFACE   = interface/stlink-v2.cfg
+OPENOCD_TARGET      = target/stm32f1x_flash.cfg
+OPENOCD_COMMAND     = -c "mt_flash $(BUILD_DIR)/$(TARGET).elf"
+
 ## chip/board settings
 # the next two should match the directories in
 #  <chibios>/os/hal/ports/$(MCU_FAMILY)/$(MCU_SERIES)
