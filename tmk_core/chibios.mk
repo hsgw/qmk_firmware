@@ -203,6 +203,7 @@ EXTRALIBDIRS = $(RULESPATH)/ld
 
 DFU_UTIL ?= dfu-util
 ST-LINK_CLI ?= st-link_cli
+OPENOCD ?= openocd
 
 # Generate a .qmk for the QMK-FF
 qmk: $(BUILD_DIR)/$(TARGET).bin
@@ -233,6 +234,9 @@ dfu-util: $(BUILD_DIR)/$(TARGET).bin cpfirmware sizeafter
 
 st-link_cli: $(BUILD_DIR)/$(TARGET).hex sizeafter
 	$(ST-LINK_CLI) $(ST-LINK_ARGS) -q -c SWD -p $(BUILD_DIR)/$(TARGET).hex -Rst
+
+openocd: $(BUILD_DIR)/$(TARGET).elf sizeafter
+	$(OPENOCD) $(OPENOCD_PRE_COMMAND) -s $(OPENOCD_SOURCE) -f $(OPENOCD_INTERFACE) -f $(OPENOCD_TARGET) $(OPENOCD_COMMAND)
 
 bin: $(BUILD_DIR)/$(TARGET).bin sizeafter
 	$(COPY) $(BUILD_DIR)/$(TARGET).bin $(TARGET).bin;
