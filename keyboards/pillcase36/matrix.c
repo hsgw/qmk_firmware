@@ -87,7 +87,6 @@ uint8_t matrix_cols(void)
 
 void matrix_init(void) {
     debug_enable = true;
-    debug_matrix = true;
     // initialize row and col
     unselect_rows();
     init_cols();

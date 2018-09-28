@@ -2,46 +2,52 @@
 
 #include "ch.h"
 #include "hal.h"
-#include "print.h"
+
+#include <string.h>
+
 
 #ifndef EEPROM_ADDRESS_SETTING
   #define EEPROM_ADDRESS_SETTING 0
 #endif
 
-#define EEPROM_ADDRESS  (0xA0 & EEPROM_ADDRESS_SETTING)
-#define EEPROM_TIMEOUT  500
+#define EEPROM_ADDRESS  (0xA0)
+#define EEPROM_TIMEOUT  100
 
-int16_t EEPROM_write(uint16_t start, uint8_t* send_data, uint16_t length) {
-  uint8_t complete_packet[length+2];
-
-  for(uint8_t i=0; i<length; i++) {
-    complete_packet[i+2] = send_data[i];
-  }
-
-  complete_packet[0] = start >> 8;
-  complete_packet[1] = start & 0xFF;
-  // i2cStart(EEPROM_i2cd, EEPROM_i2ccfg);
+int16_t EEPROM_write_raw(uint8_t* send_data, uint16_t length) {
   i2cAcquireBus(EEPROM_i2cd);
-  int16_t ret = i2cMasterTransmitTimeout(EEPROM_i2cd, (EEPROM_ADDRESS >> 1), complete_packet, length+2, 0, 0, MS2ST(EEPROM_TIMEOUT));
+  i2cStart(EEPROM_i2cd, EEPROM_i2ccfg);
+  int16_t ret = i2cMasterTransmitTimeout(EEPROM_i2cd, (EEPROM_ADDRESS >> 1), send_data, length, 0, 0, MS2ST(EEPROM_TIMEOUT));
   i2cReleaseBus(EEPROM_i2cd);
   // i2cStop(EEPROM_i2cd);
-  printf("Write status: %d, i2cd Status: %d, cfg: %ld\n", (int16_t)ret, EEPROM_i2cd->state, *EEPROM_i2ccfg);
 
   return ret;
 }
 
+int16_t EEPROM_write(uint16_t start, uint8_t* send_data, uint16_t length) {
+  uint8_t packet[length+2];
+
+  memcpy(packet+2, send_data, length);
+
+  packet[0] = start >> 8;
+  packet[1] = start & 0xFF;
+
+  int16_t ret =EEPROM_write_raw(packet, length + 2);
+  chThdSleepMilliseconds(5);
+  return ret;
+
+}
 
 int16_t EEPROM_read(uint16_t start, uint8_t* recieved_data, uint16_t length) {
   uint8_t reg_address[2];
 
   reg_address[0] = start >> 8;
   reg_address[1] = start & 0xFF;
-  // i2cStart(EEPROM_i2cd, EEPROM_i2ccfg);
   i2cAcquireBus(EEPROM_i2cd);
+  i2cStart(EEPROM_i2cd, EEPROM_i2ccfg);
   int16_t ret = i2cMasterTransmitTimeout(EEPROM_i2cd, (EEPROM_ADDRESS >> 1), reg_address, 2, recieved_data, length, MS2ST(EEPROM_TIMEOUT));
   i2cReleaseBus(EEPROM_i2cd);
-  printf("Read status: %d, i2cd Status: %d, cfg: %ld\n", (int16_t)ret, EEPROM_i2cd->state, &EEPROM_i2ccfg);
   // i2cStop(EEPROM_i2cd);
+
   return ret;
 }
 
@@ -101,7 +107,7 @@ void 	eeprom_update_byte (uint8_t *__p, uint8_t __value){
   uint8_t temp;
   EEPROM_read(address, &temp, 1);
   if (temp != __value) {
-    EEPROM_write(address, &temp, 1);
+    EEPROM_write(address, &__value, 1);
   }
 }
 
@@ -112,8 +118,9 @@ void 	eeprom_update_word (uint16_t *__p, uint16_t __value){
   for(uint8_t i=0; i<2; i++) {
     EEPROM_read(address, &temp, 1);
     if (temp != value[i]) {
-      EEPROM_write(address, &temp, 1);
+      EEPROM_write(address, &value[i], 1);
     }
+    address++;
   }
 }
 
@@ -129,8 +136,9 @@ void 	eeprom_update_dword (uint32_t *__p, uint32_t __value){
   for(uint8_t i=0; i<4; i++) {
     EEPROM_read(address, &temp, 1);
     if (temp != value[i]) {
-      EEPROM_write(address, &temp, 1);
+      EEPROM_write(address, &value[i], 1);
     }
+    address++;
   }
 }
 

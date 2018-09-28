@@ -70,7 +70,7 @@ NKRO_ENABLE = yes	    # USB Nkey Rollover
 MIDI_ENABLE = yes            # MIDI controls
 
 EEPROM_EMULATION_ENABLE = no # EEPROM emulation
-EXTERNAL_EEPROM_ENABLE = no   # I2C EEPROM
+EXTERNAL_EEPROM_ENABLE = yes   # I2C EEPROM
 
 CUSTOM_MATRIX = yes # Custom matrix file
 
