@@ -47,6 +47,10 @@
 #ifdef STM32_EEPROM_ENABLE
 #include "eeprom_stm32.h"
 #endif
+#ifdef EXTERNAL_EEPROM_ENABLE
+#include "eeprom_ext.h"
+#include "i2c.h"
+#endif
 #include "suspend.h"
 #include "wait.h"
 

@@ -15,18 +15,25 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "maple_test.h"
+#include "pillcase36.h"
 
 #include "print.h"
 #include "eeprom.h"
-#include "eeprom_stm32.h"
+#include "eeprom_ext.h"
 
 enum custom_keycode {
   CK_DBG = SAFE_RANGE
 };
 
-const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] __attribute__((section(".KEYMAPS"))) = {
-    {{CK_DBG}},
+const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+  LAYOUT( \
+    CK_DBG,    KC_F2,     KC_F3,     KC_F4,   KC_F5,   KC_F6, \
+    KC_F7,    KC_F8,     KC_F9,     KC_F10,  KC_F11,  KC_F12, \
+    KC_KP_7,  KC_KP_8,   KC_KP_9,   KC_INS,  KC_PSCR, KC_NLCK, \
+    KC_KP_4,  KC_KP_5,   KC_KP_6,   KC_BSPC, KC_DEL,  KC_ESC, \
+    KC_KP_1,  KC_KP_2,   KC_KP_3,   KC_ENT,  KC_UP,   KC_APP, \
+    KC_KP_0,  KC_KP_0,   KC_KP_DOT, KC_LEFT, KC_DOWN, KC_RGHT \
+  )
 };
 
 void matrix_init_user(void) {
@@ -44,20 +51,16 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case CK_DBG:
       if (record->event.pressed) {
         print("debug\n");
-        printf("keymaps address %lx\n", keymaps);
-        uint16_t read;
-        uint16_t status = EEPROM_read(0, &read);
-        printf("eeconfig magic: 0x%x status:%d\n", read, status);
+        uint16_t read16 = eeprom_read_word((const uint16_t *)0);
+        printf("eeconfig magic: 0x%x\n", read16);
 
-        status = EEPROM_read(11, &read);
-        printf("eeconfig data: 0x%x status:%d\n", read, status);
-        status = EEPROM_update(11, read+2);
-        printf("eeconfig data write: status:%d\n", status);
+        uint8_t read8 = eeprom_read_byte((const uint8_t *)11);
+        printf("eeconfig data: 0x%x\n", read8);
+        eeprom_update_byte((uint8_t *)11, read8+1);
 
-
-        // uint8_t debug_byte = eeconfig_read_debug();
-        // printf("eeconfig debug: 0x%x\n", debug_byte);
-        // eeconfig_update_debug(debug_byte+1);
+        // uint8_t temp[12];
+        // EEPROM_read(0, temp, 12);
+        // printArray(temp, 12);
       }
       return false;
     default:

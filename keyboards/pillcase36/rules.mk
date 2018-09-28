@@ -1,9 +1,9 @@
 # project specific files
-SRC =	matrix.c \
-			led.c \
-			flash_keymaps.c \
-			midi_callbacks.c \
-	    ext_eeprom.c
+SRC += matrix.c
+SRC += led.c
+SRC += flash_keymaps.c
+SRC += i2c_stm32.c
+SRC += midi_callbacks.c
 
 # GENERIC STM32F103C8T6 board - stm32duino bootloader
 # OPT_DEFS = -DCORTEX_VTOR_INIT=0x2000
@@ -68,6 +68,9 @@ COMMAND_ENABLE = yes    # Commands for debug and configuration
 SLEEP_LED_ENABLE = no  # Breathing sleep LED during USB suspend
 NKRO_ENABLE = yes	    # USB Nkey Rollover
 MIDI_ENABLE = yes            # MIDI controls
+
+EEPROM_EMULATION_ENABLE = no # EEPROM emulation
+EXTERNAL_EEPROM_ENABLE = yes   # I2C EEPROM
 
 CUSTOM_MATRIX = yes # Custom matrix file
 

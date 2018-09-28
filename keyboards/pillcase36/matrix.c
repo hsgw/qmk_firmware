@@ -26,7 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "util.h"
 #include "matrix.h"
 #include "wait.h"
-#include "eeconfig.h"
+#include "i2c_stm32.h"
 
 #include "midi_callbacks.h"
 
@@ -52,9 +52,7 @@ void matrix_init_user(void) {
 }
 
 void matrix_init_kb(void) {
-  if(!eeconfig_is_enabled()){
-    eeconfig_init();
-  }
+  i2c_init();
   midi_register_callbacks();
   matrix_init_user();
 }
