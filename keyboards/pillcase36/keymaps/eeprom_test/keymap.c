@@ -50,13 +50,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     case CK_DBG:
       if (record->event.pressed) {
-        print("debug\n");
-        uint16_t read16 = eeprom_read_word((const uint16_t *)0);
-        printf("eeconfig magic: 0x%x\n", read16);
+        // uint16_t read16 = eeprom_read_word((const uint16_t *)0);
+        // printf("eeconfig magic: 0x%x\n", read16);
 
-        uint8_t read8 = eeprom_read_byte((const uint8_t *)11);
-        printf("eeconfig data: 0x%x\n", read8);
-        eeprom_update_byte((uint8_t *)11, read8+1);
+        uint8_t read8;
+        EEPROM_read(11, &read8, 1);
+        printf("debug: 0x%x\n", read8);
+        read8 += 1;
+        EEPROM_write(11, &read8, 1);
 
         // uint8_t temp[12];
         // EEPROM_read(0, temp, 12);
