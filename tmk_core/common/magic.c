@@ -25,17 +25,13 @@ void magic(void)
         eeconfig_init();
     }
 
-    // /* debug enable */
-    // debug_config.raw = eeconfig_read_debug();
+    /* debug enable */
+    debug_config.raw = eeconfig_read_debug();
 
-    // /* keymap config */
-    // keymap_config.raw = eeconfig_read_keymap();
+    /* keymap config */
+    keymap_config.raw = eeconfig_read_keymap();
 
-    // uint8_t default_layer = 0;
-    // default_layer = eeconfig_read_default_layer();
-    // default_layer_set((uint32_t)default_layer);
-    debug_config.raw = 0;
-    keymap_config.raw = 0;
-    default_layer_set(0);
-
+    uint8_t default_layer = 0;
+    default_layer = eeconfig_read_default_layer();
+    default_layer_set((uint32_t)default_layer);
 }

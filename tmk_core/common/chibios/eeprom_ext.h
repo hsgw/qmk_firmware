@@ -7,6 +7,7 @@
 extern I2CDriver* EEPROM_i2cd;
 extern I2CConfig* EEPROM_i2ccfg;
 
+int16_t EEPROM_write_raw(uint8_t* send_data, uint16_t length);
 int16_t EEPROM_write(uint16_t start, uint8_t* send_data, uint16_t length);
 int16_t EEPROM_read(uint16_t start, uint8_t* recieved_data, uint16_t length);
 int16_t EEPROM_update(uint16_t start, uint8_t* recieved_data, uint16_t length);
