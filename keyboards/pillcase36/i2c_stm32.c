@@ -11,6 +11,12 @@ I2CConfig i2c1cfg = {
     FAST_DUTY_CYCLE_2,
 };
 
+// I2CConfig i2c1cfg = {
+//      OPMODE_I2C,
+//      100000,
+//      STD_DUTY_CYCLE
+// };
+
 I2CDriver* EEPROM_i2cd = &I2CD1;
 I2CConfig* EEPROM_i2ccfg = &i2c1cfg;
 
