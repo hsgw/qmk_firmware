@@ -16,12 +16,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "pillcase36.h"
-#include "ext_eeprom.h"
 
 #include <print.h>
-#include <wait.h>
-
-extern MidiDevice midi_device;
 
 enum custom_keycode {
   CK_DBG = SAFE_RANGE
@@ -44,7 +40,6 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // }
 
 void matrix_init_user(void) {
-  ext_eeprom_init();
 }
 
 void printArray(uint8_t* array, uint16_t length) {

@@ -15,12 +15,10 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "maple_test.h"
-#include "ext_eeprom.h"
+#include "pillcase36.h"
 #include "flash_keymaps.h"
 
 #include <print.h>
-#include <wait.h>
 
 enum custom_keycode {
   CK_DBG = SAFE_RANGE
