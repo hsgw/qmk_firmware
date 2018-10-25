@@ -120,12 +120,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_DEL,  KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                     KC_Y,   KC_U,    KC_I,    KC_O,    KC_P,    JA_AT,    JA_LBRC, \
     KC_LCTL,          KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                     KC_H,   KC_J,    KC_K,    KC_L,    KC_SCLN, JA_CLON,  JA_RBRC, \
     KC_LSFT,          KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                     KC_N,   KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RO,    KC_RSFT, \
-                               KC_LALT, KC_TAB,  META_ZK, KC_LSFT, KC_SPC,  KC_ENT, KC_BSPC, MO(META), ______,   ______ \
+                               KC_LALT, KC_TAB,  META_ZK, KC_ENT,  KC_SPC,  KC_ENT, KC_BSPC, MO(META), ______,   ______ \
   ),
 
   [META] = LAYOUT( \
     MO(CONF),KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,                     KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  KC_INS, \
-    ______,  KC_CAPS, ______,  ______,  ______,  ______,  ______,                    ______,  ______,  ______,  KC_SLCK, KC_PSCR, KC_HOME, KC_END, \
+    ______,  KC_CAPS, ______,  ______,  KC_INS,  KC_PSCR, ______,                    ______,  ______,  ______,  KC_SLCK, KC_PSCR, KC_HOME, KC_END, \
     ______,           ______,  ______,  ______,  ______,  TD(TD_LBRT),          TD(TD_RBRT),  KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_PGUP,  KC_PGDN, \
     ______,           ______,  ______,  ______,  ______,  ______,                    ______,  ______,  ______,  ______,   ______,  ______,  ______, \
                                ______,  ______,  ______,  ______,  KC_ENT,  KC_SPC,  KC_DEL,  ______,  ______,  ______ \
