@@ -3,7 +3,6 @@ SRC += matrix.c
 SRC += led.c
 SRC += flash_keymaps.c
 SRC += i2c_stm32.c
-SRC += midi_callbacks.c
 
 # GENERIC STM32F103C8T6 board - stm32duino bootloader
 # OPT_DEFS = -DCORTEX_VTOR_INIT=0x2000

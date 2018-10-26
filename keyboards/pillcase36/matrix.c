@@ -28,8 +28,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "wait.h"
 #include "i2c_stm32.h"
 
-#include "midi_callbacks.h"
-
 #ifndef DEBOUNCE
 #   define DEBOUNCE 5
 #endif
@@ -53,7 +51,6 @@ void matrix_init_user(void) {
 
 void matrix_init_kb(void) {
   i2c_init();
-  midi_register_callbacks();
   matrix_init_user();
 }
 
