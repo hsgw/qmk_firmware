@@ -5,14 +5,6 @@ extern keymap_config_t keymap_config;
 
 extern uint8_t is_master;
 
-#define DELAY_TIME  75
-static uint16_t key_timer;
-static uint16_t delay_registered_code;
-static uint8_t delay_mat_row;
-static uint8_t delay_mat_col;
-static bool delay_key_stat;
-static bool delay_key_pressed;
-
 // Each layer gets a name for readability, which is then used in the keymap matrix below.
 // The underscores don't mean anything - you can have a layer called STUFF or any other name.
 // Layer names don't all need to be of the same length, obviously, and you can also skip them
@@ -182,143 +174,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       )
 };
 
-// define variables for reactive RGB
-//bool TOG_STATUS = false;
-int RGB_current_mode;
-
 void persistent_default_layer_set(uint16_t default_layer) {
   eeconfig_update_default_layer(default_layer);
   default_layer_set(default_layer);
 }
 
-bool find_mairix(uint16_t keycode, uint8_t *row, uint8_t *col){
-  for(uint8_t i=0; i<MATRIX_ROWS; i++){
-    for(uint8_t j=0; j<MATRIX_COLS; j++){
-      if( pgm_read_word(&(keymaps[_BASE][i][j]))==keycode){
-        *row = i;
-        *col = j;
-        return true;
-      }
-    }
-  }
-  return false;
-}
-
-void unregister_delay_code(void){
-  if(delay_registered_code){
-    unregister_code(delay_registered_code);
-    if (delay_registered_code & QK_LSFT){
-      unregister_code(KC_LSFT);
-    }
-    if (delay_registered_code & QK_LCTL){
-      unregister_code(KC_LCTL);
-    }
-    if (delay_registered_code & QK_LALT){
-      unregister_code(KC_LALT);
-    }
-    if (delay_registered_code & QK_LGUI){
-      unregister_code(KC_LGUI);
-    }
-    delay_registered_code=0;
-  }
-}
-
-void register_delay_code(uint8_t layer){
-  if(delay_key_stat){
-    unregister_delay_code();
-
-    uint16_t code = pgm_read_word(&(keymaps[layer][delay_mat_row][delay_mat_col]));
-    if (code & QK_LSFT){
-      register_code(KC_LSFT);
-    }
-    if (code & QK_LCTL){
-      register_code(KC_LCTL);
-    }
-    if (code & QK_LALT){
-      register_code(KC_LALT);
-    }
-    if (code & QK_LGUI){
-      register_code(KC_LGUI);
-    }
-    register_code(code);
-    delay_registered_code = code;
-    delay_key_stat = false;
-  }
-}
-
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
-  if(keycode==delay_registered_code){
-      if (!record->event.pressed){
-        unregister_delay_code();
-      }
-  }
-
   switch (keycode) {
-    case KC_P:
-    case KC_K:
-    case KC_R:
-    case KC_A:
-    case KC_F:
-    case KC_D:
-    case KC_T:
-    case KC_H:
-    case KC_E:
-    case KC_O:
-    case KC_Y:
-    case KC_S:
-    case KC_N:
-    case KC_I:
-    case KC_U:
-    case LCTL(KC_Z):
-      if (record->event.pressed) {
-        register_delay_code(_BASE);
-        if(find_mairix(keycode, &delay_mat_row, &delay_mat_col)){
-          key_timer = timer_read();
-          delay_key_stat = true;
-          delay_key_pressed = true;
-        }
-      }else{
-        delay_key_pressed = false;
-      }
-      return false;
-      break;
-   case EISU:
-      if (record->event.pressed) {
-        if(keymap_config.swap_lalt_lgui==false){
-          register_code(KC_LANG2);
-        }else{
-          SEND_STRING(SS_LALT("`"));
-        }
-      } else {
-        unregister_code(KC_LANG2);
-      }
-      return false;
-      break;
-    case KANA:
-      if (record->event.pressed) {
-        if(keymap_config.swap_lalt_lgui==false){
-          register_code(KC_LANG1);
-        }else{
-          SEND_STRING(SS_LALT("`"));
-        }
-      } else {
-        unregister_code(KC_LANG1);
-      }
-      return false;
-      break;
-    case DESKTOP:
-      if (record->event.pressed) {
-        if(keymap_config.swap_lalt_lgui==false){
-          register_code(KC_F11);
-        }else{
-          SEND_STRING(SS_LGUI("d"));
-        }
-      } else {
-        unregister_code(KC_F11);
-      }
-      return false;
-      break;
     case MAC:
       if (record->event.pressed) {
         keymap_config.swap_lalt_lgui = false;
@@ -347,38 +210,6 @@ void matrix_init_user(void) {
 
 }
 
-uint8_t layer_state_old;
-
 //runs every scan cycle (a lot)
 void matrix_scan_user(void) {
-
-  if(delay_key_stat && (timer_elapsed(key_timer) > DELAY_TIME)){
-    register_delay_code(_BASE);
-    if(!delay_key_pressed){
-      unregister_delay_code();
-    }
-  }
-
-  if(layer_state_old != layer_state){
-    switch (layer_state) {
-      case L_BASE:
-        break;
-      case L_OPT:
-        register_delay_code(_OPT);
-        break;
-      case L_NUM:
-        register_delay_code(_NUM);
-        break;
-      case L_SYM:
-        register_delay_code(_SYM);
-        break;
-      case L_FUNC:
-        register_delay_code(_FUNC);
-        break;
-      case L_MOD:
-        register_delay_code(_MOD);
-        break;
-    }
-    layer_state_old = layer_state;
-  }
 }
