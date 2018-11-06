@@ -21,6 +21,29 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <print.h>
 #include <wait.h>
 
+enum custom_keycode {
+  CK_BOOT = SAFE_RANGE
+};
+
+const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+    {{RESET}},
+};
+
+void matrix_init_user(void) {
+}
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  switch (keycode) {
+    default:
+      return true;
+  }
+}
+
+static const WDGConfig wdgcfg = {
+  STM32_IWDG_PR_4,
+  STM32_IWDG_RL(100)
+};
+
 // magic word for enter bootloader when next reset
 #define RTC_BOOTLOADER_FLAG 0x424C
 
@@ -40,24 +63,10 @@ void bkp10Write(uint16_t value)
   PWR->CR &=~ PWR_CR_DBP;
 }
 
-enum custom_keycode {
-  CK_BOOT = SAFE_RANGE
-};
-
-const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-    {{CK_BOOT}},
-};
-
-void matrix_init_user(void) {
-}
-
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  switch (keycode) {
-    case CK_BOOT:
-      bkp10Write(RTC_BOOTLOADER_FLAG);
-      // NVIC_SystemReset(); // don't work in stm32f1xx
-      return false;
-    default:
-      return true;
-  }
+// call from "RESET" keycode action
+void bootloader_jump(void) {
+  bkp10Write(RTC_BOOTLOADER_FLAG);
+  wdgInit();
+  wdgStart(&WDGD1, &wdgcfg);
+  while(1) {}
 }
