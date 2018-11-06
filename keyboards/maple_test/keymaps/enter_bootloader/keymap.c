@@ -21,34 +21,42 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <print.h>
 #include <wait.h>
 
-extern MidiDevice midi_device;
+// magic word for enter bootloader when next reset
+#define RTC_BOOTLOADER_FLAG 0x424C
+
+// write magic word to RTC backup register(not clear when reset)
+void bkp10Write(uint16_t value)
+{
+  // Enable clocks for the backup domain registers
+  RCC->APB1ENR |= (RCC_APB1ENR_PWREN | RCC_APB1ENR_BKPEN);
+
+  // Disable backup register write protection
+  PWR->CR |= PWR_CR_DBP;
+
+  // store value in pBK DR10
+  BKP->DR10 = value;
+
+  // Re-enable backup register write protection
+  PWR->CR &=~ PWR_CR_DBP;
+}
 
 enum custom_keycode {
-  CK_DBG = SAFE_RANGE
+  CK_BOOT = SAFE_RANGE
 };
 
 const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-    {{KC_A}},
+    {{CK_BOOT}},
 };
 
-// uint16_t keymap_key_to_keycode(uint8_t layer, keypos_t key)
-// {
-//     return KC_A;
-// }
-
 void matrix_init_user(void) {
-  ext_eeprom_init();
-}
-
-void printArray(uint8_t* array, uint16_t length) {
-  for(int i=0; i<length;i++) {
-    printf("%d ", array[i]);
-  }
-  print("\n");
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
+    case CK_BOOT:
+      bkp10Write(RTC_BOOTLOADER_FLAG);
+      // NVIC_SystemReset(); // don't work in stm32f1xx
+      return false;
     default:
       return true;
   }
