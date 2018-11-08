@@ -15,20 +15,22 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "maple_test.h"
-#include "ext_eeprom.h"
+#include "maplemini.h"
 
 #include <print.h>
 #include <wait.h>
-
-extern MidiDevice midi_device;
 
 enum custom_keycode {
   CK_DBG = SAFE_RANGE
 };
 
 const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-    {{KC_A}},
+    {
+      {KC_1, KC_2, KC_3, KC_4},
+      {KC_5, KC_6, KC_7, KC_8},
+      {KC_9, KC_0, KC_A, KC_B},
+      {KC_C, KC_D, KC_E, KC_F}
+    },
 };
 
 // uint16_t keymap_key_to_keycode(uint8_t layer, keypos_t key)
@@ -37,7 +39,6 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // }
 
 void matrix_init_user(void) {
-  ext_eeprom_init();
 }
 
 void printArray(uint8_t* array, uint16_t length) {

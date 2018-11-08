@@ -1,9 +1,6 @@
 # project specific files
 SRC =	matrix.c \
-			led.c \
-			flash_keymaps.c \
-			midi_callbacks.c \
-	    ext_eeprom.c
+			led.c
 
 # GENERIC STM32F103C8T6 board - stm32duino bootloader
 # OPT_DEFS = -DCORTEX_VTOR_INIT=0x2000
@@ -11,16 +8,16 @@ SRC =	matrix.c \
 # BOARD = GENERIC_STM32_F103
 
 # MAPLE MINI
-OPT_DEFS = -DCORTEX_VTOR_INIT=0x5000
-MCU_LDSCRIPT = STM32F103xB_maplemini_bootloader
-BOARD = MAPLEMINI_STM32_F103
-# If it is recent stm32duino bootloarder, uncomment below
-DFU_ARGS = -a1 -d 1eaf:0003
+# OPT_DEFS = -DCORTEX_VTOR_INIT=0x5000
+# MCU_LDSCRIPT = STM32F103xB_maplemini_bootloader
+# BOARD = MAPLEMINI_STM32_F103
+# # If it is recent stm32duino bootloarder, uncomment below
+# DFU_ARGS = -a1 -d 1eaf:0003
 
 # MAPLE MINI - no bootloader (programmer over serial or SWD)
-# OPT_DEFS =
-# MCU_LDSCRIPT = STM32F103xB_maple_test
-# BOARD = MAPLEMINI_STM32_F103
+OPT_DEFS =
+MCU_LDSCRIPT = STM32F103xB_maple_test
+BOARD = MAPLEMINI_STM32_F103
 
 # OPENOCD setting
 # $(OPENOCD) $(OPENOCD_PRE_COMMAND) -s $(OPENOCD_SOURCE) -f $(OPENOCD_INTERFACE) -f $(OPENOCD_TARGET) $(OPENOCD_COMMAND)
@@ -67,8 +64,8 @@ CONSOLE_ENABLE = yes	# Console for debug
 COMMAND_ENABLE = yes    # Commands for debug and configuration
 SLEEP_LED_ENABLE = no  # Breathing sleep LED during USB suspend
 NKRO_ENABLE = yes	    # USB Nkey Rollover
-MIDI_ENABLE = yes            # MIDI controls
+MIDI_ENABLE = no            # MIDI controls
 
 CUSTOM_MATRIX = yes # Custom matrix file
 
-DEFAULT_FOLDER = maple_test
+DEFAULT_FOLDER = maplemini
