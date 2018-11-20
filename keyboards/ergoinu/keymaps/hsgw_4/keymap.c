@@ -32,6 +32,93 @@ enum TAP_DANCE_KEYCODES {
   TD_NUM
 };
 
+// Fillers to make layering more clear
+#define ______ KC_TRNS
+#define XXXXXX KC_NO
+#define META_ZK LT(META,KC_ZKHK)
+#define META_BS LT(META, KC_BSPC)
+
+const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+
+  [BASE] = LAYOUT( \
+    XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,                   XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,   XXXXXX,  XXXXXX,  XXXXXX, \
+    KC_ESC,  KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                     KC_Y,   KC_U,    KC_I,    KC_O,    KC_P,    JA_AT,    JA_LBRC, \
+    KC_LCTL,          KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                     KC_H,   KC_J,    KC_K,    KC_L,    KC_SCLN, JA_CLON,  JA_RBRC, \
+    KC_LSFT,          KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                     KC_N,   KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RO,    KC_RSFT, \
+                               KC_LALT, KC_LGUI, META_ZK, TD(TD_NUM), KC_SPC,  KC_ENT, KC_BSPC, MO(META), KC_RGUI,   KC_RALT \
+  ),
+
+  [NUM] = LAYOUT( \
+    XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,                   XXXXXX, XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,   XXXXXX, \
+    KC_DEL,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,                     KC_7,   KC_8,    KC_9,    KC_0,    KC_MINS, JA_HAT,   KC_JYEN, \
+    ______,           LSFT(KC_2),LSFT(KC_3),LSFT(KC_4),LSFT(KC_5),LSFT(KC_6),LSFT(KC_7),LSFT(KC_8),LSFT(KC_9),KC_MINS,LSFT(KC_MINS),LSFT(JA_HAT),LSFT(KC_JYEN), \
+    ______,           LSFT(KC_1),  ______,  ______,  ______,  ______,                   ______, ______,  ______,  ______,  ______,  ______,    ______, \
+                               ______, ______, ______, ______, ______,  ______, ______, ______, ______,   ______ \
+  ),
+
+  [META] = LAYOUT( \
+    MO(CONF),  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,                    XXXXXX, XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,   XXXXXX,  \
+    KC_DEL,    KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,                     KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  KC_INS, \
+    ______,             ______,  ______,  KC_INS,  KC_PSCR, ______,                    KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_PSCR, KC_HOME, KC_END, \
+    ______,             ______,  ______,  ______,  ______,  TD(TD_LBRT),          TD(TD_RBRT),  ______,  ______,  ______,  KC_SLCK, KC_PGUP, KC_PGDN, \
+                                 ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______ \
+  ),
+
+ [CONF] = LAYOUT( \
+    ______,  RGB_TYPE,RGB_MOD,  RGB_VAI, RGB_HUI, RGB_HUI,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX, \
+    RGB_RST, RGB_TOG, RGB_RMOD, RGB_VAD, RGB_HUD, RGB_HUD,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX, \
+    XXXXXX,           XXXXXX,   XXXXXX,  XXXXXX,  XXXXXX,   XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX, \
+    XXXXXX,           XXXXXX,   XXXXXX,  XXXXXX,  XXXXXX,   XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX, \
+                      XXXXXX,   XXXXXX,  XXXXXX,  XXXXXX,   XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX \
+  )
+};
+
+bool enableLEDTypeAnime = false;
+
+
+void matrix_init_user(void) {
+}
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  switch(keycode) {
+    case RGB_RST:
+      #ifdef RGBLIGHT_ENABLE
+        if (record->event.pressed) {
+          eeconfig_update_rgblight_default();
+          rgblight_enable();
+        }
+      #endif
+      break;
+    case RGB_MOD:
+      #ifdef RGBLIGHT_ENABLE
+          if (record->event.pressed) {
+            enableLEDTypeAnime = false;
+            rgblight_step();
+          }
+      #endif
+      return false;
+    case RGB_TYPE:
+      #ifdef RGBLIGHT_ENABLE
+        if (record->event.pressed) {
+          rgblight_enable_noeeprom();
+          rgblight_mode_noeeprom(1);
+          enableLEDTypeAnime = !enableLEDTypeAnime;
+        }
+      #endif
+      return false;
+    default:
+      break;
+  }
+  #ifdef RGBLIGHT_ENABLE
+    if(enableLEDTypeAnime) {
+      rgblight_mode_noeeprom(1);
+      uint16_t hue = (rgblight_config.hue + 5) % 360;
+      rgblight_sethsv_noeeprom(hue, rgblight_config.sat, rgblight_config.val);
+    }
+  #endif
+    return true;
+}
+
 void td_lbrt_finished(qk_tap_dance_state_t *state, void *user_data) {
   switch (state->count) {
     case 1:
@@ -107,11 +194,11 @@ void td_rbrt_reset(qk_tap_dance_state_t *state, void *user_data){
 void td_num_finished(qk_tap_dance_state_t *state, void *user_data) {
   switch (state->count) {
     case 1:
+      reset_oneshot_layer();
       layer_on(NUM);
       break;
     case 2:
-      register_code(KC_LSFT);
-      layer_on(NUM);
+      set_oneshot_layer(NUM, ONESHOT_START);
       break;
     default:
       break;
@@ -124,8 +211,7 @@ void td_num_reset(qk_tap_dance_state_t *state, void *user_data){
       layer_off(NUM);
       break;
     case 2:
-      unregister_code(KC_LSFT);
-      layer_off(NUM);
+      clear_oneshot_layer_state(ONESHOT_PRESSED);
       break;
     default:
       break;
@@ -138,89 +224,3 @@ qk_tap_dance_action_t tap_dance_actions[] = {
   [TD_SC] = ACTION_TAP_DANCE_DOUBLE(KC_LSFT, KC_LCTL),
   [TD_NUM] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_num_finished, td_num_reset),
 };
-
-// Fillers to make layering more clear
-#define ______ KC_TRNS
-#define XXXXXX KC_NO
-#define META_ZK LT(META,KC_ZKHK)
-#define META_BS LT(META, KC_BSPC)
-
-const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-
-  [BASE] = LAYOUT( \
-    XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,                   XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,   XXXXXX,  XXXXXX,  XXXXXX, \
-    KC_ESC,  KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                     KC_Y,   KC_U,    KC_I,    KC_O,    KC_P,    JA_AT,    JA_LBRC, \
-    KC_LCTL,          KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                     KC_H,   KC_J,    KC_K,    KC_L,    KC_SCLN, JA_CLON,  JA_RBRC, \
-    KC_LSFT,          KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                     KC_N,   KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RO,    KC_RSFT, \
-                               KC_LALT, KC_LGUI, META_ZK, TD(TD_NUM), KC_SPC,  KC_ENT, KC_BSPC, MO(META), KC_RGUI,   KC_RALT \
-  ),
-
-  [NUM] = LAYOUT( \
-    XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,                   XXXXXX, XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,   XXXXXX, \
-    KC_DEL,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,                     KC_7,   KC_8,    KC_9,    KC_0,    KC_MINS, JA_HAT,   KC_JYEN, \
-    ______,           ______,  ______,  ______,  ______,  ______,                   ______, ______,  ______,  ______,  ______,  ______,    ______, \
-    ______,           ______,  ______,  ______,  ______,  ______,                   ______, ______,  ______,  ______,  ______,  ______,    ______, \
-                               ______, ______, ______, ______, ______,  ______, ______, ______, ______,   ______ \
-  ),
-
-  [META] = LAYOUT( \
-    MO(CONF),  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,                    XXXXXX, XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,   XXXXXX,  \
-    KC_DEL,    KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,                     KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  KC_INS, \
-    ______,             ______,  ______,  KC_INS,  KC_PSCR, ______,                    KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_PSCR, KC_HOME, KC_END, \
-    ______,             ______,  ______,  ______,  ______,  TD(TD_LBRT),          TD(TD_RBRT),  ______,  ______,  ______,  KC_SLCK, KC_PGUP, KC_PGDN, \
-                                 ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______ \
-  ),
-
- [CONF] = LAYOUT( \
-    ______,  RGB_TYPE,RGB_MOD,  RGB_VAI, RGB_HUI, RGB_HUI,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX, \
-    RGB_RST, RGB_TOG, RGB_RMOD, RGB_VAD, RGB_HUD, RGB_HUD,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX, \
-    XXXXXX,           XXXXXX,   XXXXXX,  XXXXXX,  XXXXXX,   XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX, \
-    XXXXXX,           XXXXXX,   XXXXXX,  XXXXXX,  XXXXXX,   XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX, \
-                      XXXXXX,   XXXXXX,  XXXXXX,  XXXXXX,   XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX \
-  )
-};
-
-bool enableLEDTypeAnime = false;
-
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  switch(keycode) {
-    case RGB_RST:
-      #ifdef RGBLIGHT_ENABLE
-        if (record->event.pressed) {
-          eeconfig_update_rgblight_default();
-          rgblight_enable();
-        }
-      #endif
-      break;
-    case RGB_MOD:
-      #ifdef RGBLIGHT_ENABLE
-          if (record->event.pressed) {
-            enableLEDTypeAnime = false;
-            rgblight_step();
-          }
-      #endif
-      return false;
-    case RGB_TYPE:
-      #ifdef RGBLIGHT_ENABLE
-        if (record->event.pressed) {
-          rgblight_enable_noeeprom();
-          rgblight_mode_noeeprom(1);
-          enableLEDTypeAnime = !enableLEDTypeAnime;
-        }
-      #endif
-      return false;
-    default:
-      break;
-  }
-  #ifdef RGBLIGHT_ENABLE
-    if(enableLEDTypeAnime) {
-      rgblight_mode_noeeprom(1);
-      uint16_t hue = (rgblight_config.hue + 5) % 360;
-      rgblight_sethsv_noeeprom(hue, rgblight_config.sat, rgblight_config.val);
-    }
-  #endif
-    return true;
-}
-
-void matrix_init_user(void) {
-}
