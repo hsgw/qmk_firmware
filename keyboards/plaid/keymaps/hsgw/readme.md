@@ -1,0 +1,2 @@
+# my keymap
+JIS keymap
