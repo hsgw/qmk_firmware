@@ -151,13 +151,13 @@ void matrix_print(void)
 static void  init_cols(void)
 {
     // don't need pullup/down, since it's pulled down in hardware
-    palSetPadMode(GPIOA, 1, PAL_MODE_INPUT);
+    palSetPadMode(GPIOB, 8, PAL_MODE_INPUT);
 }
 
 /* Returns status of switches(1:on, 0:off) */
 static matrix_row_t read_cols(void)
 {
-    return ((palReadPad(GPIOA, 1)==PAL_LOW) ? 0 : (1<<0));
+    return ((palReadPad(GPIOB, 8)==PAL_LOW) ? 1 : (1<<0));
     // | ((palReadPad(...)==PAL_HIGH) ? 0 : (1<<1))
 }
 

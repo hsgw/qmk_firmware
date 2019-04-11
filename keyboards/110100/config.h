@@ -23,9 +23,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define VENDOR_ID       0xFEED
 #define PRODUCT_ID      0x0000
 #define DEVICE_VER      0x0001
-#define MANUFACTURER    %YOUR_NAME%
+#define MANUFACTURER    Dm9Records
 #define PRODUCT         110100
-#define DESCRIPTION     A custom keyboard
+#define DESCRIPTION     4Keys macro pad
 
 /* key matrix size */
 #define MATRIX_ROWS 1
@@ -41,6 +41,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *                  ROW2COL = ROW = Anode (+), COL = Cathode (-, marked on diode)
  *
 */
+
+#define SWITCH_PINS {A5, A4, A3, B8}
 #define UNUSED_PINS
 
 /* COL2ROW, ROW2COL*/

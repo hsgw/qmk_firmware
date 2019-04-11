@@ -51,6 +51,8 @@ ARMV = 6
 #   USBaspLoader        2048
 # OPT_DEFS += -DBOOTLOADER_SIZE=4096
 
+DFU_ARGS = -a 0 -s 0x08000000
+
 
 # Build Options
 #   change yes to no to disable
