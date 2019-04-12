@@ -62,6 +62,7 @@
 #define STM32_USART1SW                      STM32_USART1SW_PCLK
 #define STM32_RTCSEL                        STM32_RTCSEL_LSI
 
+
 /*
  * ADC driver system settings.
  */
