@@ -15,6 +15,7 @@
  */
 
 #include QMK_KEYBOARD_H
+#include "../../config.h"
 
 extern keymap_config_t keymap_config;
 
@@ -171,7 +172,26 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 };
 
+void keyboard_pre_init_user(void) {
+  // set LED pins OUTPUT
+  setPinOutput(LED_A_PIN);
+  setPinOutput(LED_B_PIN);
+}
+
 uint32_t layer_state_set_user(uint32_t state) {
+  switch (biton32(state)) {
+    case _LOWER:
+      writePinHigh(LED_A_PIN);
+      writePinLow(LED_B_PIN);
+      break;
+    case _RAISE:
+      writePinLow(LED_A_PIN);
+      writePinHigh(LED_B_PIN);
+      break;
+    default:
+      writePinLow(LED_A_PIN);
+      writePinLow(LED_B_PIN);
+  }
   return update_tri_layer_state(state, _LOWER, _RAISE, _ADJUST);
 }
 
