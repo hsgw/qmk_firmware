@@ -18,9 +18,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "110100.h"
 
 const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-    {{KC_CAPS}}, // test with KC_CAPS, KC_A, RESET
+    {{KC_A, KC_B, KC_C, KC_D}}, // test with KC_CAPS, KC_A, RESET
 };
 
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  return true;
-}
+// bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+//   return true;
+// }

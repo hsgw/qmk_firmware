@@ -14,3 +14,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "110100.h"
+
+void keyboard_pre_init_kb() {
+  SYSCFG->CFGR1 |= SYSCFG_CFGR1_PA11_PA12_RMP;
+  keyboard_pre_init_user();
+}
+

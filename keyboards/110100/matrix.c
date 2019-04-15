@@ -33,11 +33,6 @@ static uint8_t debouncing = DEBOUNCE;
 static matrix_row_t matrix[MATRIX_ROWS];
 static matrix_row_t matrix_debouncing[MATRIX_ROWS];
 
-static matrix_row_t read_cols(void);
-static void init_cols(void);
-static void unselect_rows(void);
-static void select_row(uint8_t row);
-
 __attribute__ ((weak))
 void matrix_init_kb(void) {
     matrix_init_user();
@@ -56,72 +51,46 @@ __attribute__ ((weak))
 void matrix_scan_user(void) {
 }
 
-inline
-uint8_t matrix_rows(void)
-{
-    return MATRIX_ROWS;
-}
-
-inline
-uint8_t matrix_cols(void)
-{
-    return MATRIX_COLS;
-}
-
-// #define LED_ON()    do { palSetPad(GPIOC, GPIOC_LED_BLUE) ;} while (0)
-// #define LED_OFF()   do { palClearPad(GPIOC, GPIOC_LED_BLUE); } while (0)
-// #define LED_TGL()   do { palTogglePad(GPIOC, GPIOC_LED_BLUE); } while (0)
-
-#define LED_ON()
-#define LED_OFF()
-#define LED_TGL()
-
 void matrix_init(void)
 {
-    // initialize row and col
-    unselect_rows();
-    init_cols();
+  // initialize input
+  palSetPadMode(GPIOA, 5, PAL_MODE_INPUT_PULLUP);
+  palSetPadMode(GPIOB, 8, PAL_MODE_INPUT);
+  palSetPadMode(GPIOA, 3, PAL_MODE_INPUT_PULLUP);
+  palSetPadMode(GPIOA, 4, PAL_MODE_INPUT_PULLUP);
 
-    // initialize matrix state: all keys off
-    for (uint8_t i=0; i < MATRIX_ROWS; i++) {
-        matrix[i] = 0;
-        matrix_debouncing[i] = 0;
-    }
+  // initialize matrix state: all keys off
+  matrix[0] = 0;
+  matrix_debouncing[0] = 0;
 
-    LED_ON();
-    wait_ms(500);
-    LED_OFF();
-    matrix_init_quantum();
+  matrix_init_quantum();
 }
 
 uint8_t matrix_scan(void)
 {
-    for (uint8_t i = 0; i < MATRIX_ROWS; i++) {
-        select_row(i);
-        wait_us(30);  // without this wait read unstable value.
-        matrix_row_t cols = read_cols();
-        if (matrix_debouncing[i] != cols) {
-            matrix_debouncing[i] = cols;
-            // if (debouncing) {
-            //     debug("bounce!: "); debug_hex(debouncing); debug("\n");
-            // }
-            debouncing = DEBOUNCE;
-        }
-        unselect_rows();
-    }
+  matrix_row_t cols = ((palReadPad(GPIOA,5)==PAL_HIGH) ? 0 : (1<<0))
+                    | ((palReadPad(GPIOB,8)==PAL_LOW) ? 0 : (1<<1))
+                    | ((palReadPad(GPIOA,3)==PAL_HIGH) ? 0 : (1<<2))
+                    | ((palReadPad(GPIOA,4)==PAL_HIGH) ? 0 : (1<<3));
 
-    if (debouncing) {
-        if (--debouncing) {
-            wait_ms(1);
-        } else {
-            for (uint8_t i = 0; i < MATRIX_ROWS; i++) {
-                matrix[i] = matrix_debouncing[i];
-            }
-        }
-    }
+  if (matrix_debouncing[0] != cols) {
+      matrix_debouncing[0] = cols;
+      // if (debouncing) {
+      //     debug("bounce!: "); debug_hex(debouncing); debug("\n");
+      // }
+      debouncing = DEBOUNCE;
+  }
 
-    matrix_scan_quantum();
-    return 1;
+  if (debouncing) {
+      if (--debouncing) {
+          wait_ms(1);
+      } else {
+          matrix[0] = matrix_debouncing[0];
+      }
+  }
+
+  matrix_scan_quantum();
+  return 1;
 }
 
 inline
@@ -143,39 +112,5 @@ void matrix_print(void)
     //     phex(row); print(": ");
     //     pbin_reverse16(matrix_get_row(row));
     //     print("\n");
-    // }
-}
-
-/* Column pin configuration
- */
-static void  init_cols(void)
-{
-    // don't need pullup/down, since it's pulled down in hardware
-    palSetPadMode(GPIOB, 8, PAL_MODE_INPUT);
-}
-
-/* Returns status of switches(1:on, 0:off) */
-static matrix_row_t read_cols(void)
-{
-    return ((palReadPad(GPIOB, 8)==PAL_LOW) ? 1 : (1<<0));
-    // | ((palReadPad(...)==PAL_HIGH) ? 0 : (1<<1))
-}
-
-/* Row pin configuration
- */
-static void unselect_rows(void)
-{
-    // palSetPadMode(GPIOA, GPIOA_PIN10, PAL_MODE_INPUT); // hi-Z
-}
-
-static void select_row(uint8_t row)
-{
-    (void)row;
-    // Output low to select
-    // switch (row) {
-    //     case 0:
-    //         palSetPadMode(GPIOA, GPIOA_PIN10, PAL_MODE_OUTPUT_PUSHPULL);
-    //         palSetPad(GPIOA, GPIOA_PIN10, PAL_LOW);
-    //         break;
     // }
 }
