@@ -1,0 +1,2 @@
+NKRO_ENABLE = yes
+
