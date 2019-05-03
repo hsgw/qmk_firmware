@@ -1,8 +1,8 @@
-# BINARY
+# BINARY ASCII
 
 ULTIMATE VERSATILE KEYMAP
-You need to setup OS and change this code.
-(tested only on ubuntu)
+You don't need to setup unicode config.    
+Only ascii code.
 
 ```
 ,---------------.
@@ -12,7 +12,7 @@ You need to setup OS and change this code.
 `---------------'
 ```
 
-1. Input 32bit unicode with 0,1 keys.
+1. Input 8bit ascii code with 0,1 keys.
 2. Push Enter
 
 ### CLR/BS
