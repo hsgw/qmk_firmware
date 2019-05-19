@@ -1,5 +1,5 @@
 /*
-Copyright 2019 %YOUR_NAME%
+Copyright 2019 Takuya Urakawa(hsgw), dm9records.com, 5z6p.com
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /* key matrix size */
 #define MATRIX_ROWS 1
-#define MATRIX_COLS 1
+#define MATRIX_COLS 28
 
 /*
  * Keyboard Matrix Assignments
@@ -44,16 +44,24 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /*
  * pin defines
- *
- *  matrix[0] : ~(BOOT << 7) | GPIOB << 16 | GPIOA | GPIOC | GPIOF
  */
 
-#define MATRIX_ROW_PINS { D0, D5 }
-#define MATRIX_COL_PINS { F1, F0, B0 }
-#define UNUSED_PINS
+#define DIRECT_PINS {{\
+    B14, B15, A8,  A9,  A10, B3,  B8, \
+    B2,  B10, B11, B13, B12, B4,  B5, \
+    B1,  A7,  A4,  A5,  A2,  C13, B9, \
+    B0,  A6,  A3,  F1,  F0,  C15, C14 \
+}}
 
-/* COL2ROW, ROW2COL*/
-#define DIODE_DIRECTION COL2ROW
+#define BOOT_SW_LINE     PAL_LINE(GPIOB, 8)
+#define BOOT_SW_POS      (6)
+
+// #define MATRIX_ROW_PINS { D0, D5 }
+// #define MATRIX_COL_PINS { F1, F0, B0 }
+// #define UNUSED_PINS
+
+// /* COL2ROW, ROW2COL*/
+// #define DIODE_DIRECTION COL2ROW
 
 /*
  * Split Keyboard specific options, make sure you have 'SPLIT_KEYBOARD = yes' in your rules.mk, and define SOFT_SERIAL_PIN.

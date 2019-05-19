@@ -1,4 +1,4 @@
-/* Copyright 2019 %YOUR_NAME%
+/* Copyright 2019 Takuya Urakawa(hsgw), dm9records.com, 5z6p.com
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,6 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "choco.h"
+#include "matrix.h"
 
 void matrix_init_kb(void) {
 	// put your keyboard start-up code here

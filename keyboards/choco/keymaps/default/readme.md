@@ -1,1 +1,1 @@
-# The default keymap for choco
+# The test keymap for choco
