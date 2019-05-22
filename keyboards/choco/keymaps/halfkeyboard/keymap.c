@@ -14,24 +14,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include QMK_KEYBOARD_H
+#include "keymap_jp.h"
 
 #define RS(key) RSFT(key)
-
-#define JIS_MINS KC_MINS // - and =
-#define JIS_CIRC KC_EQL  // ^ and ~
-#define JIS_JYEN KC_JYEN // \ and |
-#define JIS_ATMK KC_LBRC // @ and `
-#define JIS_LBRC KC_RBRC // [ and {
-#define JIS_SCLN KC_SCLN // ; and +
-#define JIS_COLN KC_QUOT // : and *
-#define JIS_RBRC KC_BSLS // ] and }
-#define JIS_COMM KC_COMM // , and <
-#define JIS_DOT  KC_DOT  // . and >
-#define JIS_SLSH KC_SLSH // / and ?
-#define JIS_BSLS 0x87    // \ and _
-#define JIS_ZKHK KC_ZKHK
-#define JIS_PLUS RSFT(JIS_SCLN)
-#define JIS_ASTR RSFT(JIS_COLN)
 
 #define OSM_SFT OSM(MOD_LSFT)
 #define OSM_CTL OSM(MOD_LCTL)
@@ -40,7 +25,7 @@
 
 #define NUM_ENT LT(NUM_BASE, KC_ENTER)
 #define OPT_SPC LT(OPT, KC_SPACE)
-#define FUNC_ZKHK LT(FUNC,JIS_ZKHK)
+#define FUNC_ZKHK LT(FUNC,KC_ZKHK)
 #define NUM_BSPC LT(NUM_BASE, KC_BSPC)
 
 enum layers {
@@ -60,7 +45,7 @@ enum custom_tapdances{
     TD_BSYM
 };
 
-uint16_t td_lbrc_keycodes[4] = {S(KC_8), JIS_LBRC, S(JIS_LBRC), S(JIS_COMM)};
+uint16_t td_lbrc_keycodes[4] = {S(KC_8), JP_LBRC, S(JP_LBRC), S(JP_COMM)};
 
 void td_lbrc_finished(qk_tap_dance_state_t *state, void *user_data) {
     if(state->count <= 4) {
@@ -74,7 +59,7 @@ void td_lbrc_reset(qk_tap_dance_state_t *state, void *user_data) {
     }
 }
 
-uint16_t td_rbrc_keycodes[4] = {S(KC_9), JIS_RBRC, S(JIS_RBRC), S(JIS_DOT)};
+uint16_t td_rbrc_keycodes[4] = {S(KC_9), JP_RBRC, S(JP_RBRC), S(JP_DOT)};
 
 void td_rbrc_finished(qk_tap_dance_state_t *state, void *user_data) {
     if(state->count <= 4) {
@@ -120,20 +105,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
   [OPT] = LAYOUT( \
     KC_DEL,   KC_P,     KC_O,     KC_I,     KC_U,      KC_Y,      TD(TD_RBRC),\
-    JIS_COLN, JIS_SCLN, KC_L,     KC_K,     KC_J,      KC_H,      TD(TD_BSYM),\
-    _______,  JIS_SLSH, JIS_DOT,  JIS_COMM, KC_M,      KC_N,      _______,\
+    JP_COLN,  JP_SCLN,  KC_L,     KC_K,     KC_J,      KC_H,      TD(TD_BSYM),\
+    _______,  JP_SLSH,  JP_DOT,   JP_COMM,  KC_M,      KC_N,      _______,\
     _______,  _______,  _______,  _______,  _______,   _______,   _______\
   ),
   [NUM_BASE] = LAYOUT( \
     KC_DEL,   KC_1,     KC_2,     KC_3,     KC_4,     KC_5,     KC_6,\
     KC_TAB,   RS(KC_1), RS(KC_2), RS(KC_3), RS(KC_4), RS(KC_5), RS(KC_6),\
-    _______,  JIS_BSLS, JIS_SLSH, KC_RABK,  KC_LABK,  JIS_SLSH, _______,\
+    _______,  JP_BSLS,  JP_SLSH,  KC_RABK,  KC_LABK,  JP_SLSH, _______,\
     _______,  _______,  _______,  _______,  _______,  _______,  _______\
   ),
   [NUM_OPT] = LAYOUT( \
-    JIS_CIRC, JIS_MINS,     KC_0,     KC_9,     KC_8,     KC_7,     XXXXXXX,\
-    JIS_JYEN, RS(JIS_MINS), RS(KC_0), RS(KC_9), RS(KC_8), RS(KC_7), RS(KC_6),\
-    _______,  JIS_ASTR,     JIS_RBRC, JIS_JYEN, XXXXXXX,  XXXXXXX,  _______,\
+    JP_CIRC,  JP_MINS,      KC_0,     KC_9,     KC_8,     KC_7,     XXXXXXX,\
+    KC_JYEN,  RS(JP_MINS),  RS(KC_0), RS(KC_9), RS(KC_8), RS(KC_7), RS(KC_6),\
+    _______,  JP_ASTR,      JP_RBRC,  KC_JYEN,  XXXXXXX,  XXXXXXX,  _______,\
     _______,  _______,      _______,  _______,  _______,  _______,  _______\
   ),
   [FUNC] = LAYOUT( \
@@ -144,8 +129,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
   [SYM] = LAYOUT(\
     KC_DEL,   RS(KC_1), RS(KC_2), RS(KC_3), RS(KC_4), RS(KC_5), RS(KC_6),\
-    JIS_SCLN, RS(KC_7), RS(KC_8), RS(KC_9), JIS_ATMK, JIS_CIRC, _______,\
-    _______,  JIS_COLN, JIS_BSLS, JIS_SLSH, JIS_COMM, JIS_DOT,  _______,\
+    JP_SCLN,  RS(KC_7), RS(KC_8), RS(KC_9), JP_AT,    JP_CIRC, _______,\
+    _______,  JP_COLN,  JP_BSLS,  JP_SLSH,  JP_COMM,  JP_DOT,  _______,\
     _______,  _______,  _______,  _______,  _______,  _______,  _______\
   )
 };
