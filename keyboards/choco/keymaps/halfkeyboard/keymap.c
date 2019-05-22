@@ -38,14 +38,16 @@
 #define OSM_ALT OSM(MOD_LALT)
 #define OSM_GUI OSM(MOD_LGUI)
 
-#define SYM_ENT LT(SYM, KC_ENTER)
+#define NUM_ENT LT(NUM_BASE, KC_ENTER)
 #define OPT_SPC LT(OPT, KC_SPACE)
-#define NUM_ZKHK LT(NUM,JIS_ZKHK)
+#define FUNC_ZKHK LT(FUNC,JIS_ZKHK)
+#define NUM_BSPC LT(NUM_BASE, KC_BSPC)
 
 enum layers {
   BASE = 0,
   OPT,
-  NUM,
+  NUM_BASE,
+  NUM_OPT,
   SYM,
   FUNC
 };
@@ -111,22 +113,28 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [BASE] = LAYOUT( \
-    KC_ESC,   KC_P,     KC_K,     KC_R,     KC_A,      KC_F,     TD(TD_LBRC),\
-    KC_TAB,   KC_D,     KC_T,     KC_H,     KC_E,      KC_O,     KC_BSPC,\
-    KC_LSFT,  KC_Y,     KC_S,     KC_N,     KC_I,      KC_U,     TD(TD_ASYM),\
-    KC_LCTL,  KC_LALT,  KC_LGUI,  MO(FUNC), NUM_ZKHK,  OPT_SPC,  SYM_ENT\
+    KC_ESC,   KC_Q,     KC_W,     KC_E,     KC_R,      KC_T,     TD(TD_LBRC),\
+    KC_TAB,   KC_A,     KC_S,     KC_D,     KC_F,      KC_G,     TD(TD_ASYM),\
+    KC_LSFT,  KC_Z,     KC_X,     KC_C,     KC_V,      KC_B,     NUM_BSPC,\
+    KC_LCTL,  KC_LALT,  KC_LGUI,  MO(FUNC), FUNC_ZKHK, NUM_ENT,  OPT_SPC\
   ),
   [OPT] = LAYOUT( \
-    KC_DEL,   KC_J,     KC_M,     KC_B,     KC_QUOT,   _______,  TD(TD_RBRC),\
-    KC_BSPC,  KC_V,     KC_C,     KC_L,     KC_Z,     KC_Q,      _______,\
-    _______,  KC_X,     KC_G,     KC_W,     KC_MINUS,  _______,  TD(TD_BSYM),\
-    _______,  _______,  _______,  _______,  _______,   _______,  _______\
+    KC_DEL,   KC_P,     KC_O,     KC_I,     KC_U,      KC_Y,      TD(TD_RBRC),\
+    JIS_COLN, JIS_SCLN, KC_L,     KC_K,     KC_J,      KC_H,      TD(TD_BSYM),\
+    _______,  JIS_SLSH, JIS_DOT,  JIS_COMM, KC_M,      KC_N,      _______,\
+    _______,  _______,  _______,  _______,  _______,   _______,   _______\
   ),
-  [NUM] = LAYOUT( \
-    _______,  KC_1,     KC_2,     KC_3,     KC_4,     KC_5,     KC_6,\
-    _______,  KC_7,     KC_8,     KC_9,     KC_0,     JIS_MINS, _______,\
-    _______,  JIS_MINS, JIS_PLUS, JIS_ASTR, JIS_SLSH, JIS_JYEN, TD(TD_ASYM),\
+  [NUM_BASE] = LAYOUT( \
+    KC_DEL,   KC_1,     KC_2,     KC_3,     KC_4,     KC_5,     KC_6,\
+    KC_TAB,   RS(KC_1), RS(KC_2), RS(KC_3), RS(KC_4), RS(KC_5), RS(KC_6),\
+    _______,  JIS_BSLS, JIS_SLSH, KC_RABK,  KC_LABK,  JIS_SLSH, _______,\
     _______,  _______,  _______,  _______,  _______,  _______,  _______\
+  ),
+  [NUM_OPT] = LAYOUT( \
+    JIS_CIRC, JIS_MINS,     KC_0,     KC_9,     KC_8,     KC_7,     XXXXXXX,\
+    JIS_JYEN, RS(JIS_MINS), RS(KC_0), RS(KC_9), RS(KC_8), RS(KC_7), RS(KC_6),\
+    _______,  JIS_ASTR,     JIS_RBRC, JIS_JYEN, XXXXXXX,  XXXXXXX,  _______,\
+    _______,  _______,      _______,  _______,  _______,  _______,  _______\
   ),
   [FUNC] = LAYOUT( \
     _______,  KC_PGUP,  KC_UP,    KC_PGDN,  _______,   _______,  RESET,\
@@ -135,12 +143,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______,  _______,  _______,  _______,  _______,   _______,  _______\
   ),
   [SYM] = LAYOUT(\
-    _______,  RS(KC_1), RS(KC_2), RS(KC_3), RS(KC_4), RS(KC_5), RS(KC_6),\
+    KC_DEL,   RS(KC_1), RS(KC_2), RS(KC_3), RS(KC_4), RS(KC_5), RS(KC_6),\
     JIS_SCLN, RS(KC_7), RS(KC_8), RS(KC_9), JIS_ATMK, JIS_CIRC, _______,\
     _______,  JIS_COLN, JIS_BSLS, JIS_SLSH, JIS_COMM, JIS_DOT,  _______,\
     _______,  _______,  _______,  _______,  _______,  _______,  _______\
   )
 };
+
+uint32_t layer_state_set_user(uint32_t state) {
+  return update_tri_layer_state(state, OPT, NUM_BASE, NUM_OPT);
+}
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {

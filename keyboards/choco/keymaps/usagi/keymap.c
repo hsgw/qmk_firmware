@@ -55,7 +55,9 @@ enum custom_tapdances{
     TD_LBRC,
     TD_RBRC,
     TD_ASYM,
-    TD_BSYM
+    TD_BSYM,
+    TD_DOT,
+    TD_COLN
 };
 
 uint16_t td_lbrc_keycodes[4] = {S(KC_8), JIS_LBRC, S(JIS_LBRC), S(JIS_COMM)};
@@ -105,28 +107,30 @@ qk_tap_dance_action_t tap_dance_actions[] = {
     [TD_LBRC] = ACTION_TAP_DANCE_FN_ADVANCED (NULL, td_lbrc_finished, td_lbrc_reset),
     [TD_RBRC] = ACTION_TAP_DANCE_FN_ADVANCED (NULL, td_rbrc_finished, td_rbrc_reset),
     [TD_ASYM] = ACTION_TAP_DANCE_FN_ADVANCED (NULL, td_asym_finished, td_asym_reset),
+    [TD_DOT] =  ACTION_TAP_DANCE_DOUBLE(JIS_COMM, JIS_DOT),
+    [TD_COLN] = ACTION_TAP_DANCE_DOUBLE(JIS_SCLN, JIS_COLN)
 };
 
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [BASE] = LAYOUT( \
-    KC_ESC,   KC_P,     KC_K,     KC_R,     KC_A,      KC_F,     TD(TD_LBRC),\
-    KC_TAB,   KC_D,     KC_T,     KC_H,     KC_E,      KC_O,     KC_BSPC,\
-    KC_LSFT,  KC_Y,     KC_S,     KC_N,     KC_I,      KC_U,     TD(TD_ASYM),\
+    KC_ESC,   KC_MINUS, KC_K,     KC_T,     KC_S,      KC_Y,     TD(TD_LBRC),\
+    KC_TAB,   KC_A,     KC_O,     KC_E,     KC_I,      KC_U,     KC_BSPC,\
+    KC_LSFT,  KC_Z,     KC_X,     KC_C,     KC_V,      KC_B,     TD(TD_ASYM),\
     KC_LCTL,  KC_LALT,  KC_LGUI,  MO(FUNC), NUM_ZKHK,  OPT_SPC,  SYM_ENT\
   ),
   [OPT] = LAYOUT( \
-    KC_DEL,   KC_J,     KC_M,     KC_B,     KC_QUOT,   _______,  TD(TD_RBRC),\
-    KC_BSPC,  KC_V,     KC_C,     KC_L,     KC_Z,     KC_Q,      _______,\
-    _______,  KC_X,     KC_G,     KC_W,     KC_MINUS,  _______,  TD(TD_BSYM),\
-    _______,  _______,  _______,  _______,  _______,   _______,  _______\
+    KC_DEL,   TD(TD_COLN),KC_W,     KC_F,     KC_G,    TD(TD_DOT), TD(TD_RBRC),\
+    KC_BSPC,  KC_D,       KC_M,     KC_R,     KC_N,    KC_H,       _______,\
+    _______,  KC_P,       KC_Q,     KC_L,     XXXXXXX, KC_J,       TD(TD_ASYM),\
+    _______,  _______,    _______,  _______,  _______, _______,    _______\
   ),
   [NUM] = LAYOUT( \
-    _______,  KC_1,     KC_2,     KC_3,     KC_4,     KC_5,     KC_6,\
-    _______,  KC_7,     KC_8,     KC_9,     KC_0,     JIS_MINS, _______,\
-    _______,  JIS_MINS, JIS_PLUS, JIS_ASTR, JIS_SLSH, JIS_JYEN, TD(TD_ASYM),\
-    _______,  _______,  _______,  _______,  _______,  _______,  _______\
+    _______,  KC_1,     KC_2,     KC_3,     KC_4,     KC_5,       KC_6,\
+    _______,  KC_7,     KC_8,     KC_9,     KC_0,     TD(TD_DOT), _______,\
+    _______,  JIS_MINS, JIS_PLUS, JIS_ASTR, JIS_SLSH, JIS_JYEN,   TD(TD_ASYM),\
+    _______,  _______,  _______,  _______,  _______,  _______,    _______\
   ),
   [FUNC] = LAYOUT( \
     _______,  KC_PGUP,  KC_UP,    KC_PGDN,  _______,   _______,  RESET,\
