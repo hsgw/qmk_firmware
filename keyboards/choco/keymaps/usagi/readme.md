@@ -1,1 +1,2 @@
-# The test keymap for choco
+# usagi keymap for choco
+like froggy

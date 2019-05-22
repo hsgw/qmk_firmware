@@ -1,1 +1,2 @@
-# The test keymap for choco
+# [WIP] froggy keymap for choco
+copy from helix's keymap.

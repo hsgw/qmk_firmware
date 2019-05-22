@@ -1,1 +1,2 @@
-# The test keymap for choco
+# halfkeyboard keymap for choco
+like Matias
