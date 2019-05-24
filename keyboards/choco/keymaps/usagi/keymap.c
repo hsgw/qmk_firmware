@@ -23,9 +23,9 @@
 #define OSM_ALT OSM(MOD_LALT)
 #define OSM_GUI OSM(MOD_LGUI)
 
-#define SYM_ENT LT(SYM, KC_ENTER)
-#define OPT_SPC LT(OPT, KC_SPACE)
-#define NUM_ZKHK LT(NUM,KC_ZKHK)
+// #define SYM_ENT LT(SYM, KC_ENTER)
+// #define OPT_SPC LT(OPT, KC_SPACE)
+// #define NUM_ZKHK LT(NUM,KC_ZKHK)
 
 enum layers {
   BASE = 0,
@@ -34,6 +34,93 @@ enum layers {
   SYM,
   FUNC
 };
+
+enum custom_keycodes {
+    SYM_ENT = SAFE_RANGE,
+    OPT_SPC,
+    NUM_ZKHK
+};
+
+#define DELAY_TIME  75
+static uint16_t key_timer;
+static uint16_t tap_timer;
+static uint16_t delay_registered_code;
+static uint8_t delay_mat_row;
+static uint8_t delay_mat_col;
+static bool delay_key_stat;
+static bool delay_key_pressed;
+static bool tapping_key;
+
+bool find_mairix(uint16_t keycode, uint8_t *row, uint8_t *col){
+  for(uint8_t i=0; i<MATRIX_ROWS; i++){
+    for(uint8_t j=0; j<MATRIX_COLS; j++){
+      if( keymaps[BASE][i][j] == keycode){
+        *row = i;
+        *col = j;
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+void unregister_delay_code(void){
+  if(delay_registered_code){
+    unregister_code(delay_registered_code);
+    if (delay_registered_code & QK_LSFT){
+      unregister_code(KC_LSFT);
+    }
+    if (delay_registered_code & QK_LCTL){
+      unregister_code(KC_LCTL);
+    }
+    if (delay_registered_code & QK_LALT){
+      unregister_code(KC_LALT);
+    }
+    if (delay_registered_code & QK_LGUI){
+      unregister_code(KC_LGUI);
+    }
+    delay_registered_code=0;
+  }
+}
+
+void register_delay_code(uint8_t layer){
+  if(delay_key_stat){
+    unregister_delay_code();
+
+    uint16_t code = pgm_read_word(&(keymaps[layer][delay_mat_row][delay_mat_col]));
+    if (code & QK_RSFT){
+      register_code(KC_RSFT);
+    }
+    if (code & QK_RCTL){
+      register_code(KC_RCTL);
+    }
+    if (code & QK_RALT){
+      register_code(KC_RALT);
+    }
+    if (code & QK_RGUI){
+      register_code(KC_RGUI);
+    }
+    register_code(code);
+    delay_registered_code = code;
+    delay_key_stat = false;
+    tapping_key = true;
+  }
+}
+
+void process_tap(bool isPressed, uint8_t layer, uint16_t tap) {
+  if (isPressed) {
+    tapping_key = false;
+    register_delay_code(layer);
+    layer_on(layer);
+    tap_timer = timer_read();
+  } else {
+    layer_off(layer);
+    if (tapping_key == false && timer_elapsed(tap_timer) < TAPPING_TERM) {
+      tap_code(tap);
+    }
+    tap_timer = 0;
+  }
+}
 
 // Defines the tapdance key code
 enum custom_tapdances{
@@ -96,7 +183,6 @@ qk_tap_dance_action_t tap_dance_actions[] = {
     [TD_COLN] = ACTION_TAP_DANCE_DOUBLE(JP_SCLN, JP_COLN)
 };
 
-
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [BASE] = LAYOUT( \
@@ -106,16 +192,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_LCTL,  KC_LALT,  KC_LGUI,  MO(FUNC), NUM_ZKHK,  OPT_SPC,  SYM_ENT\
   ),
   [OPT] = LAYOUT( \
-    KC_DEL,   TD(TD_COLN),KC_W,     KC_F,     KC_G,    TD(TD_DOT), TD(TD_RBRC),\
-    KC_BSPC,  KC_D,       KC_M,     KC_R,     KC_N,    KC_H,       _______,\
-    _______,  KC_P,       KC_Q,     KC_L,     XXXXXXX, KC_J,       TD(TD_ASYM),\
-    _______,  _______,    _______,  _______,  _______, _______,    _______\
+    KC_DEL,   JP_DOT,     KC_W,     KC_F,     KC_G,    JP_COMM,  TD(TD_RBRC),\
+    KC_BSPC,  KC_D,       KC_M,     KC_R,     KC_N,    KC_H,     _______,\
+    _______,  KC_P,       KC_Q,     KC_L,     XXXXXXX, KC_J,     TD(TD_ASYM),\
+    _______,  _______,    _______,  _______,  _______, _______,  _______\
   ),
   [NUM] = LAYOUT( \
-    _______,  KC_1,     KC_2,     KC_3,     KC_4,     KC_5,       KC_6,\
-    _______,  KC_7,     KC_8,     KC_9,     KC_0,     TD(TD_DOT), _______,\
-    _______,  KC_MINS,  JP_PLUS,  JP_ASTR,  JP_SLSH,  KC_JYEN,    TD(TD_ASYM),\
-    _______,  _______,  _______,  _______,  _______,  _______,    _______\
+    KC_JYEN,  KC_1,     KC_2,     KC_3,     KC_4,     KC_5,      KC_6,\
+    KC_TAB,   KC_7,     KC_8,     KC_9,     KC_0,     JP_COMM,   JP_DOT,\
+    _______,  KC_MINS,  JP_PLUS,  JP_ASTR,  JP_SLSH,  KC_JYEN,   TD(TD_ASYM),\
+    _______,  _______,  _______,  _______,  _______,  _______,   _______\
   ),
   [FUNC] = LAYOUT( \
     _______,  KC_PGUP,  KC_UP,    KC_PGDN,  _______,   _______,  RESET,\
@@ -132,10 +218,94 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+
+  if(tap_timer && keycode != SYM_ENT && keycode != OPT_SPC && keycode != NUM_ZKHK) {
+      tapping_key = true;
+  }
+
+  if(keycode==delay_registered_code){
+      if (!record->event.pressed){
+        unregister_delay_code();
+      }
+  }
+
   switch (keycode) {
-    default:
+    case KC_ESC:
+    case KC_TAB:
+    case KC_MINUS:
+    case KC_K:
+    case KC_T:
+    case KC_S:
+    case KC_Y:
+    case KC_A:
+    case KC_O:
+    case KC_E:
+    case KC_I:
+    case KC_U:
+    case KC_BSPC:
+    case KC_Z:
+    case KC_X:
+    case KC_C:
+    case KC_V:
+    case KC_B:
+      if (record->event.pressed) {
+        register_delay_code(BASE);
+        if (find_mairix(keycode, &delay_mat_row, &delay_mat_col)) {
+          key_timer         = timer_read();
+          delay_key_stat    = true;
+          delay_key_pressed = true;
+        }
+      } else {
+        delay_key_pressed = false;
+      }
+      return false;
       break;
+    case SYM_ENT:
+        process_tap(record->event.pressed, SYM, KC_ENTER);
+        return false;
+        break;
+    case OPT_SPC:
+        process_tap(record->event.pressed, OPT, KC_SPACE);
+        return false;
+        break;
+    case NUM_ZKHK:
+        process_tap(record->event.pressed, NUM, KC_ZKHK);
+        return false;
+        break;
+    default:
+    break;
   }
   return true;
 }
 
+uint8_t layer_state_old;
+
+void matrix_scan_user(void) {
+  if (delay_key_stat && (timer_elapsed(key_timer) > DELAY_TIME)) {
+    register_delay_code(BASE);
+  }
+
+  if (!delay_key_pressed) {
+    unregister_delay_code();
+  }
+
+  if(layer_state_old != layer_state){
+    switch (layer_state) {
+      case BASE:
+        break;
+      case OPT:
+        register_delay_code(OPT);
+        break;
+      case NUM:
+        register_delay_code(NUM);
+        break;
+      case SYM:
+        register_delay_code(SYM);
+        break;
+      case FUNC:
+        register_delay_code(FUNC);
+        break;
+    }
+    layer_state_old = layer_state;
+  }
+}
