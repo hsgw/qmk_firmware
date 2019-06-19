@@ -32,6 +32,8 @@ enum layers {
   OPT,
   NUM,
   SYM,
+  TENKEY,
+  TENKEY_ALT,
   FUNC
 };
 
@@ -186,15 +188,15 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [BASE] = LAYOUT( \
-    KC_ESC,   KC_MINUS, KC_K,     KC_T,     KC_S,      KC_Y,     TD(TD_LBRC),\
+    KC_ESC,   KC_MINUS, KC_S,     KC_K,     KC_T,      KC_Y,     TD(TD_LBRC),\
     KC_TAB,   KC_A,     KC_O,     KC_E,     KC_I,      KC_U,     KC_BSPC,\
     KC_LSFT,  KC_Z,     KC_X,     KC_C,     KC_V,      KC_B,     TD(TD_ASYM),\
     KC_LCTL,  KC_LALT,  KC_LGUI,  MO(FUNC), NUM_ZKHK,  OPT_SPC,  SYM_ENT\
   ),
   [OPT] = LAYOUT( \
-    KC_DEL,   JP_DOT,     KC_W,     KC_F,     KC_G,    JP_COMM,  TD(TD_RBRC),\
-    KC_BSPC,  KC_D,       KC_M,     KC_R,     KC_N,    KC_H,     _______,\
-    _______,  KC_P,       KC_Q,     KC_L,     XXXXXXX, KC_J,     TD(TD_ASYM),\
+    KC_DEL,   JP_DOT,     KC_W,     KC_F,     KC_R,    JP_UNDS,  TD(TD_RBRC),\
+    _______,  JP_COMM,    KC_M,     KC_D,     KC_N,    KC_H,     _______,\
+    _______,  KC_P,       KC_Q,     KC_L,     KC_G,    KC_J,     TD(TD_ASYM),\
     _______,  _______,    _______,  _______,  _______, _______,  _______\
   ),
   [NUM] = LAYOUT( \
@@ -204,7 +206,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______,  _______,  _______,  _______,  _______,  _______,   _______\
   ),
   [FUNC] = LAYOUT( \
-    _______,  KC_PGUP,  KC_UP,    KC_PGDN,  _______,   _______,  RESET,\
+    _______,  KC_PGUP,  KC_UP,    KC_PGDN,  _______,   TG(TENKEY), RESET,\
     _______,  KC_LEFT,  KC_DOWN,  KC_RIGHT, _______,   _______,  _______,\
     _______,  KC_INS,   KC_HOME,  KC_PSCR,  _______,   _______,  _______,\
     _______,  _______,  _______,  _______,  _______,   _______,  _______\
@@ -214,6 +216,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     JP_SCLN,  RS(KC_7), RS(KC_8), RS(KC_9), JP_AT,    JP_CIRC,  _______,\
     _______,  JP_COLN,  JP_BSLS,  JP_SLSH,  JP_COMM,  JP_DOT,  _______,\
     _______,  _______,  _______,  _______,  _______,  _______,  _______\
+  ),
+  [TENKEY] = LAYOUT(\
+    KC_ESC,   KC_7,     KC_8,     KC_9,     XXXXXXX,  TG(TENKEY),XXXXXXX,\
+    KC_TAB,   KC_4,     KC_5,     KC_6,     KC_COMM,  XXXXXXX,  XXXXXXX,\
+    S(C(KC_Z)),KC_1,    KC_2,     KC_3,     KC_DOT,   XXXXXXX,  XXXXXXX,\
+    C(KC_Z),  KC_0,     TD(TD_LBRC),  TD(TD_RBRC),   LT(TENKEY_ALT,KC_BSPC),  _______,  _______\
+  ),
+  [TENKEY_ALT] = LAYOUT(\
+    KC_DEL,  _______,  _______,  _______,  _______,  _______,  _______,\
+    _______,  _______,  _______,  _______,  _______,  _______,  _______,\
+    C(KC_C),  _______,  _______,  _______,  _______,  _______,  _______,\
+    C(KC_V),  _______,  _______,  _______,  _______,  _______,  _______\
   )
 };
 
