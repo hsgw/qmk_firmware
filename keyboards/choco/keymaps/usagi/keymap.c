@@ -196,14 +196,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [OPT] = LAYOUT( \
     KC_DEL,   JP_DOT,     KC_W,     KC_F,     KC_R,    JP_UNDS,  TD(TD_RBRC),\
     _______,  JP_COMM,    KC_M,     KC_D,     KC_N,    KC_H,     _______,\
-    _______,  KC_P,       KC_Q,     KC_L,     KC_G,    KC_J,     TD(TD_ASYM),\
+    _______,  KC_P,       KC_Q,     KC_L,     KC_G,    KC_J,     _______,\
     _______,  _______,    _______,  _______,  _______, _______,  _______\
   ),
   [NUM] = LAYOUT( \
-    KC_JYEN,  KC_1,     KC_2,     KC_3,     KC_4,     KC_5,      KC_6,\
-    KC_TAB,   KC_7,     KC_8,     KC_9,     KC_0,     JP_COMM,   JP_DOT,\
-    _______,  KC_MINS,  JP_PLUS,  JP_ASTR,  JP_SLSH,  KC_JYEN,   TD(TD_ASYM),\
-    _______,  _______,  _______,  _______,  _______,  _______,   _______\
+    _______,  KC_7,     KC_8,     KC_9,   XXXXXXX,     XXXXXXX, XXXXXXX,\
+    _______,  KC_4,     KC_5,     KC_6,   XXXXXXX,     XXXXXXX, _______,\
+    _______,  KC_1,     KC_2,     KC_3,   JP_SLSH,  KC_JYEN,    _______,\
+    _______,  KC_0,     KC_COMM,  KC_DOT, _______,  _______,    _______\
   ),
   [FUNC] = LAYOUT( \
     _______,  KC_PGUP,  KC_UP,    KC_PGDN,  _______,   TG(TENKEY), RESET,\
