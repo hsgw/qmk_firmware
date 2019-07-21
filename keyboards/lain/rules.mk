@@ -15,7 +15,7 @@ MCU_LDSCRIPT = STM32F072x8
 MCU_STARTUP = stm32f0xx
 # it should exist either in <chibios>/os/hal/boards/
 #  or <this_dir>/boards
-BOARD = ST_STM32F072B_DISCOVERY
+BOARD = DM9_LAIN_KEYBOARD
 # Cortex version
 # Teensy LC is cortex-m0; Teensy 3.x are cortex-m4
 MCU  = cortex-m0

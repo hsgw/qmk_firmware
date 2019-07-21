@@ -1,0 +1,2 @@
+# hsgw's keymap
+JIS

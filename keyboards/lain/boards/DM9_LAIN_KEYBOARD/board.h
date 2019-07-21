@@ -23,14 +23,14 @@
 #define BOARD_H
 
 /*
- * Setup for ST STM32F072B-Discovery board.
+ * Setup for dm9records lain keyboard.
  */
 
 /*
  * Board identifier.
  */
-#define BOARD_ST_STM32F072B_DISCOVERY
-#define BOARD_NAME                  "ST STM32F072B-Discovery"
+#define BOARD_DM9_LAIN
+#define BOARD_NAME                  "Dm9Records Lain keyboard"
 
 /*
  * Board oscillators-related settings.
@@ -462,8 +462,8 @@
  * PC15 - OSC32_OUT                 (input floating).
  */
 #define VAL_GPIOC_MODER             (PIN_MODE_OUTPUT(GPIOC_MEMS_CS) |       \
-                                     PIN_MODE_INPUT(GPIOC_PIN1) |           \
-                                     PIN_MODE_INPUT(GPIOC_PIN2) |           \
+                                     PIN_MODE_OUTPUT(GPIOC_PIN1) |           \
+                                     PIN_MODE_OUTPUT(GPIOC_PIN2) |           \
                                      PIN_MODE_INPUT(GPIOC_PIN3) |           \
                                      PIN_MODE_INPUT(GPIOC_PIN4) |           \
                                      PIN_MODE_INPUT(GPIOC_PIN5) |           \
@@ -493,7 +493,7 @@
                                      PIN_OTYPE_PUSHPULL(GPIOC_PIN13) |      \
                                      PIN_OTYPE_PUSHPULL(GPIOC_OSC32_IN) |   \
                                      PIN_OTYPE_PUSHPULL(GPIOC_OSC32_OUT))
-#define VAL_GPIOC_OSPEEDR           (PIN_OSPEED_HIGH(GPIOC_MEMS_CS) |       \
+#define VAL_GPIOC_OSPEEDR           (PIN_OSPEED_VERYLOW(GPIOC_MEMS_CS) |       \
                                      PIN_OSPEED_VERYLOW(GPIOC_PIN1) |       \
                                      PIN_OSPEED_VERYLOW(GPIOC_PIN2) |       \
                                      PIN_OSPEED_VERYLOW(GPIOC_PIN3) |       \
@@ -510,8 +510,8 @@
                                      PIN_OSPEED_HIGH(GPIOC_OSC32_IN) |      \
                                      PIN_OSPEED_HIGH(GPIOC_OSC32_OUT))
 #define VAL_GPIOC_PUPDR             (PIN_PUPDR_FLOATING(GPIOC_MEMS_CS) |    \
-                                     PIN_PUPDR_PULLUP(GPIOC_PIN1) |         \
-                                     PIN_PUPDR_PULLUP(GPIOC_PIN2) |         \
+                                     PIN_PUPDR_FLOATING(GPIOC_PIN1) |         \
+                                     PIN_PUPDR_FLOATING(GPIOC_PIN2) |         \
                                      PIN_PUPDR_PULLUP(GPIOC_PIN3) |         \
                                      PIN_PUPDR_PULLUP(GPIOC_PIN4) |         \
                                      PIN_PUPDR_PULLUP(GPIOC_PIN5) |         \
@@ -525,9 +525,9 @@
                                      PIN_PUPDR_PULLUP(GPIOC_PIN13) |        \
                                      PIN_PUPDR_FLOATING(GPIOC_OSC32_IN) |   \
                                      PIN_PUPDR_FLOATING(GPIOC_OSC32_OUT))
-#define VAL_GPIOC_ODR               (PIN_ODR_HIGH(GPIOC_MEMS_CS) |          \
-                                     PIN_ODR_HIGH(GPIOC_PIN1) |             \
-                                     PIN_ODR_HIGH(GPIOC_PIN2) |             \
+#define VAL_GPIOC_ODR               (PIN_ODR_LOW(GPIOC_MEMS_CS) |          \
+                                     PIN_ODR_LOW(GPIOC_PIN1) |             \
+                                     PIN_ODR_LOW(GPIOC_PIN2) |             \
                                      PIN_ODR_HIGH(GPIOC_PIN3) |             \
                                      PIN_ODR_HIGH(GPIOC_PIN4) |             \
                                      PIN_ODR_HIGH(GPIOC_PIN5) |             \
