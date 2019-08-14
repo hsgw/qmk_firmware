@@ -17,12 +17,7 @@
 #pragma once
 
 // place overrides here
-<<<<<<< HEAD
 #define TAPPING_TERM 150
 #define TAPPING_TOGGLE 2
 
 #define RETRO_TAPPING
-=======
-#define TAPPING_TERM 175
-#define PERMISSIVE_HOLD
->>>>>>> change pid, format code, update keymap
