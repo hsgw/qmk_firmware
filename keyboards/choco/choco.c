@@ -16,6 +16,21 @@
 #include "choco.h"
 #include "matrix.h"
 
+#include "rgb_matrix.h"
+
+led_config_t g_led_config = { {
+    // key matrix to led index
+    {0, 1, 2, 3, 4, NO_LED, NO_LED,
+    NO_LED,NO_LED,NO_LED,NO_LED,NO_LED,NO_LED,NO_LED,
+    NO_LED,NO_LED,NO_LED,NO_LED,NO_LED,NO_LED,NO_LED,
+    NO_LED,NO_LED,NO_LED,NO_LED,NO_LED,NO_LED,NO_LED
+    }
+}, {
+    {0,0},{1,0},{2,0},{3,0},{4,0}
+}, {
+    1,1,1,1,1
+}};
+
 void matrix_init_kb(void) {
 	// put your keyboard start-up code here
 	// runs once when the firmware starts up
