@@ -22,6 +22,7 @@ BOOTLOADER = atmel-dfu
 # OPT_DEFS += -DBOOTLOADER_SIZE=4096
 
 SRC += analog.c
+SRC += util.c
 
 # Build Options
 #   change yes to no to disable
