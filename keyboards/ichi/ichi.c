@@ -15,9 +15,7 @@
  */
 
 #include "ichi.h"
-#include "analog.h"
-
-bool lightMode = true;
+// #include "analog.h"
 
 // Optional override functions below.
 // You can leave any or all of these undefined.
@@ -27,17 +25,9 @@ bool lightMode = true;
 void matrix_init_kb(void) {
     // put your keyboard start-up code here
     // runs once when the firmware starts up
+    rgblight_disable_noeeprom();
 
-    setPinInputHigh(NO_LIGHT_PIN);
-    wait_ms(100);
-    if(!readPin(NO_LIGHT_PIN)) {
-        rgblight_disable_noeeprom();
-        lightMode = false;
-    } else {
-        rgblight_enable_noeeprom();
-        lightMode = true;
-    }
-
+    // for Type-C current check.
     // wait_ms(500);
     // cc1 = analogRead(TYPE_C_CC1_PIN);
     // cc2 = analogRead(TYPE_C_CC2_PIN);

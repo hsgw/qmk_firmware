@@ -46,7 +46,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define DIRECT_PINS {{ B5, C7, C6 }}
 #define UNUSED_PINS
 
-#define NO_LIGHT_PIN B5
+#define NO_LIGHT_PIN C6
 
 /* COL2ROW, ROW2COL*/
 // #define DIODE_DIRECTION COL2ROW

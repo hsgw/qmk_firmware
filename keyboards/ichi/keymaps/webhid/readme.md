@@ -1,1 +1,1 @@
-# The default keymap for ichi
+# The webhid keymap for ichi

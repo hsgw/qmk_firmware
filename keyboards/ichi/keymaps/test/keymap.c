@@ -16,6 +16,12 @@
 #include QMK_KEYBOARD_H
 #include "../../util.h"
 
+#define TEST_VAL (100)
+
+enum led_colors {
+    LED_NONE, LED_RED, LED_GREEN, LED_BLUE, LED_WHITE
+}
+
 // Defines the keycodes used by our macros in process_record_user
 enum custom_keycodes {
     BIGSW = SAFE_RANGE,
@@ -50,7 +56,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             break;
         case BIGSW:
             if (record->event.pressed) {
-                stepBrightness();
+                    stepBrightness();
             }
             break;
     }

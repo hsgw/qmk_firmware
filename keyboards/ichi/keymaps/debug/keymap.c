@@ -34,35 +34,31 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case CONF1:
             if (record->event.pressed) {
-                rgblight_increase_hue();
+                rgblight_sethsv(0xFF, 0x00, 0xFF);
+                rgblight_set();
             }
             break;
         case CONF2:
             if (record->event.pressed) {
-                if(rgblight_get_sat() + RGBLIGHT_SAT_STEP > 255) {
-                    rgbled_color_t current = getCurrentColor();
-                    rgblight_sethsv(current.hue, 0, current.val);
-                    rgblight_set();
-                } else {
-                    rgblight_increase_sat();
-                }
+                rgblight_sethsv(0xFF, 0xFF, 0);
+                rgblight_set();
             }
             break;
         case BIGSW:
             if (record->event.pressed) {
-                stepBrightness();
+                    stepBrightness();
             }
             break;
     }
     return true;
 }
 
-/*
-void matrix_init_user(void) {
-
+void matrix_scan_user(void) {
+    rgblight_set();
 }
 
-void matrix_scan_user(void) {
+/*
+void matrix_init_user(void) {
 
 }
 
