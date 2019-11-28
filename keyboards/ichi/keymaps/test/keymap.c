@@ -16,11 +16,34 @@
 #include QMK_KEYBOARD_H
 #include "../../util.h"
 
-#define TEST_VAL (100)
+uint8_t current_color = 0;
 
-enum led_colors {
-    LED_NONE, LED_RED, LED_GREEN, LED_BLUE, LED_WHITE
-}
+void set_rgbw(uint8_t num) {
+    switch(num) {
+        case 0:
+            rgblight_sethsv_noeeprom(0,0,0);
+            SEND_STRING("OFF");
+            break;
+        case 1:
+            rgblight_sethsv_noeeprom_red();
+            SEND_STRING("RED");
+            break;
+        case 2:
+            rgblight_sethsv_noeeprom_green();
+            SEND_STRING("GREEN");
+            break;
+        case 3:
+            rgblight_sethsv_noeeprom_blue();
+            SEND_STRING("BLUE");
+            break;
+        case 4:
+            rgblight_sethsv_noeeprom_white();
+            SEND_STRING("WHITE");
+            break;
+        default:
+            break;
+    }
+};
 
 // Defines the keycodes used by our macros in process_record_user
 enum custom_keycodes {
@@ -40,23 +63,18 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case CONF1:
             if (record->event.pressed) {
-                rgblight_increase_hue();
+                if(current_color++ == 4) current_color = 0;
+                set_rgbw(current_color);
             }
             break;
         case CONF2:
             if (record->event.pressed) {
-                if(rgblight_get_sat() + RGBLIGHT_SAT_STEP > 255) {
-                    rgbled_color_t current = getCurrentColor();
-                    rgblight_sethsv(current.hue, 0, current.val);
-                    rgblight_set();
-                } else {
-                    rgblight_increase_sat();
-                }
+                step_brightness();
             }
             break;
         case BIGSW:
             if (record->event.pressed) {
-                    stepBrightness();
+                rgblight_step_noeeprom();
             }
             break;
     }

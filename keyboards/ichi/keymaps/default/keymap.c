@@ -40,7 +40,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case CONF2:
             if (record->event.pressed) {
                 if(rgblight_get_sat() + RGBLIGHT_SAT_STEP > 255) {
-                    rgbled_color_t current = getCurrentColor();
+                    rgbled_color_t current = get_current_color();
                     rgblight_sethsv(current.hue, 0, current.val);
                     rgblight_set();
                 } else {
@@ -50,7 +50,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             break;
         case BIGSW:
             if (record->event.pressed) {
-                stepBrightness();
+                step_brightness();
             }
             break;
     }

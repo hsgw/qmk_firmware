@@ -34,7 +34,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case CONF1:
             if (record->event.pressed) {
-                rgblight_sethsv(0xFF, 0x00, 0xFF);
+                rgblight_sethsv(0xFF, 0x00, 220);
                 rgblight_set();
             }
             break;
@@ -46,7 +46,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             break;
         case BIGSW:
             if (record->event.pressed) {
-                    stepBrightness();
+                rgblight_step_noeeprom();
             }
             break;
     }
@@ -54,7 +54,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 void matrix_scan_user(void) {
-    rgblight_set();
 }
 
 /*

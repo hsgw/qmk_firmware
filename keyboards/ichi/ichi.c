@@ -15,6 +15,7 @@
  */
 
 #include "ichi.h"
+#include "util.h"
 // #include "analog.h"
 
 // Optional override functions below.
@@ -26,6 +27,7 @@ void matrix_init_kb(void) {
     // put your keyboard start-up code here
     // runs once when the firmware starts up
     rgblight_disable_noeeprom();
+    set_brightness(0);
 
     // for Type-C current check.
     // wait_ms(500);
@@ -40,7 +42,6 @@ void matrix_init_kb(void) {
 void matrix_scan_kb(void) {
     // put your looping keyboard code here
     // runs every cycle (a lot)
-
     matrix_scan_user();
 }
 
