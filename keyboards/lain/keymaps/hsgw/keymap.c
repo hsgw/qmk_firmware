@@ -23,6 +23,7 @@
 #define FUNC_BS LT(FUNC,KC_BSPC)
 #define TAB_CTL LCTL_T(KC_TAB)
 #define G2_GUI LT(GAME2,KC_LGUI)
+#define WIN_PS
 
 // Defines the keycodes used by our macros in process_record_user
 // enum custom_keycodes {
@@ -30,7 +31,7 @@
 // };
 
 enum layers {
-    BASE, NUM, FUNC, CONF, GAME, GAME2
+    BASE, NUM, FUNC, CONF, GAME, GAME2, L_NUM
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -39,12 +40,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_ESC,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    JP_LBRC,   KC_Y,   KC_U,    KC_I,    KC_O,    KC_P,     JP_AT, \
         TAB_CTL, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    JP_RBRC,   KC_H,   KC_J,    KC_K,    KC_L,    JP_SCLN,  JP_COLN,\
         KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,               KC_INS, KC_N,    KC_M,    JP_COMM, JP_DOT,   JP_SLSH, \
-        KC_LALT,                   KC_LGUI, JP_ZHTG, NUM_SPC, KC_SPC,    KC_ENT, KC_BSPC, MO(FUNC),KC_MENU, JP_CIRC,  JP_BSLS\
+        KC_LALT,                   KC_LGUI, JP_ZHTG, NUM_SPC, TT(L_NUM),    KC_ENT, KC_BSPC, MO(FUNC),KC_MENU, JP_CIRC,  JP_BSLS\
     ),
     [NUM] = LAYOUT(
         KC_DEL,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,      KC_7,    KC_8,    KC_9,    KC_0,    JP_CIRC,  JP_YEN, \
         _______, S(KC_1), S(KC_2), S(KC_3), S(KC_4), S(KC_5), S(KC_6),   S(KC_7), S(KC_8), S(KC_9), JP_MINS, S(JP_MINS),S(JP_YEN), \
-        _______, _______, _______, _______, _______, _______,            KC_PSCR, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT,  _______, \
+        _______, _______, _______, _______, _______, _______,            KC_PSCR, JP_LBRC, JP_RBRC, _______, _______,  _______, \
         _______,                   _______, _______, _______, _______,   _______, _______, _______, _______, _______,  _______ \
     ),
     [FUNC] = LAYOUT(
@@ -55,7 +56,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
     [CONF] = LAYOUT(
         RESET,   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
-        TG(GAME), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
+        TG(GAME),XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,            XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
         XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX \
     ),
@@ -70,6 +71,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         XXXXXXX, KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    XXXXXXX,   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,            XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
         XXXXXXX,                   XXXXXXX, G2_GUI,  XXXXXXX, XXXXXXX,   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX \
+    ),
+    [L_NUM] = LAYOUT(
+        KC_ESC, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
+        KC_TAB, KC_7,    KC_8,    KC_9,    KC_0,    JP_COMM, JP_DOT,     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
+        KC_LSFT,JP_YEN,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,            XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
+        KC_LCTL,                  XXXXXXX, KC_BSPC, KC_SPC, TT(L_NUM),  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX \
     ),
 };
 
@@ -86,11 +93,11 @@ void matrix_scan_user(void) {
 uint32_t layer_state_set_user(uint32_t state) {
     uint32_t computed = update_tri_layer_state(state, NUM, FUNC, CONF);
     switch (biton32(computed)) {
-    case NUM:
+    case L_NUM:
         set_led(1,1);
         set_led(2,0);
         break;
-    case FUNC:
+    case GAME:
         set_led(1,0);
         set_led(2,1);
         break;
