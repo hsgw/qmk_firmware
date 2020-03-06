@@ -19,5 +19,3 @@
 // place overrides here
 #define TAPPING_TERM 150
 #define TAPPING_TOGGLE 2
-
-#define RETRO_TAPPING

@@ -1,9 +1,5 @@
 # project specific files
-<<<<<<< HEAD
-SRC += leds.c
-=======
-SRC += leds.c eeprom_stm32_emu.c
->>>>>>> add custom eeprom emulation code
+SRC += leds.c eeprom_stm32.c flash_stm32.c
 
 ## chip/board settings
 # the next two should match the directories in
