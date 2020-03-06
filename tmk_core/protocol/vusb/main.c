@@ -13,7 +13,6 @@
 #include <avr/sleep.h>
 #include <util/delay.h>
 #include "usbdrv.h"
-#include "oddebug.h"
 #include "vusb.h"
 #include "keyboard.h"
 #include "host.h"
@@ -99,7 +98,16 @@ int main(void) {
             if (usbConfiguration && usbInterruptIsReady()) {
                 keyboard_task();
             }
+
             vusb_transfer_keyboard();
+
+#ifdef RAW_ENABLE
+            usbPoll();
+
+            if (usbConfiguration && usbInterruptIsReady3()) {
+                raw_hid_task();
+            }
+#endif
         }
     }
 }
