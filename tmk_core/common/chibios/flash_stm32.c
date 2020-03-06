@@ -22,7 +22,7 @@
 #elif defined(EEPROM_EMU_STM32F103xB)
 #    define STM32F103xB
 #    include "stm32f1xx.h"
-#elif defined(EEPROM_EMU_STM32F072xB)
+#elif defined(EEPROM_EMU_STM32F072xB) || defined(EEPROM_EMU_STM32F072x8)
 #    define STM32F072xB
 #    include "stm32f0xx.h"
 #else
@@ -31,7 +31,7 @@
 
 #include "flash_stm32.h"
 
-#if defined(EEPROM_EMU_STM32F103xB)
+#if defined(EEPROM_EMU_STM32F103xB) || defined(EEPROM_EMU_STM32F072x8)
 #    define FLASH_SR_WRPERR FLASH_SR_WRPRTERR
 #endif
 
