@@ -1,5 +1,5 @@
 # project specific files
-SRC = leds.c
+SRC += leds.c eeprom_stm32_emu.c
 
 ## chip/board settings
 # the next two should match the directories in
@@ -45,5 +45,8 @@ CONSOLE_ENABLE = no	# Console for debug
 COMMAND_ENABLE = no    # Commands for debug and configuration
 SLEEP_LED_ENABLE = no  # Breathing sleep LED during USB suspend
 NKRO_ENABLE = yes	    # USB Nkey Rollover
+
+# EEPROM Driver
+EEPROM_DRIVER = custom
 
 DEFAULT_FOLDER = lain/
