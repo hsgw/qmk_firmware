@@ -1,5 +1,5 @@
 # project specific files
-SRC += leds.c eeprom_stm32_emu.c
+SRC += leds.c eeprom_stm32.c flash_stm32.c
 
 ## chip/board settings
 # the next two should match the directories in
