@@ -12,7 +12,7 @@ MCU = atmega328p
 BOOTLOADER = USBasp
 
 # disable debug code
-OPT_DEFS = -DDEBUG_LEVEL=0
+OPT_DEFS = -DDEBUG_LEVEL=2
 
 # Build Options
 #   change yes to no to disable

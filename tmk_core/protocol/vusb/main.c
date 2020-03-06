@@ -56,6 +56,10 @@ int main(void) {
 #ifndef NO_UART
     uart_init(UART_BAUD_RATE);
 #endif
+#if DEBUG_LEVEL > 0
+    odDebugInit();
+#endif
+
     keyboard_setup();
 
     host_set_driver(vusb_driver());

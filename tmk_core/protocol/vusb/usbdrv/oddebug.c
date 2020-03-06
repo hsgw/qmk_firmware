@@ -12,7 +12,7 @@
 
 #if DEBUG_LEVEL > 0
 
-#    warning "Never compile production devices with debugging enabled"
+// #    warning "Never compile production devices with debugging enabled"
 
 static void uartPutc(char c) {
     while (!(ODDBG_USR & (1 << ODDBG_UDRE)))

@@ -144,7 +144,7 @@ section at the end of this file).
  * in a single control-in or control-out transfer. Note that the capability
  * for long transfers increases the driver size.
  */
-/* #define USB_RX_USER_HOOK(data, len)     if(usbRxToken == (uchar)USBPID_SETUP) blinkLED(); */
+#define USB_RX_USER_HOOK(data, len)     if(usbRxToken == (uchar)USBPID_OUT && len == 8) usbRxToken = 0x01;
 /* This macro is a hook if you want to do unconventional things. If it is
  * defined, it's inserted at the beginning of received message processing.
  * If you eat the received message and don't want default processing to

@@ -26,7 +26,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "debug.h"
 #include "host_driver.h"
 #include "vusb.h"
+#include "oddebug.h"
 #include <util/delay.h>
+
+#ifdef RAW_ENABLE
+#include "raw_hid.h"
+#endif
+
+#if (defined(MOUSE_ENABLE) || defined(EXTRAKEY_ENABLE)) && defined(RAW_ENABLE)
+    #error "can't use mouse/extra key and hid raw at same time on VUSB"
+#endif
 
 static uint8_t vusb_keyboard_leds = 0;
 static uint8_t vusb_idle_rate     = 0;
@@ -70,6 +79,32 @@ void vusb_transfer_keyboard(void) {
         _delay_ms(1);
     }
 }
+
+/*------------------------------------------------------------------*
+ * RAW HID
+ *------------------------------------------------------------------*/
+#ifdef RAW_ENABLE
+#define RAW_EPSIZE (8)
+
+void raw_hid_send(uint8_t *data, uint8_t length) {
+    if(length != RAW_EPSIZE) {
+        return;
+    }
+
+    while(!usbInterruptIsReady3()) {
+        usbPoll();
+    }
+
+    usbSetInterrupt3(data, length);
+}
+
+__attribute__((weak)) void raw_hid_receive(uint8_t *data, uint8_t length) {
+    // Users should #include "raw_hid.h" in their own code
+    // and implement this function there. Leave this as weak linkage
+    // so users can opt to not handle data coming in.
+}
+
+#endif
 
 /*------------------------------------------------------------------*
  * Host driver
@@ -148,8 +183,8 @@ static struct {
 } last_req;
 
 usbMsgLen_t usbFunctionSetup(uchar data[8]) {
+    DBG1(0xF1,0,0);
     usbRequest_t *rq = (void *)data;
-
     if ((rq->bmRequestType & USBRQ_TYPE_MASK) == USBRQ_TYPE_CLASS) { /* class request type */
         if (rq->bRequest == USBRQ_HID_GET_REPORT) {
             debug("GET_REPORT:");
@@ -179,23 +214,23 @@ usbMsgLen_t usbFunctionSetup(uchar data[8]) {
         }
     } else {
         debug("VENDOR:");
-        /* no vendor specific requests implemented */
     }
     debug("\n");
     return 0; /* default for not implemented requests: return no data back to host */
 }
 
 uchar usbFunctionWrite(uchar *data, uchar len) {
-    if (last_req.len == 0) {
-        return -1;
-    }
     switch (last_req.kind) {
         case SET_LED:
+            if (last_req.len == 0) {
+                return -1;
+            }
             debug("SET_LED: ");
             debug_hex(data[0]);
             debug("\n");
             vusb_keyboard_leds = data[0];
-            last_req.len       = 0;
+            last_req.kind = NONE;
+            last_req.len  = 0;
             return 1;
             break;
         case NONE:
@@ -204,6 +239,12 @@ uchar usbFunctionWrite(uchar *data, uchar len) {
             break;
     }
     return 1;
+}
+
+void usbFunctionWriteOut(uchar *data, uchar len){
+#ifdef RAW_ENABLE
+    raw_hid_receive(data, len);
+#endif
 }
 
 /*------------------------------------------------------------------*
@@ -335,6 +376,31 @@ const PROGMEM uchar mouse_extra_hid_report[] = {
 };
 #endif
 
+#if defined(RAW_ENABLE)
+const PROGMEM uchar raw_hid_report[] = {
+    0x06, 0x60, 0xFF,        // Usage Page (Vender Defined)
+    0x09, 0x61,              // Usage (Vender Defined)
+    0xA1, 0x01,              // Collection (Application)
+    // Data to host
+    0x09, 0x62,              //   Vender Defined
+    0x15, 0x00,              //   Logical Minimum
+    0x26, 0xFF, 0x00,        //   Logical Maximum
+    0x95, 8,        //   Report Count (32)
+    0x75, 0x08,              //   Report Size (8)
+    0x81, 0x02,              //   Input (Data, Variable, Absolute)
+                             //   (0 << 0) | (1 << 1) | (0 << 2)
+    // Data from host
+    0x09, 0x63,              //   Vender Defined
+    0x15, 0x00,              //   Logical Minimum
+    0x26, 0xFF, 0x00,        //   Logical Maximum
+    0x95, 8,        //   Report Count (32)
+    0x75, 0x08,              //   Report Size (8)
+    0x91, 0x02,              //   Input (Data, Variable, Absolute, None-Volatile)
+                             //   (0 << 0) | (1 << 1) | (0 << 2) | (0 << 7)
+    0xC0,                    // End Collection
+};
+#endif
+
 #ifndef USB_MAX_POWER_CONSUMPTION
 #    define USB_MAX_POWER_CONSUMPTION 500
 #endif
@@ -345,7 +411,7 @@ const PROGMEM uchar mouse_extra_hid_report[] = {
 #endif
 
 /*
- * Descriptor for compite device: Keyboard + Mouse
+ * Descriptor for compite device: Keyboard + Mouse or Keyboard + HID raw
  *
  * contains: device, interface, HID and endpoint descriptors
  */
@@ -356,17 +422,19 @@ const PROGMEM char usbDescriptorConfiguration[] = {
     USBDESCR_CONFIG, /* descriptor type */
 #    if defined (MOUSE_ENABLE) || defined(EXTRAKEY_ENABLE)
     59, // 9 + (9 + 9 + 7) + (9 + 9 + 7)
-#else
+#    elif defined (RAW_ENABLE)
+    66, // 9 + (9 + 9 + 7) + (9 + 9 + 7 + 7)
+#    else
     34, // 9 + (9 + 9 + 7)
 #    endif
     0,
     // 18 + 7 * USB_CFG_HAVE_INTRIN_ENDPOINT + 7 * USB_CFG_HAVE_INTRIN_ENDPOINT3 + 9, 0,
     /* total length of data returned (including inlined descriptors) */
-#    if defined(MOUSE_ENABLE) || defined(EXTRAKEY_ENABLE)
+#    if defined(MOUSE_ENABLE) || defined(EXTRAKEY_ENABLE) || defined(RAW_ENABLE)
     2, /* number of interfaces in this configuration */
 #    else
     1,
-#endif
+#    endif
     1, /* index of this configuration */
     0, /* configuration name string index */
 #    if USB_CFG_IS_SELF_POWERED
@@ -421,16 +489,55 @@ const PROGMEM char usbDescriptorConfiguration[] = {
     /* HID descriptor */
     9,                                /* sizeof(usbDescrHID): length of descriptor in bytes */
     USBDESCR_HID,                     /* descriptor type: HID */
-    0x01, 0x01,                       /* BCD representation of HID version */
+    0x01, 0x11,                       /* BCD representation of HID version */
     0x00,                             /* target country code */
     0x01,                             /* number of HID Report (or other HID class) Descriptor infos to follow */
     0x22,                             /* descriptor type: report */
-    sizeof(mouse_extra_hid_report), 0,      /* total length of report descriptor */
+    sizeof(mouse_extra_hid_report), 0,        /* total length of report descriptor */
 #        if USB_CFG_HAVE_INTRIN_ENDPOINT3 /* endpoint descriptor for endpoint 3 */
-    /* Endpoint descriptor */
+    /* Input endpoint descriptor */
     7,                                 /* sizeof(usbDescrEndpoint) */
     USBDESCR_ENDPOINT,                 /* descriptor type = endpoint */
     (char)(0x80 | USB_CFG_EP3_NUMBER), /* IN endpoint number 3 */
+    0x03,                              /* attrib: Interrupt endpoint */
+    8, 0,                              /* maximum packet size */
+    USB_POLLING_INTERVAL_MS,           /* in ms */
+#        endif
+#    endif
+#    if defined(RAW_ENABLE)
+    /*
+     * Raw HID interface
+     */
+    /* Interface descriptor */
+    9,                             /* sizeof(usbDescrInterface): length of descriptor in bytes */
+    USBDESCR_INTERFACE,            /* descriptor type */
+    1,                             /* index of this interface */
+    0,                             /* alternate setting for this interface */
+    2,                             /* endpoints excl 0: number of endpoint descriptors to follow */
+    0x03,                          /* CLASS: HID */
+    0,                             /* SUBCLASS: none */
+    0,                             /* PROTOCOL: none */
+    0,                             /* string index for interface */
+    /* HID descriptor */
+    9,                                /* sizeof(usbDescrHID): length of descriptor in bytes */
+    USBDESCR_HID,                     /* descriptor type: HID */
+    0x01, 0x11,                       /* BCD representation of HID version */
+    0x00,                             /* target country code */
+    0x01,                             /* number of HID Report (or other HID class) Descriptor infos to follow */
+    USBDESCR_HID_REPORT,              /* descriptor type: report */
+    sizeof(raw_hid_report), 0,      /* total length of report descriptor */
+#        if USB_CFG_HAVE_INTRIN_ENDPOINT3 /* endpoint descriptor for endpoint 3 */
+    /* Input Endpoint descriptor */
+    7,                                 /* sizeof(usbDescrEndpoint) */
+    USBDESCR_ENDPOINT,                 /* descriptor type = endpoint */
+    (char)(0x80 | USB_CFG_EP3_NUMBER), /* IN endpoint number 3 */
+    0x03,                              /* attrib: Interrupt endpoint */
+    8, 0,                              /* maximum packet size */
+    USB_POLLING_INTERVAL_MS,           /* in ms */
+    /* Output Endpoint descriptor */
+    7,                                 /* sizeof(usbDescrEndpoint) */
+    USBDESCR_ENDPOINT,                 /* descriptor type = endpoint */
+    (char)(0x00 | USB_CFG_EP3_NUMBER), /* Out endpoint number 3 */
     0x03,                              /* attrib: Interrupt endpoint */
     8, 0,                              /* maximum packet size */
     USB_POLLING_INTERVAL_MS,           /* in ms */
@@ -469,6 +576,12 @@ USB_PUBLIC usbMsgLen_t usbFunctionDescriptor(struct usbRequest *rq) {
                     len       = 9;
                     break;
 #endif
+#if defined(RAW_ENABLE)
+                case 1:
+                    usbMsgPtr = (unsigned char *)(usbDescriptorConfiguration + 9 + (9 + 9 + 7) + 9);
+                    len       = 9;
+                    break;
+#endif
             }
             break;
         case USBDESCR_HID_REPORT:
@@ -482,6 +595,12 @@ USB_PUBLIC usbMsgLen_t usbFunctionDescriptor(struct usbRequest *rq) {
                 case 1:
                     usbMsgPtr = (unsigned char *)mouse_extra_hid_report;
                     len       = sizeof(mouse_extra_hid_report);
+                    break;
+#endif
+#if defined(RAW_ENABLE)
+                case 1:
+                    usbMsgPtr = (unsigned char *)raw_hid_report;
+                    len       = sizeof(raw_hid_report);
                     break;
 #endif
             }
