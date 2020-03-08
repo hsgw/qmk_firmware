@@ -123,7 +123,7 @@ section at the end of this file).
  * data from a static buffer, set it to 0 and return the data from
  * usbFunctionSetup(). This saves a couple of bytes.
  */
-#define USB_CFG_IMPLEMENT_FN_WRITEOUT   0
+#define USB_CFG_IMPLEMENT_FN_WRITEOUT   1
 /* Define this to 1 if you want to use interrupt-out (or bulk out) endpoints.
  * You must implement the function usbFunctionWriteOut() which receives all
  * interrupt/bulk data sent to any endpoint other than 0. The endpoint number
@@ -144,7 +144,7 @@ section at the end of this file).
  * in a single control-in or control-out transfer. Note that the capability
  * for long transfers increases the driver size.
  */
-#define USB_RX_USER_HOOK(data, len)     if(usbRxToken == (uchar)USBPID_OUT && len == 8) usbRxToken = 0x01;
+// #define USB_RX_USER_HOOK(data, len)     if(usbRxToken == (uchar)USBPID_OUT && len == 8) usbRxToken = 0x01;
 /* This macro is a hook if you want to do unconventional things. If it is
  * defined, it's inserted at the beginning of received message processing.
  * If you eat the received message and don't want default processing to
