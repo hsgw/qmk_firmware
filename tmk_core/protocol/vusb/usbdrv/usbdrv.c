@@ -435,7 +435,6 @@ static inline void usbProcessRx(uchar *data, uchar len) {
     DBG2(0x10 + (usbRxToken & 0xf), &usbRxToken, 1);
     USB_RX_USER_HOOK(data, len)
 #if USB_CFG_IMPLEMENT_FN_WRITEOUT
-    DBG2(0xF0 + (usbRxToken & 0xf), 0, 0);
     if (usbRxToken < 0x10) { /* OUT to endpoint != 0: endpoint number in usbRxToken */
         usbFunctionWriteOut(data, len);
         return;

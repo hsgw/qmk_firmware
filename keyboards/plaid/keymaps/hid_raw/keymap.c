@@ -419,7 +419,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 void raw_hid_receive(uint8_t *data, uint8_t length) {
-    tap_code(KC_0);
     for(int i=0; i<8;i++) {
         rawdata[i] = data[i];
     }

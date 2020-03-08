@@ -241,7 +241,7 @@ uchar usbFunctionWrite(uchar *data, uchar len) {
     return 1;
 }
 
-void usbFunctionWriteOut(uchar *data, uchar len){
+void    usbFunctionWriteOut(uchar *data, uchar len){
 #ifdef RAW_ENABLE
     raw_hid_receive(data, len);
 #endif
