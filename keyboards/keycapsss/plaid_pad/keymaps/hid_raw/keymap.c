@@ -1,7 +1,7 @@
 #include QMK_KEYBOARD_H
 #include "raw_hid.h"
 
-static uint8_t rawdata[8];
+static uint8_t rawdata[32];
 
 enum custom_keycodes {
   HID_S = SAFE_RANGE
@@ -37,7 +37,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
     case HID_S:
         if (record->event.pressed) {
-            raw_hid_send(rawdata, 8);
+            raw_hid_send(rawdata, 32);
         }
         return false;
         break;
@@ -64,7 +64,7 @@ void encoder_update_user(uint8_t index, bool clockwise) {
 }
 
 void raw_hid_receive(uint8_t *data, uint8_t length) {
-    for(int i=0; i<8;i++) {
+    for(int i=0; i<32;i++) {
         rawdata[i] = data[i];
     }
 }

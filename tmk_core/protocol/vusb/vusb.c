@@ -20,6 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <stdint.h>
 #include "usbdrv.h"
 #include "usbconfig.h"
+#include "oddebug.h"
 #include "host.h"
 #include "report.h"
 #include "print.h"
@@ -83,7 +84,7 @@ void vusb_transfer_keyboard(void) {
  * RAW HID
  *------------------------------------------------------------------*/
 #ifdef RAW_ENABLE
-#    define RAW_INPUT_SIZE (8)
+#    define RAW_INPUT_SIZE (32)
 #    define RAW_OUTPUT_SIZE (32)
 
 static uint8_t raw_output_buffer[RAW_OUTPUT_SIZE];
@@ -94,11 +95,15 @@ void raw_hid_send(uint8_t *data, uint8_t length) {
         return;
     }
 
-    while (!usbInterruptIsReady3()) {
-        usbPoll();
+    uint8_t* temp = data;
+    for(uint8_t i=0; i<4; i++) {
+        while (!usbInterruptIsReady3()) {
+            usbPoll();
+        }
+        usbSetInterrupt3(temp, 8);
+        temp += 8;
     }
-
-    usbSetInterrupt3(data, length);
+    usbSetInterrupt3(0,0);
 }
 
 __attribute__((weak)) void raw_hid_receive(uint8_t *data, uint8_t length) {
@@ -432,7 +437,7 @@ const PROGMEM uchar raw_hid_report[] = {
 
 // TODO: change this to 10ms to match LUFA
 #ifndef USB_POLLING_INTERVAL_MS
-#    define USB_POLLING_INTERVAL_MS 10
+#    define USB_POLLING_INTERVAL_MS 1
 #endif
 
 /*

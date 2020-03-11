@@ -304,7 +304,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     case HID_S:
         if (record->event.pressed) {
-            raw_hid_send(rawdata, 8);
+            raw_hid_send(rawdata, 32);
         }
         return false;
         break;
