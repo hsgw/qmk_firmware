@@ -276,7 +276,7 @@ void usbFunctionWriteOut(uchar *data, uchar len) {
         for (uint8_t i = 0; i < 8; i++) {
             raw_output_buffer[raw_output_recieved_bytes + i] = data[i];
         }
-        raw_output_recieved_bytes += len;
+        raw_output_recieved_bytes += 8;
     }
 #endif
 }
@@ -523,7 +523,7 @@ const PROGMEM char usbDescriptorConfiguration[] = {
     /* HID descriptor */
     9,                                    /* sizeof(usbDescrHID): length of descriptor in bytes */
     USBDESCR_HID,                         /* descriptor type: HID */
-    0x01, 0x11,                           /* BCD representation of HID version */
+    0x01, 0x01,                           /* BCD representation of HID version */
     0x00,                                 /* target country code */
     0x01,                                 /* number of HID Report (or other HID class) Descriptor infos to follow */
     0x22,                                 /* descriptor type: report */
@@ -555,7 +555,7 @@ const PROGMEM char usbDescriptorConfiguration[] = {
     /* HID descriptor */
     9,                                    /* sizeof(usbDescrHID): length of descriptor in bytes */
     USBDESCR_HID,                         /* descriptor type: HID */
-    0x01, 0x11,                           /* BCD representation of HID version */
+    0x01, 0x01,                           /* BCD representation of HID version */
     0x00,                                 /* target country code */
     0x01,                                 /* number of HID Report (or other HID class) Descriptor infos to follow */
     USBDESCR_HID_REPORT,                  /* descriptor type: report */
