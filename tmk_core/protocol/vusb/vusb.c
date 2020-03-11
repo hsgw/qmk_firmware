@@ -20,7 +20,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <stdint.h>
 #include "usbdrv.h"
 #include "usbconfig.h"
-#include "oddebug.h"
 #include "host.h"
 #include "report.h"
 #include "print.h"
