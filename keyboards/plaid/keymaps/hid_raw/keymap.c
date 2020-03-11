@@ -289,7 +289,7 @@ void led_keypress_update(uint8_t led, uint8_t led_mode, uint16_t keycode, keyrec
     }
 }
 
-static uint8_t rawdata[8];
+static uint8_t rawdata[32];
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   /* If the either led mode is keypressed based, call the led updater
@@ -303,7 +303,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   }
   switch (keycode) {
     case HID_S:
-        raw_hid_send(rawdata, 8);
+        if (record->event.pressed) {
+            raw_hid_send(rawdata, 8);
+        }
         return false;
         break;
     case QWERTY:
@@ -419,7 +421,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 void raw_hid_receive(uint8_t *data, uint8_t length) {
-    for(int i=0; i<8;i++) {
+    for(int i=0; i<32;i++) {
         rawdata[i] = data[i];
     }
 }
