@@ -95,15 +95,20 @@ void raw_hid_send(uint8_t *data, uint8_t length) {
         return;
     }
 
-    uint8_t* temp = data;
-    for(uint8_t i=0; i<4; i++) {
+    uint8_t *temp = data;
+    for (uint8_t i = 0; i < 4; i++) {
         while (!usbInterruptIsReady3()) {
             usbPoll();
         }
         usbSetInterrupt3(temp, 8);
         temp += 8;
     }
-    usbSetInterrupt3(0,0);
+    while (!usbInterruptIsReady3()) {
+        usbPoll();
+    }
+    usbSetInterrupt3(0, 0);
+    usbPoll();
+    _delay_ms(1);
 }
 
 __attribute__((weak)) void raw_hid_receive(uint8_t *data, uint8_t length) {
