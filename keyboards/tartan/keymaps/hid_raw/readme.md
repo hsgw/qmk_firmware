@@ -1,1 +1,1 @@
-# The default keymap for Tartan
+# raw hid test keymap for Tartan
