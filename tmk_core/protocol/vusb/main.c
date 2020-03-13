@@ -6,6 +6,10 @@
  * Copyright: (c) 2008 by OBJECTIVE DEVELOPMENT Software GmbH
  * License: GNU GPL v2 (see License.txt), GNU GPL v3 or proprietary (CommercialLicense.txt)
  * This Revision: $Id: main.c 790 2010-05-30 21:00:26Z cs $
+ *
+ * Modify for QMK firmware
+ * Copyright 2020 Yiancar
+ * Copyright 2020 Takuya Urakawa (dm9records.com)
  */
 #include <stdint.h>
 #include <avr/interrupt.h>
@@ -13,14 +17,12 @@
 #include <avr/sleep.h>
 #include <util/delay.h>
 #include "usbdrv.h"
-#include "oddebug.h"
 #include "vusb.h"
 #include "keyboard.h"
 #include "host.h"
 #include "timer.h"
 #include "uart.h"
 #include "debug.h"
-#include "rgblight_reconfig.h"
 
 #if (defined(RGB_MIDI) || defined(RGBLIGHT_ANIMATIONS)) && defined(RGBLIGHT_ENABLE)
 #    include "rgblight.h"
@@ -57,10 +59,6 @@ int main(void) {
 #ifndef NO_UART
     uart_init(UART_BAUD_RATE);
 #endif
-#if DEBUG_LEVEL > 0
-    odDebugInit();
-#endif
-
     keyboard_setup();
 
     host_set_driver(vusb_driver());
