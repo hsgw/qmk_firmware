@@ -6,6 +6,10 @@
  * Copyright: (c) 2008 by OBJECTIVE DEVELOPMENT Software GmbH
  * License: GNU GPL v2 (see License.txt), GNU GPL v3 or proprietary (CommercialLicense.txt)
  * This Revision: $Id: main.c 790 2010-05-30 21:00:26Z cs $
+ *
+ * Modify for QMK firmware
+ * Copyright 2020 Yiancar
+ * Copyright 2020 Takuya Urakawa (dm9records.com)
  */
 #include <stdint.h>
 #include <avr/interrupt.h>
@@ -13,7 +17,6 @@
 #include <avr/sleep.h>
 #include <util/delay.h>
 #include "usbdrv.h"
-#include "oddebug.h"
 #include "vusb.h"
 #include "keyboard.h"
 #include "host.h"
@@ -21,20 +24,20 @@
 #include "uart.h"
 #include "debug.h"
 
-#if defined(RGBLIGHT_ENABLE)
+#if (defined(RGB_MIDI) || defined(RGBLIGHT_ANIMATIONS)) && defined(RGBLIGHT_ENABLE)
 #    include "rgblight.h"
 #endif
 
 #define UART_BAUD_RATE 115200
 
-/* This is from main.c of USBaspLoader */
+// This is from main.c of USBaspLoader
 static void initForUsbConnectivity(void) {
     uint8_t i = 0;
 
     usbInit();
-    /* enforce USB re-enumerate: */
-    usbDeviceDisconnect(); /* do this while interrupts are disabled */
-    while (--i) {          /* fake USB disconnect for > 250 ms */
+    // enforce USB re-enumerate:
+    usbDeviceDisconnect(); // do this while interrupts are disabled
+    while (--i) {          // fake USB disconnect for > 250 ms
         wdt_reset();
         _delay_ms(1);
     }
