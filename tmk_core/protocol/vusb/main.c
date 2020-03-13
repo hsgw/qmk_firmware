@@ -13,27 +13,29 @@
 #include <avr/sleep.h>
 #include <util/delay.h>
 #include "usbdrv.h"
+#include "oddebug.h"
 #include "vusb.h"
 #include "keyboard.h"
 #include "host.h"
 #include "timer.h"
 #include "uart.h"
 #include "debug.h"
+#include "rgblight_reconfig.h"
 
-#if defined(RGBLIGHT_ENABLE)
+#if (defined(RGB_MIDI) || defined(RGBLIGHT_ANIMATIONS)) && defined(RGBLIGHT_ENABLE)
 #    include "rgblight.h"
 #endif
 
 #define UART_BAUD_RATE 115200
 
-/* This is from main.c of USBaspLoader */
+// This is from main.c of USBaspLoader
 static void initForUsbConnectivity(void) {
     uint8_t i = 0;
 
     usbInit();
-    /* enforce USB re-enumerate: */
-    usbDeviceDisconnect(); /* do this while interrupts are disabled */
-    while (--i) {          /* fake USB disconnect for > 250 ms */
+    // enforce USB re-enumerate:
+    usbDeviceDisconnect(); // do this while interrupts are disabled
+    while (--i) {          // fake USB disconnect for > 250 ms
         wdt_reset();
         _delay_ms(1);
     }
@@ -55,6 +57,10 @@ int main(void) {
 #ifndef NO_UART
     uart_init(UART_BAUD_RATE);
 #endif
+#if DEBUG_LEVEL > 0
+    odDebugInit();
+#endif
+
     keyboard_setup();
 
     host_set_driver(vusb_driver());
