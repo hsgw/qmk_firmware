@@ -129,8 +129,13 @@ void transport_slave_init(void) { i2c_slave_init(SLAVE_I2C_ADDRESS); }
 #    include "serial.h"
 
 typedef struct _Serial_s2m_buffer_t {
-    // TODO: if MATRIX_COLS > 8 change to uint8_t packed_matrix[] for pack/unpack
+#    if (MATRIX_COLS <= 8)
     matrix_row_t smatrix[ROWS_PER_HAND];
+#    elif (MATRIX_COLS <= 16)
+    uint8_t smatrix[ROWS_PER_HAND * 2];
+#    elif (MATRIX_COLS <= 32)
+    uint8_t smatrix[ROWS_PER_HAND * 4];
+#    endif
 
 #    ifdef ENCODER_ENABLE
     uint8_t      encoder_state[NUMBER_OF_ENCODERS];
@@ -233,9 +238,15 @@ bool transport_master(matrix_row_t matrix[]) {
     }
 #    endif
 
-    // TODO:  if MATRIX_COLS > 8 change to unpack()
+    // unpack recieved data
     for (int i = 0; i < ROWS_PER_HAND; ++i) {
+#    if (MATRIX_COLS <= 8)
         matrix[i] = serial_s2m_buffer.smatrix[i];
+#    elif (MATRIX_COLS <= 16)
+        matrix[i] = (serial_s2m_buffer.smatrix[i * 2 + 1] << 8) + serial_s2m_buffer.smatrix[i * 2];
+#    elif (MATRIX_COLS <= 32)
+        matrix[i] = (serial_s2m_buffer.smatrix[i * 4 + 3] << 24) + (serial_s2m_buffer.smatrix[i * 4 + 2] << 16) + (serial_s2m_buffer.smatrix[i * 4 + 1] << 16) + (serial_s2m_buffer.smatrix[i * 4]);
+#    endif
     }
 
 #    ifdef BACKLIGHT_ENABLE
@@ -256,10 +267,22 @@ bool transport_master(matrix_row_t matrix[]) {
 
 void transport_slave(matrix_row_t matrix[]) {
     transport_rgblight_slave();
-    // TODO: if MATRIX_COLS > 8 change to pack()
+
+    // pack recieved data
     for (int i = 0; i < ROWS_PER_HAND; ++i) {
+#    if (MATRIX_COLS <= 8)
         serial_s2m_buffer.smatrix[i] = matrix[i];
+#    elif (MATRIX_COLS <= 16)
+        serial_s2m_buffer.smatrix[i * 2]     = (uint8_t)(matrix[i] & 0xFF);
+        serial_s2m_buffer.smatrix[i * 2 + 1] = (uint8_t)(matrix[i] >> 8);
+#    elif (MATRIX_COLS <= 32)
+        serial_s2m_buffer.smatrix[i * 4]     = (uint8_t)(matrix[i] & 0xFF);
+        serial_s2m_buffer.smatrix[i * 4 + 1] = (uint8_t)((matrix[i] >> 8) & 0xFF);
+        serial_s2m_buffer.smatrix[i * 4 + 2] = (uint8_t)((matrix[i] >> 16) & 0xFF);
+        serial_s2m_buffer.smatrix[i * 4 + 3] = (uint8_t)((matrix[i] >> 24) & 0xFF);
+#    endif
     }
+
 #    ifdef BACKLIGHT_ENABLE
     backlight_set(serial_m2s_buffer.backlight_level);
 #    endif
