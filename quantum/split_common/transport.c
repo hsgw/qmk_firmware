@@ -131,10 +131,8 @@ void transport_slave_init(void) { i2c_slave_init(SLAVE_I2C_ADDRESS); }
 typedef struct _Serial_s2m_buffer_t {
 #    if (MATRIX_COLS <= 8)
     matrix_row_t smatrix[ROWS_PER_HAND];
-#    elif (MATRIX_COLS <= 16)
-    uint8_t smatrix[ROWS_PER_HAND * 2];
-#    elif (MATRIX_COLS <= 32)
-    uint8_t smatrix[ROWS_PER_HAND * 4];
+#    else
+    uint8_t smatrix[ROWS_PER_HAND * sizeof(matrix_row_t)];
 #    endif
 
 #    ifdef ENCODER_ENABLE
@@ -242,10 +240,8 @@ bool transport_master(matrix_row_t matrix[]) {
     for (int i = 0; i < ROWS_PER_HAND; ++i) {
 #    if (MATRIX_COLS <= 8)
         matrix[i] = serial_s2m_buffer.smatrix[i];
-#    elif (MATRIX_COLS <= 16)
-        matrix[i] = (serial_s2m_buffer.smatrix[i * 2 + 1] << 8) + serial_s2m_buffer.smatrix[i * 2];
-#    elif (MATRIX_COLS <= 32)
-        matrix[i] = (serial_s2m_buffer.smatrix[i * 4 + 3] << 24) + (serial_s2m_buffer.smatrix[i * 4 + 2] << 16) + (serial_s2m_buffer.smatrix[i * 4 + 1] << 16) + (serial_s2m_buffer.smatrix[i * 4]);
+#    else
+        matrix[i] = *(((matrix_row_t *) serial_s2m_buffer.smatrix) + i);
 #    endif
     }
 
@@ -272,14 +268,8 @@ void transport_slave(matrix_row_t matrix[]) {
     for (int i = 0; i < ROWS_PER_HAND; ++i) {
 #    if (MATRIX_COLS <= 8)
         serial_s2m_buffer.smatrix[i] = matrix[i];
-#    elif (MATRIX_COLS <= 16)
-        serial_s2m_buffer.smatrix[i * 2]     = (uint8_t)(matrix[i] & 0xFF);
-        serial_s2m_buffer.smatrix[i * 2 + 1] = (uint8_t)(matrix[i] >> 8);
-#    elif (MATRIX_COLS <= 32)
-        serial_s2m_buffer.smatrix[i * 4]     = (uint8_t)(matrix[i] & 0xFF);
-        serial_s2m_buffer.smatrix[i * 4 + 1] = (uint8_t)((matrix[i] >> 8) & 0xFF);
-        serial_s2m_buffer.smatrix[i * 4 + 2] = (uint8_t)((matrix[i] >> 16) & 0xFF);
-        serial_s2m_buffer.smatrix[i * 4 + 3] = (uint8_t)((matrix[i] >> 24) & 0xFF);
+#    else
+        *(((matrix_row_t *)serial_s2m_buffer.smatrix) + i) = matrix[i];
 #    endif
     }
 
