@@ -1,11 +1,11 @@
-# JIS_SPLIT_TKL
+# J⚡S Split TKL
 
 ![JIS_SPLIT_TKL](imgur.com image replace me!)
 
-A short description of the keyboard/project
+⚡JIS layout split keyboard⚡
 
 * Keyboard Maintainer: [Takuya Urakawa(Dm9 Records)](https://github.com/hsgw)
-* Hardware Supported: The PCBs, controllers supported
+* Hardware Supported: Pro micro compatible
 * Hardware Availability: Links to where you can find this hardware
 
 Make example for this keyboard (after setting up your build environment):
