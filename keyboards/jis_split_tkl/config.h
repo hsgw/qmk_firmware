@@ -24,8 +24,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define PRODUCT_ID 0x0000
 #define DEVICE_VER 0x0001
 #define MANUFACTURER Dm9Records
-#define PRODUCT jis_split
-#define DESCRIPTION A split TKL keyboard for JIS layout
+#define PRODUCT jis_split_tkl
+#define DESCRIPTION A split JIS layout TKL keyboard
 
 /* key matrix size */
 #define MATRIX_ROWS 12
@@ -64,6 +64,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * LED Setting
  */
 #define LED_PINS { D3, D2, D4 }
+#define LED_NUM (3)
 
 // #define BACKLIGHT_PIN B7
 // #define BACKLIGHT_BREATHING

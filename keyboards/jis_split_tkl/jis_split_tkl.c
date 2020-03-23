@@ -14,20 +14,36 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "jis_split.h"
+#include "jis_split_tkl.h"
 
 // Optional override functions below.
 // You can leave any or all of these undefined.
 // These are only required if you want to perform custom actions.
 
-/*
 void matrix_init_kb(void) {
     // put your keyboard start-up code here
     // runs once when the firmware starts up
 
+    // init leds
+    for (uint8_t i = 0; i < LED_NUM; ++i) {
+        setPinOutput(led_pins[i]);
+    }
+
     matrix_init_user();
 }
 
+bool led_update_kb(led_t led_state) {
+    // put your keyboard LED indicator (ex: Caps Lock LED) toggling code here
+    bool ret = led_update_user(led_state);
+    if (ret) {
+        writePin(led_pins[0], led_state.num_lock);
+        writePin(led_pins[1], led_state.caps_lock);
+        writePin(led_pins[2], led_state.scroll_lock);
+    }
+    return ret;
+}
+
+/*
 void matrix_scan_kb(void) {
     // put your looping keyboard code here
     // runs every cycle (a lot)
@@ -40,11 +56,5 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
     // runs for every action, just before processing by the firmware
 
     return process_record_user(keycode, record);
-}
-
-bool led_update_kb(led_t led_state) {
-    // put your keyboard LED indicator (ex: Caps Lock LED) toggling code here
-
-    return led_update_user(led_state);
 }
 */

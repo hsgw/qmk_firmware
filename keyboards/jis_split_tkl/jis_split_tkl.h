@@ -49,3 +49,6 @@
     { k46,   k47,   k48,   k49,   k4a,   k4b,   k4c,   k5d,   KC_NO, KC_NO }, \
     { k56,   k57,   k58,   k59,   k5a,   k5b,   k5c,   k5e,   KC_NO, KC_NO } \
 }
+
+// leds
+static const uint8_t led_pins[LED_NUM] = LED_PINS;
