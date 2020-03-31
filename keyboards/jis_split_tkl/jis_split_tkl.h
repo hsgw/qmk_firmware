@@ -26,6 +26,8 @@
  * The second converts the arguments into a two-dimensional array which
  * represents the switch matrix.
  */
+
+// clang-format off
 #define LAYOUT( \
     k00,      k01, k02, k03, k04,      k05, k06, k07, k08, k09, k0a, k0b, k0c, k0d, k0e, \
     k10, k11, k12, k13, k14, k15,      k16, k17, k18, k19, k1a, k1b, k1c, k1d, k1e, k1f, k1g, \
@@ -49,6 +51,4 @@
     { k46,   k47,   k48,   k49,   k4a,   k4b,   k4c,   k5d,   KC_NO, KC_NO }, \
     { k56,   k57,   k58,   k59,   k5a,   k5b,   k5c,   k5e,   KC_NO, KC_NO } \
 }
-
-// leds
-static const uint8_t led_pins[LED_NUM] = LED_PINS;
+// clang-format on
