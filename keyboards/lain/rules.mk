@@ -1,5 +1,5 @@
 # project specific files
-SRC += leds.c eeprom_stm32.c flash_stm32.c
+SRC += leds.c
 
 ## chip/board settings
 # the next two should match the directories in
@@ -47,6 +47,6 @@ SLEEP_LED_ENABLE = no  # Breathing sleep LED during USB suspend
 NKRO_ENABLE = yes	    # USB Nkey Rollover
 
 # EEPROM Driver
-EEPROM_DRIVER = custom
+# EEPROM_DRIVER = vendor
 
 DEFAULT_FOLDER = lain/
