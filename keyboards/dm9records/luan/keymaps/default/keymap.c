@@ -16,7 +16,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include QMK_KEYBOARD_H
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-  [0] = LAYOUT( /* Base */
-	KC_0, KC_1 \
+  [0] = LAYOUT_SPLIT( /* Base */
+	KC_0, KC_1, KC_2, KC_3\
   ),
+};
+
+void keyboard_post_init_user(void) {
 };
