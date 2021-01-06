@@ -49,4 +49,4 @@ NKRO_ENABLE = yes	    # USB Nkey Rollover
 # EEPROM Driver
 # EEPROM_DRIVER = vendor
 
-DEFAULT_FOLDER = lain/
+DEFAULT_FOLDER = dm9records/lain/
