@@ -47,4 +47,4 @@ SLEEP_LED_ENABLE = no  # Breathing sleep LED during USB suspend
 NKRO_ENABLE = yes	    # USB Nkey Rollover
 CUSTOM_MATRIX = yes
 
-DEFAULT_FOLDER = choco/
+DEFAULT_FOLDER = dm9records/choco/
