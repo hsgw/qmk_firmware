@@ -15,6 +15,7 @@
  */
 
 #include "quantum.h"
+#include "magic.h"
 
 #ifdef BLUETOOTH_ENABLE
 #    include "outputselect.h"
@@ -341,12 +342,7 @@ layer_state_t update_tri_layer_state(layer_state_t state, uint8_t layer1, uint8_
 void update_tri_layer(uint8_t layer1, uint8_t layer2, uint8_t layer3) { layer_state_set(update_tri_layer_state(layer_state, layer1, layer2, layer3)); }
 
 void matrix_init_quantum() {
-#ifdef BOOTMAGIC_LITE
-    bootmagic_lite();
-#endif
-    if (!eeconfig_is_enabled()) {
-        eeconfig_init();
-    }
+    magic();
 #if defined(LED_NUM_LOCK_PIN) || defined(LED_CAPS_LOCK_PIN) || defined(LED_SCROLL_LOCK_PIN) || defined(LED_COMPOSE_PIN) || defined(LED_KANA_PIN)
     // TODO: remove calls to led_init_ports from keyboards and remove ifdef
     led_init_ports();
