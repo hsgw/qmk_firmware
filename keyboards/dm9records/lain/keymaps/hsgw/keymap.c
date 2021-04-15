@@ -17,27 +17,19 @@
 #include "keymap_jp.h"
 #include "leds.h"
 
-#define NUM_SPC LT(NUM,KC_SPC)
-#define S_SPC   LSFT_T(KC_SPC)
-#define CTL_ZH  LCTL_T(JP_ZHTG)
-#define FUNC_BS LT(FUNC,KC_BSPC)
-#define FUNC_ENT LT(FUNC,KC_ENT)
+#define NUM_SPC LT(NUM, KC_SPC)
+#define S_SPC LSFT_T(KC_SPC)
+#define CTL_ZH LCTL_T(JP_ZHTG)
+#define FUNC_BS LT(FUNC, KC_BSPC)
+#define FUNC_ENT LT(FUNC, KC_ENT)
 #define TAB_CTL LCTL_T(KC_TAB)
-#define G2_GUI LT(GAME2,KC_LGUI)
+#define G2_GUI LT(GAME2, KC_LGUI)
 #define WIN_PS LSFT(LGUI(KC_S))
 #define VS_FMT LSFT(LALT(KC_F))
 
-// Defines the keycodes used by our macros in process_record_user
-// enum custom_keycodes {
-//   CUSTOM = SAFE_RANGE
-// };
-
-enum layers {
-    BASE, NUM, FUNC, CONF, GAME, GAME2, L_NUM, XKEY
-};
-
+enum layers { BASE, NUM, FUNC, CONF, GAME, GAME2, L_NUM, XKEY };
+// clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-
     [BASE] = LAYOUT(
         KC_ESC,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    JP_LBRC,   KC_Y,   KC_U,    KC_I,    KC_O,    KC_P,     JP_AT, \
         KC_LCTL, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    JP_RBRC,   KC_H,   KC_J,    KC_K,    KC_L,    JP_SCLN,  JP_COLN,\
@@ -87,45 +79,42 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_0,                         JP_YEN, KC_BSPC, KC_ENT,  TG(XKEY),   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX \
     ),
 };
+// clang-format on
 
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  return true;
-}
+bool process_record_user(uint16_t keycode, keyrecord_t *record) { return true; }
 
-void matrix_init_user(void) {
-}
+void matrix_init_user(void) {}
 
-void matrix_scan_user(void) {
-}
+void matrix_scan_user(void) {}
 
 uint32_t layer_state_set_user(uint32_t state) {
     uint32_t computed = update_tri_layer_state(state, NUM, FUNC, CONF);
     switch (biton32(computed)) {
-    case L_NUM:
-    case XKEY:
-        set_led(1,1);
-        set_led(2,0);
-        break;
-    case GAME:
-        set_led(1,0);
-        set_led(2,1);
-        break;
-    case CONF:
-        set_led(1,1);
-        set_led(2,1);
-        break;
-    default:
-        set_led(1,0);
-        set_led(2,0);
-        break;
+        case L_NUM:
+        case XKEY:
+            set_led(1, 1);
+            set_led(2, 0);
+            break;
+        case GAME:
+            set_led(1, 0);
+            set_led(2, 1);
+            break;
+        case CONF:
+            set_led(1, 1);
+            set_led(2, 1);
+            break;
+        default:
+            set_led(1, 0);
+            set_led(2, 0);
+            break;
     }
-  return computed;
+    return computed;
 }
 
 void led_set_user(uint8_t usb_led) {
     if (IS_LED_ON(usb_led, USB_LED_CAPS_LOCK)) {
-		set_led(0,1);
-	} else {
-		set_led(0,0);
-	}
+        set_led(0, 1);
+    } else {
+        set_led(0, 0);
+    }
 }

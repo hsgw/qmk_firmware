@@ -17,7 +17,7 @@
 #include "leds.h"
 #include "config.h"
 
-static const pin_t leds[LED_NUM] = { LED_PINS };
+static const pin_t leds[LED_NUM] = LED_PINS;
 bool led_states[LED_NUM] = {0};
 bool isLedEnabled = true;
 

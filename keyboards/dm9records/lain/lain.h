@@ -18,5 +18,7 @@
 #include "quantum.h"
 
 #ifdef KEYBOARD_dm9records_lain_alpha
-#include "alpha/alpha.h"
+#    include "alpha/alpha.h"
+#elif KEYBOARD_dm9records_lain_rev1
+#    include "rev1/rev1.h"
 #endif

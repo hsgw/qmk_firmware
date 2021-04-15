@@ -20,12 +20,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "config_common.h"
 
 /* USB Device descriptor parameter */
-#define VENDOR_ID       0xFEED
-#define PRODUCT_ID      0x1998
-#define DEVICE_VER      0x0001
-#define MANUFACTURER    Dm9 Records
-#define PRODUCT         lain
-#define DESCRIPTION     ergonomic 40% keyboard
+#define VENDOR_ID 0xFEED
+#define PRODUCT_ID 0x1998
+#define DEVICE_VER 0x0001
+#define MANUFACTURER Dm9 Records
+#define PRODUCT lain
+#define DESCRIPTION ergonomic 40 % keyboard
 
 #define USB_MAX_POWER_CONSUMPTION 100
 
@@ -35,21 +35,23 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /*
  * Keyboard Matrix Assignments
-*/
+ */
+// clang-format off
 #define DIRECT_PINS {\
     {B14,   D8,     D9, D12,D13,C8, C9,    A15,C10,C11,C12,D0, D1},\
     {B12,   B13,    B15,D10,D11,C6, C7,    D2, D3, D4, D6, B4, B7},\
     {NO_PIN,A5,     A6, A7, C4, C5, B0,    E2, E3, E4, E5, E6,C13},\
     {NO_PIN,NO_PIN, A2, A1, A0, F3, C3,    F1, F0,F10, F9,C15,C14}\
 }
-
+// clang-format on
 // #define DIODE_DIRECTION COL2ROW
 
 /*
  * LED indicator
  */
 #define LED_NUM 3
-#define LED_PINS C2, C1, C0
+#define LED_PINS \
+    { C2, C1, C0 }
 
 /* Debounce reduces chatter (unintended double-presses) - set 0 if debouncing is not needed */
 #define DEBOUNCE 5
