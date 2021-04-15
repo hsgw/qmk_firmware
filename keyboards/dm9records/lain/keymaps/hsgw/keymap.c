@@ -15,7 +15,7 @@
  */
 #include QMK_KEYBOARD_H
 #include "keymap_jp.h"
-#include "../../leds.h"
+#include "leds.h"
 
 #define NUM_SPC LT(NUM,KC_SPC)
 #define S_SPC   LSFT_T(KC_SPC)
