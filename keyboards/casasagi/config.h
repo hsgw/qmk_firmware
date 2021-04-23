@@ -48,7 +48,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     { A15, A4, A3, A2 }
 
 #define MATRIX_COL_PINS \
-    { B2, B1, B0, B8, B5, B4, B6 }
+    { B2, B1, B0, B8, B5, B4, B3 }
 
 #define MATRIX_COL_PINS_RIGHT \
     { B2, B1, B0, A7, C13, B9, B8 }
@@ -145,3 +145,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /* Bootmagic Lite key configuration */
 //#define BOOTMAGIC_LITE_ROW 0
 //#define BOOTMAGIC_LITE_COLUMN 0
+
+/* i2c settings */
+#define I2C_DRIVER I2CD2
+#define I2C1_SCL_BANK GPIOB
+#define I2C1_SCL 10
+#define I2C1_SDA_BANK GPIOB
+#define I2C1_SDA 11
+#define I2C1_TIMINGR_PRESC 2U
+#define I2C1_TIMINGR_SCLDEL 1U
+#define I2C1_TIMINGR_SDADEL 0U
+#define I2C1_TIMINGR_SCLH 9U
+#define I2C1_TIMINGR_SCLL 26U
+#define I2C1_SCL_PAL_MODE 1
+#define I2C1_SDA_PAL_MODE 1
+
+#define EEPROM_I2C_24LC64
+#define DEBUG_EEPROM_OUTPUT
