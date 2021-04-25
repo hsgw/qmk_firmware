@@ -19,7 +19,6 @@
 
 void board_init(void) {
     // remap dma channel for SPI2
-    // SYSCFG->CFGR1 |= SYSCFG_CFGR1_SPI2_DMA_RMP;
+    SYSCFG->CFGR1 |= SYSCFG_CFGR1_SPI2_DMA_RMP;
     setPinInputHigh(SPLIT_HAND_PIN);
-    // setPinOutput(A14);
 }
