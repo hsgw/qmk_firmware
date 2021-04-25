@@ -17,12 +17,9 @@
 #include "casasagi.h"
 #include "print.h"
 
-void keyboard_post_init_kb(void) {
-    // Customise these values to desired behaviour
-    debug_enable   = true;
-    debug_matrix   = true;
-    debug_keyboard = true;
-    // debug_mouse=true;
+void board_init(void) {
+    // remap dma channel for SPI2
+    // SYSCFG->CFGR1 |= SYSCFG_CFGR1_SPI2_DMA_RMP;
+    setPinInputHigh(SPLIT_HAND_PIN);
+    // setPinOutput(A14);
 }
-
-void matrix_scan_kb(void) {}
