@@ -81,6 +81,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                     //  5: about 19200 baud
 #define SERIAL_USART_DRIVER SD1     // USART driver of TX pin. default: SD1
 #define SERIAL_USART_TX_PAL_MODE 0  // Pin "alternate function", see the respective datasheet for the appropriate values for your MCU. default: 7
+#define SERIAL_USART_TIMEOUT 10
 
 #define SPLIT_USB_DETECT
 #define SPLIT_HAND_PIN B12
