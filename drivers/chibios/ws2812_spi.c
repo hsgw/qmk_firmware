@@ -107,6 +107,7 @@ void ws2812_setleds(LED_TYPE* ledarray, uint16_t leds) {
 #ifdef WS2812_SPI_SYNC
     spiSend(&WS2812_SPI, sizeof(txbuf) / sizeof(txbuf[0]), txbuf);
 #else
+    spiAbort(&WS2812_SPI);
     spiStartSend(&WS2812_SPI, sizeof(txbuf) / sizeof(txbuf[0]), txbuf);
 #endif
 }
