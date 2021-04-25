@@ -161,4 +161,3 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define I2C1_SDA_PAL_MODE 1
 
 #define EEPROM_I2C_24LC64
-#define DEBUG_EEPROM_OUTPUT
