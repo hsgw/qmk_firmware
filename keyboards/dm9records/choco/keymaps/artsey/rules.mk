@@ -1,6 +1,3 @@
-# project specific files
-SRC = artsey.c macros.c
-
 # Build Options
 #   comment out to disable the options.
 #
@@ -12,4 +9,5 @@ CONSOLE_ENABLE = no	# Console for debug
 COMMAND_ENABLE = no    # Commands for debug and configuration
 SLEEP_LED_ENABLE = no  # Breathing sleep LED during USB suspend
 NKRO_ENABLE = yes	    # USB Nkey Rollover
-CUSTOM_MATRIX = lite
+
+COMBO_ENABLE = yes

@@ -30,11 +30,12 @@ endif
 endif
 
 # Determine which qmk cli to use
-ifeq (,$(shell which qmk))
-    QMK_BIN = bin/qmk
-else
-    QMK_BIN = qmk
-endif
+# ifeq (,$(shell which qmk))
+#     QMK_BIN = bin/qmk
+# else
+#     QMK_BIN = qmk
+# endif
+QMK_BIN = bin/qmk
 
 # avoid 'Entering|Leaving directory' messages
 MAKEFLAGS += --no-print-directory

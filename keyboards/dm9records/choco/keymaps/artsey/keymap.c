@@ -14,46 +14,53 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include QMK_KEYBOARD_H
+#include "artsey.h"
+#include "keymap_combo.h"
+#include "artsey.c"
 
-// Defines the keycodes used by our macros in process_record_user
-enum custom_keycodes {
-  QMKBEST = SAFE_RANGE,
-};
-
+// clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
-  [0] = LAYOUT(
-      KC_1,KC_2,KC_3,KC_4,KC_5,KC_6,KC_7,
-      KC_A,KC_B,KC_C,KC_D,KC_E,KC_F,KC_G,
-      KC_H,KC_I,KC_J,KC_K,KC_L,KC_M,KC_N,
-      KC_O,KC_P,KC_Q,KC_R,KC_S,KC_T,KC_U
-  )
+[_A_BASE] = LAYOUT(
+    KC_NO,A_BASE_S,A_BASE_T,A_BASE_R,A_BASE_A,KC_NO,KC_NO,
+    KC_NO,A_BASE_O,A_BASE_I,A_BASE_Y,A_BASE_E,KC_NO,KC_NO,
+    KC_NO,KC_NO,KC_NO,KC_NO,KC_NO,KC_NO,KC_NO,
+    KC_NO,KC_NO,KC_NO,KC_NO,KC_NO,KC_NO,KC_NO),
+
+[_A_NUM] = LAYOUT(
+    KC_NO,A_NUM_S,A_NUM_T,A_NUM_R,A_NUM_A,KC_NO,KC_NO,
+    KC_NO,A_NUM_O,A_NUM_I,A_NUM_Y,A_NUM_E,KC_NO,KC_NO,
+    KC_NO,KC_NO,KC_NO,KC_NO,KC_NO,KC_NO,KC_NO,
+    KC_NO,KC_NO,KC_NO,KC_NO,KC_NO,KC_NO,KC_NO),
+
+[_A_NAV] = LAYOUT(
+    KC_NO,A_NAV_S,A_NAV_T,A_NAV_R,A_NAV_A,KC_NO,KC_NO,
+    KC_NO,A_NAV_O,A_NAV_I,A_NAV_Y,A_NAV_E,KC_NO,KC_NO,
+    KC_NO,KC_NO,KC_NO,KC_NO,KC_NO,KC_NO,KC_NO,
+    KC_NO,KC_NO,KC_NO,KC_NO,KC_NO,KC_NO,KC_NO),
+
+[_A_SYM] = LAYOUT(
+    KC_NO,A_SYM_S,A_SYM_T,A_SYM_R,A_SYM_A,KC_NO,KC_NO,
+    KC_NO,A_SYM_O,A_SYM_I,A_SYM_Y,A_SYM_E,KC_NO,KC_NO,
+    KC_NO,KC_NO,KC_NO,KC_NO,KC_NO,KC_NO,KC_NO,
+    KC_NO,KC_NO,KC_NO,KC_NO,KC_NO,KC_NO,KC_NO),
+
+[_A_BRAC] = LAYOUT(
+    KC_NO,A_BRAC_S,A_BRAC_T,A_BRAC_R,A_BRAC_A,KC_NO,KC_NO,
+    KC_NO,A_BRAC_O,A_BRAC_I,A_BRAC_Y,A_BRAC_E,KC_NO,KC_NO,
+    KC_NO,KC_NO,KC_NO,KC_NO,KC_NO,KC_NO,KC_NO,
+    KC_NO,KC_NO,KC_NO,KC_NO,KC_NO,KC_NO,KC_NO),
+
+[_A_MOU] = LAYOUT(
+    KC_NO,A_MOU_S,A_MOU_T,A_MOU_R,A_MOU_A,KC_NO,KC_NO,
+    KC_NO,A_MOU_O,A_MOU_I,A_MOU_Y,A_MOU_E,KC_NO,KC_NO,
+    KC_NO,KC_NO,KC_NO,KC_NO,KC_NO,KC_NO,KC_NO,
+    KC_NO,KC_NO,KC_NO,KC_NO,KC_NO,KC_NO,KC_NO),
+
+[_A_CUSTOM] = LAYOUT(
+    KC_NO,A_CUSTOM_S,A_CUSTOM_T,A_CUSTOM_R,A_CUSTOM_A,KC_NO,KC_NO,
+    KC_NO,A_CUSTOM_O,A_CUSTOM_I,A_CUSTOM_Y,A_CUSTOM_E,KC_NO,KC_NO,
+    KC_NO,KC_NO,KC_NO,KC_NO,KC_NO,KC_NO,KC_NO,
+    KC_NO,KC_NO,KC_NO,KC_NO,KC_NO,KC_NO,KC_NO),
 };
-
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  switch (keycode) {
-    case QMKBEST:
-      if (record->event.pressed) {
-        // when keycode QMKBEST is pressed
-        SEND_STRING("QMK is the best thing ever!");
-      } else {
-        // when keycode QMKBEST is released
-      }
-      break;
-    default:
-      break;
-  }
-  return true;
-}
-
-void matrix_init_user(void) {
-
-}
-
-void matrix_scan_user(void) {
-
-}
-
-void led_set_user(uint8_t usb_led) {
-
-}
+// clang-format on
