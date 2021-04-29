@@ -573,6 +573,10 @@ enum quantum_keycodes {
 
 #endif
 
+    ONESHOT_ENABLE,
+    ONESHOT_DISABLE,
+    ONESHOT_TOGGLE,
+
     // always leave at the end
     SAFE_RANGE
 };
@@ -680,16 +684,13 @@ enum quantum_keycodes {
 
 #define KC_DELT KC_DELETE  // Del key (four letter code)
 
-// Alias for function layers than expand past FN31
-#define FUNC(kc) (QK_FUNCTION | (kc))
-
 // Aliases
 #define C(kc) LCTL(kc)
 #define S(kc) LSFT(kc)
 #define A(kc) LALT(kc)
 #define G(kc) LGUI(kc)
 
-#define F(kc) FUNC(kc)
+#define F(kc) (QK_FUNCTION | (kc))
 #define M(kc) (QK_MACRO | (kc))
 
 #define MACROTAP(kc) (QK_MACRO | (FUNC_TAP << 8) | (kc))
@@ -874,3 +875,8 @@ enum quantum_keycodes {
 #define DM_RSTP DYN_REC_STOP
 #define DM_PLY1 DYN_MACRO_PLAY1
 #define DM_PLY2 DYN_MACRO_PLAY2
+
+// One Shot toggle
+#define OS_TOGG ONESHOT_TOGGLE
+#define OS_ON ONESHOT_ENABLE
+#define OS_OFF ONESHOT_DISABLE

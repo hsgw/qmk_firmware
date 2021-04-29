@@ -19,10 +19,13 @@
 
 #pragma once
 
+#include <stdint.h>
+#include <stdbool.h>
 #include "led_matrix_types.h"
+#include "quantum.h"
 
-#ifndef BACKLIGHT_ENABLE
-#    error You must define BACKLIGHT_ENABLE with LED_MATRIX_ENABLE
+#ifdef IS31FL3731
+#    include "is31fl3731-simple.h"
 #endif
 
 enum led_matrix_effects {
