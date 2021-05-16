@@ -28,7 +28,7 @@ ifneq ($(strip $(MTEST)),)
         MDELAY = $(patsubst mdelay=%,%,$1)
     endif
     ifneq ($(filter serial=%,$1),)
-        SERIAL = $(patsubst serial=%,%,$1)
+        USART_SPEED = $(patsubst serial=%,%,$1)
     endif
     ifeq ($(strip $1),mdelay0)
         MDELAY = 0
@@ -53,8 +53,8 @@ ifneq ($(strip $(MDELAY)),)
     OPT_DEFS += -DMATRIX_IO_DELAY=$(strip $(MDELAY))
 endif
 
-ifneq ($(strip $(SERIAL)),)
-    OPT_DEFS += -DSERIAL_USART_SPEED=$(strip $(SERIAL))
+ifneq ($(strip $(USART_SPEED)),)
+    OPT_DEFS += -DSERIAL_USART_SPEED=$(strip $(USART_SPEED))
 endif
 
 ifneq ($(strip $(MATRIX_COMMON_DELAY)),yes)
