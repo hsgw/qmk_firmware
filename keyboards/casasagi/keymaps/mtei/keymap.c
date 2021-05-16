@@ -52,7 +52,7 @@ enum custom_keycodes {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 #define  Q_____W_____E_____R_____T___MINUS  kc6( Q, W, E, R, T, MINUS)
-#define PLUS___Y_____U_____I_____O_____P    kc6( PLUS, Y, U, I, O, P )
+#define  EQL___Y_____U_____I_____O_____P    kc6( EQL, Y, U, I, O, P )
 #define  A_____S_____D_____F_____G___LBRC   kc6( A, S, D, F, G, LBRC )
 #define RBRC___H_____J_____K_____L___SCLN   kc6( RBRC, H, J, K, L, SCLN )
 #define  Z_____X_____C_____V_____B____GRV   kc6( Z, X, C, V, B, GRV )
@@ -72,7 +72,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    * `------------------------------------------------+   +------------------------------------------------'
    */
   [_BASE] = LAYOUT_wrapper(
-     KC_ESC,   Q_____W_____E_____R_____T___MINUS,   PLUS___Y_____U_____I_____O_____P,  KC_BSLS,
+     KC_ESC,   Q_____W_____E_____R_____T___MINUS,    EQL___Y_____U_____I_____O_____P,  KC_BSLS,
      KC_LCTL,  A_____S_____D_____F_____G___LBRC,    RBRC___H_____J_____K_____L___SCLN, KC_RCTL,
      KC_LSFT,  Z_____X_____C_____V_____B____GRV,    QUOT___N_____M___COMM___DOT__SLSH, KC_RSFT,
      LOWER___LOWER__CAPS__LALT__LGUI__NUML__RABS,   RAEN_NUMR__RGUI__RALT___APP_LOWER__LOWER
