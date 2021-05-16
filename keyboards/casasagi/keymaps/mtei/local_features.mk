@@ -12,8 +12,8 @@
 
 ifneq ($(strip $(MTEST)),)
   define KEYBOARD_OPTION_PARSE
-    # parse 'consle', 'scan', 'no-scan', 'mdelay=?', 'mdelay0',
-    #       'common_delay', 'serial=?'
+    # parse 'consle', 'scan', 'no-scan', 'mdelay=?', 'mdelay0', 'no-led', 'led',
+    #       'common_delay', 'serial=?', 'no-mouse', 'no-extrakey'
     $(if $(SHOW_PARSE),$(info parse .$1.))  #for debug  'make SHOW_PARSE=y ...'
     ifeq ($(strip $1),console)
         CONSOLE_ENABLE = yes
@@ -21,8 +21,20 @@ ifneq ($(strip $(MTEST)),)
     ifeq ($(strip $1),scan)
         DEBUG_MATRIX_SCAN_RATE_ENABLE = yes
     endif
-    ifeq ($(strip $1),no-scan)
+    ifneq ($(filter no-scan no_scan,$(strip $1)),)
         DEBUG_MATRIX_SCAN_RATE_ENABLE = no
+    endif
+    ifeq ($(strip $1),led)
+        RGBLIGHT_ENABLE = yes
+    endif
+    ifneq ($(filter no-led no_led,$(strip $1)),)
+        RGBLIGHT_ENABLE = no
+    endif
+    ifneq ($(filter no-mouse no_mouse,$(strip $1)),)
+        MOUSEKEY_ENABLE = no
+    endif
+    ifneq ($(filter no-extrakey no_extrakey,$(strip $1)),)
+        EXTRAKEY_ENABLE = no
     endif
     ifneq ($(filter mdelay=%,$1),)
         MDELAY = $(patsubst mdelay=%,%,$1)
@@ -36,11 +48,11 @@ ifneq ($(strip $(MTEST)),)
     ifeq ($(strip $1),common_delay)
         MATRIX_COMMON_DELAY = yes
     endif
-    ifeq ($(strip $1),no_sync_timer)
-	NO_SYNC_TIMER = yes
+    ifneq ($(filter no-sync-timer no_sync_timer,$(strip $1)),)
+        NO_SYNC_TIMER = yes
     endif
-    ifeq ($(strip $1),sync_timer)
-	NO_SYNC_TIMER = no
+    ifneq ($(filter sync-timer sync_timer,$(strip $1)),)
+        NO_SYNC_TIMER = no
     endif
   endef # end of KEYMAP_OPTION_PARSE
 
@@ -64,3 +76,17 @@ endif
 ifeq ($(strip $(NO_SYNC_TIMER)),yes)
     OPT_DEFS += -DDISABLE_SYNC_TIMER
 endif
+
+$(info -  RGBLIGHT_ENABLE     = $(RGBLIGHT_ENABLE))
+$(info -  MDELAY              = $(MDELAY))
+$(info -  USART_SPEED         = $(USART_SPEED))
+$(info -  MATRIX_COMMON_DELAY = $(MATRIX_COMMON_DELAY))
+$(info -  NO_SYNC_TIMER       = $(NO_SYNC_TIMER))
+$(info -  OLED_DRIVER_ENABLE  = $(OLED_DRIVER_ENABLE))
+$(info -  CONSOLE_ENABLE      = $(CONSOLE_ENABLE))
+$(info -  SPLIT_KEYBOARD      = $(SPLIT_KEYBOARD))
+$(info -  LTO_ENABLE          = $(LTO_ENABLE))
+$(info -  DEBUG_MATRIX_SCAN_RATE_ENABLE = $(DEBUG_MATRIX_SCAN_RATE_ENABLE))
+$(info -  MOUSEKEY_ENABLE     = $(MOUSEKEY_ENABLE))
+$(info -  EXTRAKEY_ENABLE     = $(EXTRAKEY_ENABLE))
+$(info -  OPT_DEFS            = $(OPT_DEFS))
