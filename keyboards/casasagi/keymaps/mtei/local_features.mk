@@ -13,7 +13,7 @@
 ifneq ($(strip $(MTEST)),)
   define KEYBOARD_OPTION_PARSE
     # parse 'consle', 'scan', 'no-scan', 'mdelay=?', 'mdelay0', 'no-led', 'led',
-    #       'common_delay', 'serial=?', 'no-mouse', 'no-extrakey'
+    #       'common_delay', 'serial=?', 'no-mouse', 'no-extrakey', 'adelay'
     $(if $(SHOW_PARSE),$(info parse .$1.))  #for debug  'make SHOW_PARSE=y ...'
     ifeq ($(strip $1),console)
         CONSOLE_ENABLE = yes
@@ -48,6 +48,9 @@ ifneq ($(strip $(MTEST)),)
     ifeq ($(strip $1),common_delay)
         MATRIX_COMMON_DELAY = yes
     endif
+    ifeq ($(strip $1),adelay)
+        ACCURATE_DELAY = yes
+    endif
     ifneq ($(filter no-sync-timer no_sync_timer,$(strip $1)),)
         NO_SYNC_TIMER = yes
     endif
@@ -63,6 +66,10 @@ endif
 
 ifneq ($(strip $(MDELAY)),)
     OPT_DEFS += -DMATRIX_IO_DELAY=$(strip $(MDELAY))
+endif
+
+ifeq ($(strip $(ACCURATE_DELAY)), yes)
+    OPT_DEFS += -DACCURATE_DELAY
 endif
 
 ifneq ($(strip $(USART_SPEED)),)
