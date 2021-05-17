@@ -16,16 +16,13 @@
 #include QMK_KEYBOARD_H
 #include "print.h"
 #include "eeprom.h"
-#include "rgblight.h"
-
-bool should_process_keypress(void) { return true; }
 
 #define BASE 0
 #define META 1
 #define SYMB 2
 #define GAME 3
 
-enum custom_keycodes { DUMP = SAFE_RANGE, WRITE, WIPE, RGB_DBG, LED_T_F, LED_T_B };
+enum custom_keycodes { HAND = SAFE_RANGE, WRITE, RGB_DBG };
 
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -42,9 +39,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    * `------------------------------------------------'   `------------------------------------------------'
    */
   [BASE] = LAYOUT( \
-    RESET,   KC_TAB,  KC_Q,   RGB_DBG,  RGB_M_R,    RGB_MOD,     DUMP,   KC_Y,   KC_U,    KC_I,    KC_O,   KC_P,    KC_LBRC, KC_BSPC, \
-    LED_T_F,   KC_RCTL, KC_A,  RGB_M_T,  RGB_M_K,    RGB_HUI,     WRITE,   KC_H,   KC_J,    KC_K,    KC_L,   KC_SCLN, KC_RBRC, KC_ENT, \
-    LED_T_B, KC_LSFT, KC_Z,   KC_X,    RGB_M_G,    RGB_HUD,     WIPE,   KC_N,   KC_M,    KC_COMM, KC_DOT, KC_SLSH, KC_UP,   KC_RSFT, \
+    RESET,   KC_TAB,  KC_Q,   RGB_DBG, RGB_M_R, RGB_MOD,  HAND,   KC_Y,   KC_U,    KC_I,    KC_O,   KC_P,    KC_LBRC, KC_BSPC, \
+    KC_DEL,   KC_RCTL, KC_A,   KC_S,    KC_D,    RGB_HUI,     WRITE,   KC_H,   KC_J,    KC_K,    KC_L,   KC_SCLN, KC_RBRC, KC_ENT, \
+    MO(SYMB), KC_LSFT, KC_Z,   KC_X,    KC_C,    RGB_HUD,     KC_B,   KC_N,   KC_M,    KC_COMM, KC_DOT, KC_SLSH, KC_UP,   KC_RSFT, \
     KC_LGUI,  KC_LCTL, KC_GRV, KC_BSLS, KC_LALT, RGB_TOG, KC_SPC, KC_SPC, KC_QUOT, KC_MINS, KC_EQL, KC_LEFT, KC_DOWN, KC_RGHT \
   ),
 
@@ -87,73 +84,33 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 // clang-format on
 
-uint8_t ledPos = 0;
-
 void keyboard_post_init_user(void) {
     // Customise these values to desired behaviour
-    debug_enable   = true;
-    debug_matrix   = false;
-    debug_keyboard = true;
-    // debug_mouse=true;
-    chThdSleepMilliseconds(500);
+    debug_enable = true;
+    // debug_matrix   = true;
+    // debug_keyboard = true;
+    // // debug_mouse=true;
+    // chThdSleepMilliseconds(500);
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
-        case DUMP:
+        case HAND:
             if (record->event.pressed) {
-                uint16_t temp = eeprom_read_word((uint16_t *)0);
-                printf("eeprom magic %d\n", temp);
-                uint8_t v = eeprom_read_byte((uint8_t *)0xFF);
-                printf("eeprom variable %d\n", v);
+                if (is_keyboard_left())
+                    dprintf("hand: left\n");
+                else
+                    dprintf("hand: right\n");
             }
             return false;
         case WRITE:
             if (record->event.pressed) {
-                uint8_t v = eeprom_read_byte((uint8_t *)0xFF);
-                printf("eeprom variable %d\n", v);
-                eeprom_write_byte((uint8_t *)0xFF, ++v);
-                v = eeprom_read_byte((uint8_t *)0xFF);
-                printf("eeprom variable write %d\n", v);
-            }
-            return false;
-        case WIPE:
-            if (record->event.pressed) {
-                printf("eeprom wipe\n");
-                eeprom_write_byte((uint8_t *)0xFF, 0);
             }
             return false;
         case RGB_DBG:
             if (record->event.pressed) {
-                eeconfig_debug_rgblight();
             }
             return false;
-        case LED_T_F:
-            if (record->event.pressed) {
-                sethsv(HSV_BLACK, (LED_TYPE *)&led[ledPos]);
-                if (ledPos == 55) {
-                    ledPos = 0;
-                } else {
-                    ledPos++;
-                }
-                sethsv(HSV_RED, (LED_TYPE *)&led[ledPos]);
-                rgblight_set();
-                printf("LED: %d\n", ledPos);
-                return false;
-            }
-        case LED_T_B:
-            if (record->event.pressed) {
-                sethsv(HSV_BLACK, (LED_TYPE *)&led[ledPos]);
-                if (ledPos == 0) {
-                    ledPos = 55;
-                } else {
-                    ledPos--;
-                }
-                sethsv(HSV_RED, (LED_TYPE *)&led[ledPos]);
-                rgblight_set();
-                printf("LED: %d\n", ledPos);
-                return false;
-            }
         default:
             return true;
     }

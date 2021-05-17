@@ -59,8 +59,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define DIODE_DIRECTION COL2ROW
 
 /* RGBLED setting */
-#define RGBLIGHT_LIMIT_VAL 180
-#define RGBLIGHT_ANIMATIONS
 
 #define RGB_DI_PIN B15
 #define WS2812_SPI SPID2
@@ -73,6 +71,55 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define RGBLED_SPLIT \
     { RGBLED_NUM_LEFT, RGBLED_NUM_RIGHT }
 #define RGBLED_NUM (RGBLED_NUM_LEFT + RGBLED_NUM_RIGHT)
+
+#ifdef RGBLIGHT_ENABLE
+#    define RGBLIGHT_LIMIT_VAL 180
+#    define RGBLIGHT_ANIMATIONS
+// clang-format off
+#define LED_LAYOUT( \
+   L00, L01, L02, L03, L04, L05, L06,   R00, R01, R02, R03, R04, R05, R06, \
+   L10, L11, L12, L13, L14, L15, L16,   R10, R11, R12, R13, R14, R15, R16, \
+   L20, L21, L22, L23, L24, L25, L26,   R20, R21, R22, R23, R24, R25, R26, \
+   L30, L31, L32, L33, L34, L35, L36,   R30, R31, R32, R33, R34, R35, R36 ) \
+    { \
+        L02, L01, L00, \
+        L10, L11, L12, \
+        L22, L21, L20, \
+        L30, L31, L32, \
+        L33, L34, L35, L36, \
+        L26, L25, L24, L23, \
+        L13, L14, L15, L16, \
+        L06, L05, L04, L03, \
+        R03, R02, R01, R00, \
+        R10, R11, R12, R13, \
+        R23, R22, R21, R20, \
+        R30, R31, R32, R33, \
+        R34, R35, R36, \
+        R26, R25, R24, \
+        R14, R15, R16, \
+        R06, R05, R04 }
+
+#    define RGBLIGHT_LED_MAP LED_LAYOUT( \
+     0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, \
+    14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, \
+    28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, \
+    42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55 )
+// clang-format on
+#endif
+
+#ifdef RGB_MATRIX_ENABLE
+#    define RGB_MATRIX_FRAMEBUFFER_EFFECTS
+#    define RGB_MATRIX_KEYPRESSES
+#    define RGB_MATRIX_KEYRELEASES
+#    define SPLIT_TRANSPORT_MIRROR
+#    define DRIVER_LED_TOTAL RGBLED_NUM
+#    define RGB_MATRIX_SPLIT \
+        { RGBLED_NUM_LEFT, RGBLED_NUM_RIGHT }
+#    define RGB_MATRIX_MAXIMUM_BRIGHTNESS 180
+#    ifndef RGB_DISABLE_WHEN_USB_SUSPENDED
+#        define RGB_DISABLE_WHEN_USB_SUSPENDED true
+#    endif
+#endif
 
 /* Split communication setting */
 #define SOFT_SERIAL_PIN B6  // USART TX pin
