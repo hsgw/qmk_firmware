@@ -20,5 +20,9 @@
 void board_init(void) {
     // remap dma channel for SPI2
     SYSCFG->CFGR1 |= SYSCFG_CFGR1_SPI2_DMA_RMP;
+}
+
+bool is_keyboard_left(void) {
     setPinInputHigh(SPLIT_HAND_PIN);
+    return readPin(SPLIT_HAND_PIN);
 }
