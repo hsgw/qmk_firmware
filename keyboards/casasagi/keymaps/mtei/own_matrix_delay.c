@@ -1,8 +1,23 @@
+#include <stdint.h>
 #include "quantum.h"
 #include "wait.h"
 
 #ifndef MATRIX_IO_DELAY
 #    define MATRIX_IO_DELAY 30
+#endif
+
+#ifdef ACCURATE_DELAY
+static void half_micro_delay(void) {
+    wait_cpuclock(STM32_SYSCLK / 1000000L / 2);
+}
+
+static void wait_accurate_us(unsigned int n) {
+    for (n *= 2; n > 0; n--) {
+        half_micro_delay();
+    }
+}
+#undef wait_us
+#define wait_us(n) wait_accurate_us(n)
 #endif
 
 /* In tmk_core/common/wait.h, the implementation for PROTOCOL_CHIBIOS
