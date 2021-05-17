@@ -59,15 +59,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define DIODE_DIRECTION COL2ROW
 
 /* RGBLED setting */
+#define RGBLIGHT_LIMIT_VAL 180
 #define RGBLIGHT_ANIMATIONS
-#define RGBLIGHT_SPLIT \
-    { 28, 28 }
 
-#define WS2812_SPI SPID2
 #define RGB_DI_PIN B15
-#define RGBLED_NUM 56
+#define WS2812_SPI SPID2
 #define WS2812_SPI_MOSI_PAL_MODE 0
 #define WS2812_EXTERNAL_PULLUP
+
+#define RGBLED_NUM_LEFT 28
+#define RGBLED_NUM_RIGHT 28
+
+#define RGBLED_SPLIT \
+    { RGBLED_NUM_LEFT, RGBLED_NUM_RIGHT }
+#define RGBLED_NUM (RGBLED_NUM_LEFT + RGBLED_NUM_RIGHT)
 
 /* Split communication setting */
 #define SOFT_SERIAL_PIN B6  // USART TX pin
