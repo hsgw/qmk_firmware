@@ -16,7 +16,6 @@
 
 #include "casasagi.h"
 
-/* Map physical under glow LEDs for RGB matrix support */
 #ifdef RGB_MATRIX_ENABLE
 
 #    define MPOSL(ROW, COL) \
@@ -25,7 +24,8 @@
         { ((COL + 7) * 17), (ROW * 21) }
 
 // clang-format off
-led_config_t g_led_config = {{
+led_config_t g_led_config = {
+    {
         // Key Matrix to LED Index
         { 2,  1,  0, 27, 26, 25, 24},
         { 3,  4,  5, 20, 21, 22, 23},
@@ -67,11 +67,11 @@ led_config_t g_led_config = {{
 // clang-format on
 #endif
 
-void board_init(void) {  // remap dma channel for SPI2
+void board_init(void) {
+    // remap dma channel for SPI2
     SYSCFG->CFGR1 |= SYSCFG_CFGR1_SPI2_DMA_RMP;
+
+    setPinInputHigh(SPLIT_HAND_PIN);
 }
 
-bool is_keyboard_left(void) {
-    setPinInputHigh(SPLIT_HAND_PIN);
-    return readPin(SPLIT_HAND_PIN);
-}
+bool is_keyboard_left(void) { return readPin(SPLIT_HAND_PIN); }
