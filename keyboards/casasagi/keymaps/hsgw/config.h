@@ -28,3 +28,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /* VIA setting */
 #define VIA_EEPROM_LAYOUT_OPTIONS_SIZE 1
 #define VIA_EEPROM_CUSTOM_CONFIG_SIZE 1
+
+#define TAPPING_TERM 150
+#define TAPPING_TOGGLE 2
+
+#define RETRO_TAPPING
