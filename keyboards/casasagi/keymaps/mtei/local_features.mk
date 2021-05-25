@@ -9,6 +9,10 @@
 #    make MTEST=serial=500000 casasagi:mtei:flash
 #  set MATRIX_COMMON_DELAY -- use quantum/matrix_common.c:matrix_output_unselect_delay()
 #    make MTEST=common_delay casasagi:mtei:flash
+#  use accurate 'wait_us()'
+#    make MTEST=adelay casasagi:mtei:flash
+#  use adaptive_matrix_delay
+#    make MTEST=adaptive_delay casasagi:mtei:flash
 
 ifneq ($(strip $(MTEST)),)
   define KEYBOARD_OPTION_PARSE
@@ -51,6 +55,9 @@ ifneq ($(strip $(MTEST)),)
     ifeq ($(strip $1),adelay)
         ACCURATE_DELAY = yes
     endif
+    ifeq ($(strip $1),adaptive_delay)
+        ADAPTIVE_DELAY = yes
+    endif
     ifneq ($(filter no-sync-timer no_sync_timer,$(strip $1)),)
         NO_SYNC_TIMER = yes
     endif
@@ -77,7 +84,11 @@ ifneq ($(strip $(USART_SPEED)),)
 endif
 
 ifneq ($(strip $(MATRIX_COMMON_DELAY)),yes)
-    SRC += own_matrix_delay.c
+    ifeq ($(strip $(ADAPTIVE_DELAY)), yes)
+        SRC += adaptive_matrix_delay.c
+    else
+        SRC += own_matrix_delay.c
+    endif
 endif
 
 ifeq ($(strip $(NO_SYNC_TIMER)),yes)
@@ -88,6 +99,8 @@ $(info -  RGBLIGHT_ENABLE     = $(RGBLIGHT_ENABLE))
 $(info -  MDELAY              = $(MDELAY))
 $(info -  USART_SPEED         = $(USART_SPEED))
 $(info -  MATRIX_COMMON_DELAY = $(MATRIX_COMMON_DELAY))
+$(info -  ADAPTIVE_DELAY      = $(ADAPTIVE_DELAY))
+$(info -  ACCURATE_DELAY      = $(ACCURATE_DELAY))
 $(info -  NO_SYNC_TIMER       = $(NO_SYNC_TIMER))
 $(info -  OLED_DRIVER_ENABLE  = $(OLED_DRIVER_ENABLE))
 $(info -  CONSOLE_ENABLE      = $(CONSOLE_ENABLE))
