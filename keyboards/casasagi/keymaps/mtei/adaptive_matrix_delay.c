@@ -15,6 +15,16 @@
  */
 #include "quantum.h"
 
+#ifdef MATRIX_DEBUG_PIN
+#  define DEBUG_PIN_INIT()  setPinOutput(MATRIX_DEBUG_PIN);  writePinLow(MATRIX_DEBUG_PIN)
+#  define DEBUG_PIN_ON()    writePinHigh(MATRIX_DEBUG_PIN)
+#  define DEBUG_PIN_OFF()   writePinLow(MATRIX_DEBUG_PIN)
+#else
+#  define DEBUG_PIN_INIT()
+#  define DEBUG_PIN_ON()
+#  define DEBUG_PIN_OFF()
+#endif
+
 #ifndef readPort
 #    if defined(__AVR__)
 #        define readPort(pin) PINx_ADDRESS(pin)
@@ -32,6 +42,12 @@ static const pin_t delay_ports_right[] = { MATRIX_IO_DELAY_PORTS_RIGHT };
 static const port_data_t delay_masks_right[] = { MATRIX_IO_DELAY_MASKS_RIGHT };
 #endif
 
+#ifdef MATRIX_DEBUG_PIN
+void keyboard_post_init_user(void) {
+    DEBUG_PIN_INIT();
+}
+#endif
+
 void matrix_output_unselect_delay(void) {
     bool is_pressed;
     const pin_t *ports = delay_ports;
@@ -44,10 +60,12 @@ void matrix_output_unselect_delay(void) {
         num_ports = sizeof(delay_ports_right)/sizeof(pin_t);
     }
 #endif
+    DEBUG_PIN_ON();
     do {
         is_pressed = false;
         for (uint8_t i = 0; i < num_ports; i++ ) {
             is_pressed |= ( (readPort(ports[i]) & masks[i]) != masks[i] );
         }
     } while (is_pressed);
+    DEBUG_PIN_OFF();
 }
