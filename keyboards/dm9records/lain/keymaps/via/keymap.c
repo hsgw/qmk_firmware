@@ -16,11 +16,6 @@
 #include QMK_KEYBOARD_H
 #include "leds.h"
 
-// Defines the keycodes used by our macros in process_record_user
-// enum custom_keycodes {
-//   CUSTOM = SAFE_RANGE
-// };
-
 enum layers { BASE, NUM, FUNC, CONF };
 
 // clang-format off

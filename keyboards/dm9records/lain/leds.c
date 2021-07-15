@@ -1,4 +1,4 @@
-/* Copyright 2019 Takuya Urakawa(hsgw), dm9records.com, 5z6p.com
+/* Copyright 2019-2021 Takuya Urakawa(hsgw), dm9records.com, 5z6p.com
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,27 +17,27 @@
 #include "leds.h"
 #include "config.h"
 
-static const pin_t leds[LED_NUM] = LED_PINS;
-bool led_states[LED_NUM] = {0};
-bool isLedEnabled = true;
+static const pin_t leds[LED_NUM]       = LED_PINS;
+bool               led_states[LED_NUM] = {0};
+bool               isLedEnabled        = true;
 
 void init_leds(void) {
-    for(int i=0;i<LED_NUM;i++) {
+    for (int i = 0; i < LED_NUM; i++) {
         setPinOutput(leds[i]);
-        writePin(leds[i],0);
+        writePin(leds[i], 0);
     }
 }
 
 void set_led(uint8_t no, bool flag) {
     led_states[no] = flag;
-    if(isLedEnabled) writePin(leds[no], flag);
+    if (isLedEnabled) writePin(leds[no], flag);
 }
 
 void set_led_enable(bool flag) {
     isLedEnabled = flag;
-    if(isLedEnabled) {
-        for(int i=0; i<LED_NUM; i++) writePin(leds[i],led_states[i]);
+    if (isLedEnabled) {
+        for (int i = 0; i < LED_NUM; i++) writePin(leds[i], led_states[i]);
     } else {
-        for(int i=0; i<LED_NUM; i++) writePin(leds[i],0);
+        for (int i = 0; i < LED_NUM; i++) writePin(leds[i], 0);
     }
 }

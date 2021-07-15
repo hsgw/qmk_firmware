@@ -1,5 +1,5 @@
 /*
-Copyright 2019 Takuya Urakawa(hsgw), dm9records.com, 5z6p.com
+Copyright 2019-2021 Takuya Urakawa(hsgw), dm9records.com, 5z6p.com
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
