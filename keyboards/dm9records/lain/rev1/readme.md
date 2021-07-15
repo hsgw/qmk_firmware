@@ -5,8 +5,8 @@
 Ergonomic 40% keyboard.
 
 Keyboard Maintainer: [hsgw](https://github.com/hsgw)  
-Hardware Supported: onboard MCU STM32F072V8T6, hotswap socket.  
-Hardware Availability: TODO
+Hardware Supported: onboard MCU ATMEGA32u4, hotswap socket.  
+Hardware Availability: group buy
 
 Make example for this keyboard (after setting up your build environment):
 
