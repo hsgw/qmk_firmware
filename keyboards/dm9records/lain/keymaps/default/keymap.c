@@ -54,12 +54,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 // clang-format on
 
-bool process_record_user(uint16_t keycode, keyrecord_t *record) { return true; }
-
-void matrix_init_user(void) {}
-
-void matrix_scan_user(void) {}
-
 uint32_t layer_state_set_user(uint32_t state) {
     uint32_t computed = update_tri_layer_state(state, NUM, FUNC, CONF);
     switch (biton32(computed)) {
