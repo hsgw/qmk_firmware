@@ -24,7 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define PRODUCT_ID 0x1998
 #define DEVICE_VER 0x0001
 #define MANUFACTURER Dm9 Records
-#define PRODUCT lain
+#define PRODUCT Lain
 #define DESCRIPTION ergonomic 40 % keyboard
 
 #define USB_MAX_POWER_CONSUMPTION 100
