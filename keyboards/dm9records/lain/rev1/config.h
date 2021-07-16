@@ -19,11 +19,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "config_common.h"
 
-/* USB Device descriptor parameter */
-#define VENDOR_ID       0xFEED
-#define PRODUCT_ID      0x1998
+/* USB Device descriptor parameter
+ *
+ * VID/PID pair is provided from  Microchip Technology Inc.
+ * Don't use it on any other keyboard.
+ */
+#define VENDOR_ID       0x04D8
+#define PRODUCT_ID      0xE8F4
 #define DEVICE_VER      0x0001
-#define MANUFACTURER    Dm9 Records
+#define MANUFACTURER    Microchip
 #define PRODUCT         lain
 #define DESCRIPTION     ergonomic 40% keyboard
 
