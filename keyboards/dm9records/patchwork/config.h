@@ -34,7 +34,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define DIRECT_PINS                                            \
     {                                                          \
-        { F5, F4, D3, D4, F6, F7, B1, E6, B3, B2, B6, B5, B4 } \
+        { F5, F4, D3, D2, F6, F7, B1, E6, B3, B2, B6, B5, B4 } \
     }
 
 #define UNUSED_PINS
@@ -43,7 +43,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define ENCODERS_PAD_A \
     { C6 }
 #define ENCODERS_PAD_B \
-    { C7 }
+    { D7 }
 
 //#define LED_NUM_LOCK_PIN B0
 //#define LED_CAPS_LOCK_PIN B1

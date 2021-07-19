@@ -22,9 +22,9 @@ enum layer_names { _BASE, _FN };
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /* Base */
     [_BASE] = LAYOUT(
-        KC_A, KC_A, KC_A, KC_A,
-        KC_A, KC_A, KC_A, KC_A,
-        KC_A, KC_A, KC_A, KC_A,KC_A
+        KC_1, KC_2, KC_3, KC_4,
+        KC_5, KC_6, KC_7, KC_8,
+        KC_9, KC_0, KC_A, KC_B,KC_C
     ),
     [_FN] = LAYOUT(
         KC_A, KC_A, KC_A, KC_A,
@@ -35,3 +35,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // clang-format on
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) { return true; }
+
+bool encoder_update_user(uint8_t index, bool clockwise) {
+    if (clockwise) {
+        tap_code(KC_UP);
+    } else {
+        tap_code(KC_DOWN);
+    }
+    return true;
+}
