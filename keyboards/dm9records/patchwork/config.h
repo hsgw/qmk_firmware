@@ -19,11 +19,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "config_common.h"
 
-/* USB Device descriptor parameter */
-#define VENDOR_ID 0x0d39
-#define PRODUCT_ID 0x0003
+/* USB Device descriptor parameter
+ *
+ * VID/PID pair is provided from Microchip
+ * Don't use this except for pro micro(ATMEGA32u4)
+ */
+#define VENDOR_ID 0x04D8
+#define PRODUCT_ID 0xE8DF
 #define DEVICE_VER 0x0001
-#define MANUFACTURER dm9records
+#define MANUFACTURER Microchip
 #define PRODUCT patchwork
 
 /* key matrix size */
