@@ -21,13 +21,13 @@ enum layer_names { _BASE, _FN };
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /* Base */
-    [_BASE] = LAYOUT_ENC(
+    [_BASE] = LAYOUT(
         KC_1, KC_2, KC_3, KC_4,
         KC_5, KC_6, KC_7, KC_8,
         MO(_FN), KC_0, KC_A, KC_B, KC_C,
         KC_UP,KC_DOWN
     ),
-    [_FN] = LAYOUT_ENC(
+    [_FN] = LAYOUT(
         KC_X, KC_2, KC_3, KC_4,
         KC_5, KC_6, KC_7, KC_8,
         MO(_FN), KC_0, KC_A, KC_B, KC_C,
@@ -37,13 +37,3 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // clang-format on
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) { return true; }
-
-bool encoder_update_user(uint8_t index, bool clockwise) {
-    uint8_t current_layer = get_highest_layer(layer_state);
-    if (clockwise) {
-        tap_code(dynamic_keymap_get_keycode(current_layer, ENC_KEYMAP_ROW, ENC_KEYMAP_COL_CW));
-    } else {
-        tap_code(dynamic_keymap_get_keycode(current_layer, ENC_KEYMAP_ROW, ENC_KEYMAP_COL_CCW));
-    }
-    return true;
-}

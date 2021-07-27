@@ -10,11 +10,15 @@
 
 Make example for this keyboard (after setting up your build environment):
 
-    make patchwork:default
+    make dm9records/patchwork:default
+    or
+    make dm9records/patchwork:via
 
 Flashing example for this keyboard:
 
-    make patchwork:default:flash
+    make dm9records/patchwork:default:flash
+    or
+    make dm9records/patchwork:via:flash
 
 See the [build environment setup](https://docs.qmk.fm/#/getting_started_build_tools) and the [make instructions](https://docs.qmk.fm/#/getting_started_make_guide) for more information. Brand new to QMK? Start with our [Complete Newbs Guide](https://docs.qmk.fm/#/newbs).
 

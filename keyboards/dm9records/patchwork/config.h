@@ -30,15 +30,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define MANUFACTURER Microchip
 #define PRODUCT patchwork
 
-/* key matrix size */
+/* key matrix size
+ * Dummy keys for encoder (+2 col)
+ */
 #define MATRIX_ROWS 1
-#define MATRIX_COLS 13
+#define MATRIX_COLS 15
 
-/* Key pin assignments */
-
-#define DIRECT_PINS                                            \
-    {                                                          \
-        { F5, F4, D3, D2, F6, F7, B1, E6, B3, B2, B6, B5, B4 } \
+/* Key pin assignments
+ * D0 is dummy for encoder (unused)
+ */
+#define DIRECT_PINS                                                    \
+    {                                                                  \
+        { F5, F4, D3, D2, F6, F7, B1, E6, B3, B2, B6, B5, B4, D0, D0 } \
     }
 
 #define UNUSED_PINS
@@ -48,6 +51,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     { C6 }
 #define ENCODERS_PAD_B \
     { D7 }
+
+/* Rotary encoder tap delay */
+#define ENCODER_TAP_DELAY 1
+
+/* Rotary encoder keycode position in keymap */
+#define ENC_KEYMAP_ROW 0
+#define ENC_KEYMAP_COL_CW 13
+#define ENC_KEYMAP_COL_CCW 14
 
 //#define LED_NUM_LOCK_PIN B0
 //#define LED_CAPS_LOCK_PIN B1
@@ -59,33 +70,36 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //#define BACKLIGHT_LEVELS 3
 //#define BACKLIGHT_BREATHING
 
-//#define RGB_DI_PIN D4
-//#ifdef RGB_DI_PIN
-//#    define RGBLED_NUM 16
-//#    define RGBLIGHT_HUE_STEP 8
-//#    define RGBLIGHT_SAT_STEP 8
-//#    define RGBLIGHT_VAL_STEP 8
-//#    define RGBLIGHT_LIMIT_VAL 255 /* The maximum brightness level */
-//#    define RGBLIGHT_SLEEP  /* If defined, the RGB lighting will be switched off when the host goes to sleep */
+#define RGB_DI_PIN D4
+#ifdef RGB_DI_PIN
+#    define RGBLED_NUM 13
+#    define RGBLIGHT_HUE_STEP 8
+#    define RGBLIGHT_SAT_STEP 8
+#    define RGBLIGHT_VAL_STEP 8
+#    define RGBLIGHT_LIMIT_VAL 127 /* The maximum brightness level */
+#    define RGBLIGHT_SLEEP         /* If defined, the RGB lighting will be switched off when the host goes to sleep */
 /*== all animations enable ==*/
-//#    define RGBLIGHT_ANIMATIONS
+#    define RGBLIGHT_ANIMATIONS
 /*== or choose animations ==*/
-//#    define RGBLIGHT_EFFECT_BREATHING
-//#    define RGBLIGHT_EFFECT_RAINBOW_MOOD
-//#    define RGBLIGHT_EFFECT_RAINBOW_SWIRL
-//#    define RGBLIGHT_EFFECT_SNAKE
-//#    define RGBLIGHT_EFFECT_KNIGHT
-//#    define RGBLIGHT_EFFECT_CHRISTMAS
-//#    define RGBLIGHT_EFFECT_STATIC_GRADIENT
-//#    define RGBLIGHT_EFFECT_RGB_TEST
-//#    define RGBLIGHT_EFFECT_ALTERNATING
+#    define RGBLIGHT_EFFECT_BREATHING
+#    define RGBLIGHT_EFFECT_RAINBOW_MOOD
+#    define RGBLIGHT_EFFECT_RAINBOW_SWIRL
+#    define RGBLIGHT_EFFECT_SNAKE
+#    define RGBLIGHT_EFFECT_KNIGHT
+#    define RGBLIGHT_EFFECT_CHRISTMAS
+#    define RGBLIGHT_EFFECT_STATIC_GRADIENT
+#    define RGBLIGHT_EFFECT_RGB_TEST
+#    define RGBLIGHT_EFFECT_ALTERNATING
 /*== customize breathing effect ==*/
 /*==== (DEFAULT) use fixed table instead of exp() and sin() ====*/
-//#    define RGBLIGHT_BREATHE_TABLE_SIZE 256      // 256(default) or 128 or 64
+#    define RGBLIGHT_BREATHE_TABLE_SIZE 256  // 256(default) or 128 or 64
 /*==== use exp() and sin() ====*/
-//#    define RGBLIGHT_EFFECT_BREATHE_CENTER 1.85  // 1 to 2.7
-//#    define RGBLIGHT_EFFECT_BREATHE_MAX    255   // 0 to 255
-//#endif
+#    define RGBLIGHT_EFFECT_BREATHE_CENTER 1.85  // 1 to 2.7
+#    define RGBLIGHT_EFFECT_BREATHE_MAX 255      // 0 to 255
+#endif
+
+// The number of LEDs connected
+#define DRIVER_LED_TOTAL 13
 
 /* Debounce reduces chatter (unintended double-presses) - set 0 if debouncing is not needed */
 #define DEBOUNCE 5
