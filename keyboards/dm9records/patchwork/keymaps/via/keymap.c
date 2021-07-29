@@ -33,6 +33,90 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         MO(_FN), KC_0, KC_A, KC_B, KC_C,
         KC_F,KC_R
     ),
+    [2] = LAYOUT(
+        KC_NO,KC_NO,KC_NO,KC_NO,
+        KC_NO,KC_NO,KC_NO,KC_NO,
+        KC_NO,KC_NO,KC_NO,KC_NO,KC_NO,
+        KC_NO,KC_NO
+    ),
+    [3] = LAYOUT(
+        KC_NO,KC_NO,KC_NO,KC_NO,
+        KC_NO,KC_NO,KC_NO,KC_NO,
+        KC_NO,KC_NO,KC_NO,KC_NO,KC_NO,
+        KC_NO,KC_NO
+    ),
+    [4] = LAYOUT(
+        KC_NO,KC_NO,KC_NO,KC_NO,
+        KC_NO,KC_NO,KC_NO,KC_NO,
+        KC_NO,KC_NO,KC_NO,KC_NO,KC_NO,
+        KC_NO,KC_NO
+    ),
+    [5] = LAYOUT(
+        KC_NO,KC_NO,KC_NO,KC_NO,
+        KC_NO,KC_NO,KC_NO,KC_NO,
+        KC_NO,KC_NO,KC_NO,KC_NO,KC_NO,
+        KC_NO,KC_NO
+    ),
+    [6] = LAYOUT(
+        KC_NO,KC_NO,KC_NO,KC_NO,
+        KC_NO,KC_NO,KC_NO,KC_NO,
+        KC_NO,KC_NO,KC_NO,KC_NO,KC_NO,
+        KC_NO,KC_NO
+    ),
+    [7] = LAYOUT(
+        KC_NO,KC_NO,KC_NO,KC_NO,
+        KC_NO,KC_NO,KC_NO,KC_NO,
+        KC_NO,KC_NO,KC_NO,KC_NO,KC_NO,
+        KC_NO,KC_NO
+    ),
+    [8] = LAYOUT(
+        KC_NO,KC_NO,KC_NO,KC_NO,
+        KC_NO,KC_NO,KC_NO,KC_NO,
+        KC_NO,KC_NO,KC_NO,KC_NO,KC_NO,
+        KC_NO,KC_NO
+    ),
+    [9] = LAYOUT(
+        KC_NO,KC_NO,KC_NO,KC_NO,
+        KC_NO,KC_NO,KC_NO,KC_NO,
+        KC_NO,KC_NO,KC_NO,KC_NO,KC_NO,
+        KC_NO,KC_NO
+    ),
+    [10] = LAYOUT(
+        KC_NO,KC_NO,KC_NO,KC_NO,
+        KC_NO,KC_NO,KC_NO,KC_NO,
+        KC_NO,KC_NO,KC_NO,KC_NO,KC_NO,
+        KC_NO,KC_NO
+    ),
+    [11] = LAYOUT(
+        KC_NO,KC_NO,KC_NO,KC_NO,
+        KC_NO,KC_NO,KC_NO,KC_NO,
+        KC_NO,KC_NO,KC_NO,KC_NO,KC_NO,
+        KC_NO,KC_NO
+    ),
+    [12] = LAYOUT(
+        KC_NO,KC_NO,KC_NO,KC_NO,
+        KC_NO,KC_NO,KC_NO,KC_NO,
+        KC_NO,KC_NO,KC_NO,KC_NO,KC_NO,
+        KC_NO,KC_NO
+    ),
+    [13] = LAYOUT(
+        KC_NO,KC_NO,KC_NO,KC_NO,
+        KC_NO,KC_NO,KC_NO,KC_NO,
+        KC_NO,KC_NO,KC_NO,KC_NO,KC_NO,
+        KC_NO,KC_NO
+    ),
+    [14] = LAYOUT(
+        KC_NO,KC_NO,KC_NO,KC_NO,
+        KC_NO,KC_NO,KC_NO,KC_NO,
+        KC_NO,KC_NO,KC_NO,KC_NO,KC_NO,
+        KC_NO,KC_NO
+    ),
+    [15] = LAYOUT(
+        KC_NO,KC_NO,KC_NO,KC_NO,
+        KC_NO,KC_NO,KC_NO,KC_NO,
+        KC_NO,KC_NO,KC_NO,KC_NO,KC_NO,
+        KC_NO,KC_NO
+    )
 };
 // clang-format on
 
