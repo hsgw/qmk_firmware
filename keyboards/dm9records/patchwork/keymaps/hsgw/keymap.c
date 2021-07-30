@@ -41,16 +41,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______
     ),
     [_1] = LAYOUT(
-        MO(_CONF),KC_NO,KC_NO,KC_NO,
-        KC_NO,KC_NO,KC_NO,KC_NO,
-        KC_NO,KC_NO,KC_NO,KC_NO,KC_NO,
-        KC_NO,KC_NO
+        CK(KC_ESC), KC_X,     KC_E,      KC_R,
+        KC_LSFT,    KC_V,     RCS(KC_M), KC_D,
+        RCTL(KC_Z), KC_N,     RCS(KC_M), FN(1, KC_SLSH), KC_A,
+        RSFT(KC_W), KC_W
     ),
     [_1_FN] = LAYOUT(
-        KC_NO,KC_NO,KC_NO,KC_NO,
-        KC_NO,KC_NO,KC_NO,KC_NO,
-        KC_NO,KC_NO,KC_NO,KC_NO,KC_NO,
-        KC_NO,KC_NO
+        KC_DEL,     RCS(KC_Z), RCTL(KC_R), KC_F,
+        _______,    RCS(KC_V), RCS(KC_H),  RCS(KC_T),
+        RCTL(KC_Y), RSFT(KC_N),RCTL(KC_S), _______,  _______,
+        JP_YEN, RSFT(KC_7)
     ),
     [_2] = LAYOUT(
         CK(KC_ESC),KC_W,      KC_A,  KC_R,
