@@ -65,28 +65,28 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______
     ),
     [_3] = LAYOUT(
-        MO(_CONF),KC_NO,KC_NO,KC_NO,
-        KC_NO,KC_NO,KC_NO,KC_NO,
-        KC_NO,KC_NO,KC_NO,KC_NO,KC_NO,
-        KC_NO,KC_NO
+        CK(KC_ESC),KC_V,      KC_P,   KC_T,
+        KC_LSFT,   JP_PLUS,   KC_LEFT,KC_RGHT,
+        RCTL(KC_Z),RCTL(KC_V),KC_LALT,MO(_3_FN),  KC_SPC,
+        RALT(KC_LEFT),RALT(KC_RGHT)
     ),
     [_3_FN] = LAYOUT(
-        KC_NO,KC_NO,KC_NO,KC_NO,
-        KC_NO,KC_NO,KC_NO,KC_NO,
-        KC_NO,KC_NO,KC_NO,KC_NO,KC_NO,
-        KC_NO,KC_NO
+        KC_DEL,   KC_A,       KC_NO,  KC_NO,
+        _______,  JP_MINS,    KC_LEFT,KC_RGHT,
+        RCS(KC_Z),RCTL(KC_C), _______,_______,_______,
+        KC_LEFT,KC_RGHT
     ),
     [_4] = LAYOUT(
-        MO(_CONF),KC_NO,KC_NO,KC_NO,
-        KC_NO,KC_NO,KC_NO,KC_NO,
-        KC_NO,KC_NO,KC_NO,KC_NO,KC_NO,
-        KC_NO,KC_NO
+        CK(KC_ESC),KC_R,      KC_D,   KC_E,
+        KC_LSFT,   KC_X,      KC_M,   KC_I,
+        RCTL(KC_Z),RCTL(KC_V),KC_LCTL,FN(4, KC_TAB),LT(_6, KC_ENT),
+        KC_WH_U,KC_WH_D
     ),
     [_4_FN] = LAYOUT(
-        KC_NO,KC_NO,KC_NO,KC_NO,
-        KC_NO,KC_NO,KC_NO,KC_NO,
-        KC_NO,KC_NO,KC_NO,KC_NO,KC_NO,
-        KC_NO,KC_NO
+        KC_DEL,    KC_L,      KC_NO,  KC_NO,
+        _______,   RCTL(KC_S),KC_O,   KC_I,
+        RCTL(KC_Y),RCTL(KC_C),_______,_______,_______,
+        _______,_______
     ),
     [_5] = LAYOUT(
         MO(_CONF),KC_NO,KC_NO,KC_NO,
@@ -101,21 +101,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_NO,KC_NO
     ),
     [_6] = LAYOUT(
-        MO(_CONF),KC_NO,KC_NO,KC_NO,
-        KC_NO,KC_NO,KC_NO,KC_NO,
-        KC_NO,KC_NO,KC_NO,KC_NO,KC_NO,
-        KC_NO,KC_NO
+        CK(KC_BSPC),KC_P7, KC_P8, KC_P9,
+        KC_DOT,     KC_P4, KC_P5, KC_P6,
+        KC_P0,      KC_P1, KC_P2, FN(6, KC_P3), KC_PENT,
+        KC_LEFT,    KC_RIGHT
     ),
     [_6_FN] = LAYOUT(
-        KC_NO,KC_NO,KC_NO,KC_NO,
-        KC_NO,KC_NO,KC_NO,KC_NO,
-        KC_NO,KC_NO,KC_NO,KC_NO,KC_NO,
-        KC_NO,KC_NO
+        KC_DEL,  KC_PPLS, KC_PMNS, JP_EQL,
+        KC_COMM, KC_PAST, KC_PSLS, KC_COMM,
+        KC_SPC,  JP_LPRN, JP_RPRN, _______, KC_NLCK,
+        _______, _______
     ),
     [_CONF] = LAYOUT(
         MO(_CONF), TO(_0), TO(_1),  TO(_2),
         TO(_3),     TO(_4), TO(_5), TO(_6),
-        RESET,      KC_NO,  KC_NO,  RGB_SAVE, RGB_TOG,
+        RESET,      EEPROM_RESET,  KC_NO,  RGB_SAVE, RGB_TOG,
         RGB_VND,RGB_VNI
     ),
     [_CONF_FN] = LAYOUT(
@@ -155,11 +155,6 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     uint8_t current_layer = get_highest_layer(state);
     uint8_t layer_number  = current_layer / 2;
     uint8_t val           = rgb_matrix_get_val();
-    if (current_layer == 0)
-        rgb_matrix_sethsv_noeeprom(148, 0, val);
-    else if (current_layer == 1)
-        rgb_matrix_sethsv_noeeprom(148, 64, val);
-    else
-        rgb_matrix_sethsv_noeeprom(layer_number * 32, current_layer % 2 == 0 ? 255 : 192, val);
+    rgb_matrix_sethsv_noeeprom(layer_number * 32, current_layer % 2 == 0 ? 255 : 192, val);
     return state;
 }
