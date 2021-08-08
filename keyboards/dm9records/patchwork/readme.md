@@ -4,7 +4,7 @@
 
 *A short description of the keyboard/project*
 
-* Keyboard Maintainer: [Takuya Urakawa](https://github.com/yourusername)
+* Keyboard Maintainer: [Takuya Urakawa(hsgw)](https://github.com/hsgw)
 * Hardware Supported: *The PCBs, controllers supported*
 * Hardware Availability: *Links to where you can find this hardware*
 
