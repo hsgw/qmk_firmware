@@ -20,11 +20,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "config_common.h"
 
 /* USB Device descriptor parameter */
-#define VENDOR_ID    0xFEED
-#define PRODUCT_ID   0x0000
-#define DEVICE_VER   0x0001
+#define VENDOR_ID 0xFEED
+#define PRODUCT_ID 0x0000
+#define DEVICE_VER 0x0001
 #define MANUFACTURER tsubuan_145
-#define PRODUCT      monorule
+#define PRODUCT monorule
 
 /* key matrix size */
 #define MATRIX_ROWS 2
@@ -40,10 +40,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *                  ROW2COL = ROW = Anode (+), COL = Cathode (-, marked on diode)
  *
  */
-#define MATRIX_ROW_PINS {  }
-#define DIRECT_PINS { D4, F7, F6, F5, F4 }
-#define MATRIX_ROW_PINS_RIGHT {  }
-#define DIRECT_PINS_RIGHT { D4, F7, F6, F5, F4 }
+
+#define DIRECT_PINS            \
+    {                          \
+        { D4, F7, F6, F5, F4 } \
+    }
+#define DIRECT_PINS_RIGHT      \
+    {                          \
+        { D4, F7, F6, F5, F4 } \
+    }
 #define UNUSED_PINS
 
 /* COL2ROW, ROW2COL */
