@@ -49,8 +49,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 // clang-format on
 
-uint32_t layer_state_set_user(uint32_t state) {
-    uint32_t computed = update_tri_layer_state(state, NUM, FUNC, CONF);
+layer_state_t layer_state_set_user(layer_state_t state) {
+    layer_state_t computed = update_tri_layer_state(state, NUM, FUNC, CONF);
     switch (biton32(computed)) {
         case NUM:
             set_led(1, 1);
