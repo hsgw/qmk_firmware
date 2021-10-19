@@ -26,14 +26,14 @@
 #define VS_FMT LSFT(LALT(KC_F))
 #define SFT_ZK LSFT_T(JP_ZHTG)
 
-enum layers { BASE, NUM, FUNC, CONF };
+enum layers { BASE, NUM, FUNC, CONF, GAME };
 
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [BASE] = LAYOUT(
         KC_ESC,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    S(KC_8),        S(KC_9),  KC_Y,    KC_U,    KC_I,      KC_O,      KC_P,      JP_AT, \
         KC_LCTL, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    JP_LBRC,        JP_RBRC,  KC_H,    KC_J,    KC_K,      KC_L,      JP_SCLN,   JP_COLN,\
-        KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    JP_MINS,        KC_INS,   KC_N,    KC_M,    JP_COMM,   JP_DOT,    JP_SLSH,   JP_CIRC,\
+        KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_B,           KC_INS,   KC_N,    KC_M,    JP_COMM,   JP_DOT,    JP_SLSH,   JP_CIRC,\
         KC_LALT, KC_LALT, KC_LALT, KC_LGUI, JP_ZHTG, NUM_SPC, KC_TAB,         FUNC_ENT, KC_BSPC, MO(FUNC),JP_LBRC,   JP_RBRC,   JP_BSLS,   JP_YEN\
     ),
     [NUM] = LAYOUT(
@@ -49,10 +49,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, _______, _______, _______, _______, _______,        _______, _______, _______, _______, _______, _______, _______  \
     ),
     [CONF] = LAYOUT(
-        RESET,   RGB_TOG, RGB_HUI, XXXXXXX, XXXXXXX, XXXXXXX, EEP_RST,        EEP_RST, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, RESET, \
+        RESET,   RGB_TOG, RGB_HUI, XXXXXXX, XXXXXXX, XXXXXXX, EEP_RST,        EEP_RST, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, RGB_TOG, RESET, \
         _______, RGB_MOD, RGB_SAI, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
         _______, RGB_SPI, RGB_VAI, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
-        _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______, XXXXXXX,        _______, XXXXXXX, _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX \
+        _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______, XXXXXXX,        _______, XXXXXXX, _______, XXXXXXX, XXXXXXX, XXXXXXX, TG(GAME) \
+    ),
+    [GAME] = LAYOUT(
+        KC_ESC,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_1,           S(KC_9),  KC_Y,    KC_U,    KC_I,      KC_O,      KC_P,      JP_AT, \
+        KC_LCTL, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_2,           JP_RBRC,  KC_H,    KC_J,    KC_K,      KC_L,      JP_SCLN,   JP_COLN,\
+        KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_3,           KC_INS,   KC_N,    KC_M,    JP_COMM,   JP_DOT,    JP_SLSH,   JP_CIRC,\
+        KC_LALT, KC_LALT, KC_LALT, KC_LGUI, MO(NUM), KC_SPC,  KC_TAB,         FUNC_ENT, KC_BSPC, MO(FUNC),JP_LBRC,   JP_RBRC,   JP_BSLS,   TG(GAME)\
     ),
 };
 // clang-format on
