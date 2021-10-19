@@ -26,5 +26,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define PRODUCT_ID 0x5A61
 
 /* VIA setting */
+#define DYNAMIC_KEYMAP_LAYER_COUNT 5
 #define VIA_EEPROM_LAYOUT_OPTIONS_SIZE 1
 #define VIA_EEPROM_CUSTOM_CONFIG_SIZE 1
+
+#define PERMISSIVE_HOLD
