@@ -1,27 +1,15 @@
 # choco
 
-![choco](imgur.com image replace me!)
+![choco](https://i.imgur.com/n2U9RHO.jpg)
 
-*A short description of the keyboard/project*
+7x4 ortholinear one-handed keyboard/macropad.
 
-* Keyboard Maintainer: [Takuya Urakawa](https://github.com/hsgw)
-* Hardware Supported: *The PCBs, controllers supported*
-* Hardware Availability: *Links to where you can find this hardware*
+Keyboard Maintainer: [hsgw](https://github.com/hsgw)  
+Hardware Supported: STM32F072C8T6, kailh choc switch.  
+Hardware Availability: https://github.com/hsgw/choco/
 
 Make example for this keyboard (after setting up your build environment):
 
-    make choco:default
-
-Flashing example for this keyboard:
-
-    make choco:default:flash
+    make choco:default:dfu-util
 
 See the [build environment setup](https://docs.qmk.fm/#/getting_started_build_tools) and the [make instructions](https://docs.qmk.fm/#/getting_started_make_guide) for more information. Brand new to QMK? Start with our [Complete Newbs Guide](https://docs.qmk.fm/#/newbs).
-
-## Bootloader
-
-Enter the bootloader in 3 ways:
-
-* **Bootmagic reset**: Hold down the key at (0,0) in the matrix (usually the top left key or Escape) and plug in the keyboard
-* **Physical reset button**: Briefly press the button on the back of the PCB - some may have pads you must short instead
-* **Keycode in layout**: Press the key mapped to `QK_BOOT` if it is available

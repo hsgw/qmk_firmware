@@ -17,43 +17,18 @@
 
 // Defines the keycodes used by our macros in process_record_user
 enum custom_keycodes {
-  QMKBEST = SAFE_RANGE,
+    QMKBEST = SAFE_RANGE,
 };
 
-const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+// clang-format off
+const uint16_t PROGMEM keymaps[7][MATRIX_ROWS][MATRIX_COLS] = {
 
   [0] = LAYOUT(
-      KC_1,KC_2,KC_3,KC_4,KC_5,KC_6,KC_7,
+      KC_1,KC_2,KC_3,KC_4,KC_5,KC_6,RESET,
       KC_A,KC_B,KC_C,KC_D,KC_E,KC_F,KC_G,
       KC_H,KC_I,KC_J,KC_K,KC_L,KC_M,KC_N,
       KC_O,KC_P,KC_Q,KC_R,KC_S,KC_T,KC_U
   )
 };
 
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  switch (keycode) {
-    case QMKBEST:
-      if (record->event.pressed) {
-        // when keycode QMKBEST is pressed
-        SEND_STRING("QMK is the best thing ever!");
-      } else {
-        // when keycode QMKBEST is released
-      }
-      break;
-    default:
-      break;
-  }
-  return true;
-}
-
-void matrix_init_user(void) {
-
-}
-
-void matrix_scan_user(void) {
-
-}
-
-void led_set_user(uint8_t usb_led) {
-
-}
+// clang-format on
