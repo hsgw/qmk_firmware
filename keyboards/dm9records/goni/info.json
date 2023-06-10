@@ -1,0 +1,49 @@
+{
+    "manufacturer": "Dm9Records",
+    "keyboard_name": "goni",
+    "maintainer": "hsgw(Takuya Urakawa)",
+    "bootloader": "stm32-dfu",
+    "features": {
+        "bootmagic": true,
+        "command": false,
+        "console": false,
+        "extrakey": true,
+        "mousekey": true,
+        "nkro": true
+    },
+    "matrix_pins": {
+        "direct": [
+            ["A14", "A13", "A0", "A1", "A2"],
+            ["A5",  "A6",  "A7", "A4", "A3"]
+        ]
+    },
+    "processor": "STM32F042",
+    "url": "",
+    "usb": {
+        "device_version": "1.0.0",
+        "pid": "0x1234",
+        "vid": "0xFEED"
+    },
+    "eeprom": {
+        "driver": "i2c"
+    },
+    "layouts": {
+        "LAYOUT_ortho_2x5": {
+            "layout": [
+                {"matrix": [0, 0], "x": 0, "y": 0},
+                {"matrix": [0, 1], "x": 1, "y": 0},
+                {"matrix": [0, 2], "x": 2, "y": 0},
+                {"matrix": [0, 3], "x": 3, "y": 0},
+                {"matrix": [0, 4], "x": 4, "y": 0},
+                {"matrix": [1, 0], "x": 0, "y": 1},
+                {"matrix": [1, 1], "x": 1, "y": 1},
+                {"matrix": [1, 2], "x": 2, "y": 1},
+                {"matrix": [1, 3], "x": 3, "y": 1},
+                {"matrix": [1, 4], "x": 4, "y": 1}
+            ]
+        }
+    },
+    "layout_aliases": {
+        "LAYOUT": "LAYOUT_ortho_2x5"
+    }
+}
