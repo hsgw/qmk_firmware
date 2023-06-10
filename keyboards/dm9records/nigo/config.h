@@ -1,4 +1,4 @@
-// Copyright 2023 Takuya Urakawa (@hsgw)
+// Copyright 2023 hsgw (Takuya Urakawa, Dm9Records, 5z6p.com)
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #pragma once
@@ -18,3 +18,10 @@
 //#define NO_ACTION_LAYER
 //#define NO_ACTION_TAPPING
 //#define NO_ACTION_ONESHOT
+
+#define EARLY_INIT_PERFORM_BOOTLOADER_JUMP TRUE
+
+#define I2C1_SCL_PIN F1
+#define I2C1_SCL_PAL_MODE 1
+#define I2C1_SDA_PIN F0
+#define I2C1_SDA_PAL_MODE 1
