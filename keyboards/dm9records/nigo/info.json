@@ -1,6 +1,6 @@
 {
     "manufacturer": "Dm9Records",
-    "keyboard_name": "goni",
+    "keyboard_name": "nigo",
     "maintainer": "hsgw(Takuya Urakawa)",
     "bootloader": "stm32-dfu",
     "features": {
@@ -21,8 +21,8 @@
     "url": "",
     "usb": {
         "device_version": "1.0.0",
-        "pid": "0x1234",
-        "vid": "0xFEED"
+        "pid": "0x2510",
+        "vid": "0xD449"
     },
     "eeprom": {
         "driver": "i2c"
