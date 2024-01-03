@@ -17,14 +17,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "config_common.h"
-
 /* USB Device descriptor parameter */
-#define VENDOR_ID 0xFEED
-#define PRODUCT_ID 0x0000
-#define DEVICE_VER 0x0001
-#define MANUFACTURER SMKiJ Casasagi Contributors
-#define PRODUCT casasagi
+// #define VENDOR_ID 0xFEED
+// #define PRODUCT_ID 0x0000
+// #define DEVICE_VER 0x0001
+// #define MANUFACTURER SMKiJ Casasagi Contributors
+// #define PRODUCT casasagi
 
 /* key matrix size */
 #define MATRIX_ROWS 8
@@ -59,8 +57,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define DIODE_DIRECTION COL2ROW
 
 /* RGBLED setting */
-#define RGB_DI_PIN B15
-#define WS2812_SPI SPID2
+#define WS2812_DI_PIN B15
+#define WS2812_SPI_DRIVER SPID2
 #define WS2812_SPI_MOSI_PAL_MODE 0
 #define WS2812_EXTERNAL_PULLUP
 
@@ -107,6 +105,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endif
 
 #ifdef RGB_MATRIX_ENABLE
+#    define RGB_MATRIX_LED_COUNT 56
 #    define RGB_MATRIX_FRAMEBUFFER_EFFECTS
 #    define RGB_MATRIX_KEYPRESSES
 #    define RGB_MATRIX_KEYRELEASES
@@ -121,17 +120,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endif
 
 /* Split communication setting */
-#define SOFT_SERIAL_PIN B6  // USART TX pin
+#define SOFT_SERIAL_PIN B6 // USART TX pin
 #define SELECT_SOFT_SERIAL_SPEED \
-    1                               // or 0, 2, 3, 4, 5
-                                    //  0: about 460800 baud
-                                    //  1: about 230400 baud (default)
-                                    //  2: about 115200 baud
-                                    //  3: about 57600 baud
-                                    //  4: about 38400 baud
-                                    //  5: about 19200 baud
-#define SERIAL_USART_DRIVER SD1     // USART driver of TX pin. default: SD1
-#define SERIAL_USART_TX_PAL_MODE 0  // Pin "alternate function", see the respective datasheet for the appropriate values for your MCU. default: 7
+    1                              // or 0, 2, 3, 4, 5
+                                   //  0: about 460800 baud
+                                   //  1: about 230400 baud (default)
+                                   //  2: about 115200 baud
+                                   //  3: about 57600 baud
+                                   //  4: about 38400 baud
+                                   //  5: about 19200 baud
+#define SERIAL_USART_DRIVER SD1    // USART driver of TX pin. default: SD1
+#define SERIAL_USART_TX_PAL_MODE 0 // Pin "alternate function", see the respective datasheet for the appropriate values for your MCU. default: 7
 #define SERIAL_USART_TIMEOUT 10
 
 #define SPLIT_USB_DETECT
@@ -189,10 +188,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //#define NO_ACTION_LAYER
 //#define NO_ACTION_TAPPING
 //#define NO_ACTION_ONESHOT
-
-/* disable these deprecated features by default */
-#define NO_ACTION_MACRO
-#define NO_ACTION_FUNCTION
 
 /* Bootmagic Lite key configuration */
 //#define BOOTMAGIC_LITE_ROW 0

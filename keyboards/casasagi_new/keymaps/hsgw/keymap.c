@@ -34,7 +34,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_ESC,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    S(KC_8),        S(KC_9),  KC_Y,    KC_U,    KC_I,      KC_O,      KC_P,      JP_AT, \
         KC_LCTL, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    JP_LBRC,        JP_RBRC,  KC_H,    KC_J,    KC_K,      KC_L,      JP_SCLN,   JP_COLN,\
         KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_B,           KC_INS,   KC_N,    KC_M,    JP_COMM,   JP_DOT,    JP_SLSH,   JP_CIRC,\
-        KC_LALT, KC_LALT, KC_LALT, KC_LGUI, JP_ZKHK, NUM_SPC, KC_TAB,         FUNC_ENT, KC_BSPC, MO(FUNC),JP_LBRC,   JP_RBRC,   JP_BSLS,   JP_YEN\
+        KC_LALT, KC_LALT, KC_LALT, KC_LGUI, JP_ZKHK, NUM_SPC, KC_TAB,         FUNC_ENT, FUNC_ENT,KC_BSPC, JP_LBRC,   JP_RBRC,   JP_BSLS,   JP_YEN\
     ),
     [NUM] = LAYOUT(
         KC_DEL,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    _______,        _______,  KC_6,    KC_7,    KC_8,      KC_9,      KC_0,      JP_YEN, \

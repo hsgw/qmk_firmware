@@ -1,12 +1,17 @@
 {
-    "keyboard_name": "Casasagi",
+    "keyboard_name": "casasagi",
+    "manufacturer": "SMKiJ Casasagi Contributors",
+    "usb": {
+        "pid": "0x0000",
+        "vid": "0x0001",
+        "device_version": "0.0.1"
+    },
     "url": "",
     "maintainer": "SMKiJ Casasagi Contributors",
-    "width": 14,
-    "height": 4,
+    "bootloader": "stm32-dfu",
+
     "layouts": {
         "LAYOUT": {
-            "key_count": 56,
             "layout": [
                 {
                     "label": "L00",
