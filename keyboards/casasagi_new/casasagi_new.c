@@ -14,7 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "casasagi.h"
+#include "casasagi_new.h"
 
 void board_init(void) {
     // remap dma channel for SPI2
