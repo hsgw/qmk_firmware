@@ -1,0 +1,51 @@
+{
+    "manufacturer": "Dm9Records",
+    "keyboard_name": "ichi pp",
+    "maintainer": "hsgw(Takuya Urakawa)",
+    "bootloader": "stm32-dfu",
+    "features": {
+        "bootmagic": true,
+        "command": false,
+        "console": false,
+        "extrakey": true,
+        "mousekey": true,
+        "nkro": true,
+        "rgblight": true
+    },
+    "matrix_pins": {
+        "direct": [
+            ["A14"]
+        ]
+    },
+    "rgblight": {
+        "led_count": 10,
+        "animations": {
+            "breathing": true,
+            "rainbow_mood": true,
+            "rainbow_swirl": true,
+            "snake": false,
+            "knight": true,
+            "christmas": false,
+            "static_gradient": true,
+            "rgb_test": true,
+            "alternating": true,
+            "twinkle": true
+        }
+    },
+    "ws2812": {
+        "pin": "A5",
+        "driver": "spi"
+    },
+    "processor": "STM32F042",
+    "url": "",
+    "usb": {
+        "device_version": "1.0.0",
+        "pid": "0x1101",
+        "vid": "0xD449"
+    },
+    "layouts": {
+        "LAYOUT": {
+        "layout": [{"matrix": [0, 0], "x": 0, "y": 0}]
+        }
+    }
+}
