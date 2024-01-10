@@ -8,13 +8,25 @@
         "command": false,
         "console": false,
         "extrakey": true,
-        "mousekey": true,
-        "nkro": true,
-        "rgblight": true
+        "mousekey": false,
+        "nkro": false,
+        "rgblight": true,
+        "space_cadet": false,
+        "grave_esc": false
+
+    },
+    "qmk": {
+        "locking": {
+            "enabled": false,
+            "resync": false
+        }
+    },
+    "build": {
+        "lto": true
     },
     "matrix_pins": {
         "direct": [
-            ["A14"]
+            ["A5"]
         ]
     },
     "rgblight": {
