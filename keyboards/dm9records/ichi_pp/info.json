@@ -26,7 +26,7 @@
     },
     "matrix_pins": {
         "direct": [
-            ["A5"]
+            ["A14"]
         ]
     },
     "rgblight": {
@@ -45,7 +45,7 @@
         }
     },
     "ws2812": {
-        "pin": "A5",
+        "pin": "A7",
         "driver": "spi"
     },
     "processor": "STM32F042",
