@@ -17,15 +17,22 @@
 #include "color.h"
 #include "led_tables.h"
 #include "progmem.h"
+#include "util.h"
 
-RGB hsv_to_rgb(HSV hsv) {
+RGB hsv_to_rgb_impl(HSV hsv, bool use_cie) {
     RGB      rgb;
     uint8_t  region, remainder, p, q, t;
     uint16_t h, s, v;
 
     if (hsv.s == 0) {
 #ifdef USE_CIE1931_CURVE
-        rgb.r = rgb.g = rgb.b = pgm_read_byte(&CIE1931_CURVE[hsv.v]);
+        if (use_cie) {
+            rgb.r = rgb.g = rgb.b = pgm_read_byte(&CIE1931_CURVE[hsv.v]);
+        } else {
+            rgb.r = hsv.v;
+            rgb.g = hsv.v;
+            rgb.b = hsv.v;
+        }
 #else
         rgb.r = hsv.v;
         rgb.g = hsv.v;
@@ -37,7 +44,11 @@ RGB hsv_to_rgb(HSV hsv) {
     h = hsv.h;
     s = hsv.s;
 #ifdef USE_CIE1931_CURVE
-    v = pgm_read_byte(&CIE1931_CURVE[hsv.v]);
+    if (use_cie) {
+        v = pgm_read_byte(&CIE1931_CURVE[hsv.v]);
+    } else {
+        v = hsv.v;
+    }
 #else
     v = hsv.v;
 #endif
@@ -85,3 +96,26 @@ RGB hsv_to_rgb(HSV hsv) {
 
     return rgb;
 }
+
+RGB hsv_to_rgb(HSV hsv) {
+#ifdef USE_CIE1931_CURVE
+    return hsv_to_rgb_impl(hsv, true);
+#else
+    return hsv_to_rgb_impl(hsv, false);
+#endif
+}
+
+RGB hsv_to_rgb_nocie(HSV hsv) {
+    return hsv_to_rgb_impl(hsv, false);
+}
+
+#ifdef RGBW
+void convert_rgb_to_rgbw(rgb_led_t *led) {
+    // Determine lowest value in all three colors, put that into
+    // the white channel and then shift all colors by that amount
+    led->w = MIN(led->r, MIN(led->g, led->b));
+    led->r -= led->w;
+    led->g -= led->w;
+    led->b -= led->w;
+}
+#endif

@@ -2,19 +2,17 @@
 
 QMK script to run unit and integration tests against our python code.
 """
-import sys
+from subprocess import DEVNULL
+
 from milc import cli
 
 
-@cli.subcommand('QMK Python Unit Tests')
+@cli.argument('-t', '--test', arg_only=True, action='append', default=[], help="Mapped to nose2 'testNames' positional argument - https://docs.nose2.io/en/latest/usage.html#specifying-tests-to-run")
+@cli.subcommand('QMK Python Unit Tests', hidden=False if cli.config.user.developer else True)
 def pytest(cli):
-    """Use nose2 to run unittests
+    """Run several linting/testing commands.
     """
-    try:
-        import nose2
+    nose2 = cli.run(['nose2', '-v', '-t', 'lib/python', *cli.args.test], capture_output=False, stdin=DEVNULL)
+    flake8 = cli.run(['flake8', 'lib/python'], capture_output=False, stdin=DEVNULL)
 
-    except ImportError:
-        cli.log.error('Could not import nose2! Please install it with {fg_cyan}pip3 install nose2')
-        return False
-
-    nose2.discover(argv=['nose2', '-v'])
+    return flake8.returncode | nose2.returncode

@@ -15,34 +15,10 @@
  */
 #pragma once
 
-#include "config_common.h"
-
-// USB Device descriptor parameter
-#define VENDOR_ID       0x5A45 // ZealPC ("ZE")
-#define PRODUCT_ID      0x0060 // Zeal60
-#define DEVICE_VER      0x0001
-#define MANUFACTURER    ZealPC
-#define PRODUCT         Zeal60
-#define DESCRIPTION     Zeal60
-
-// key matrix size
-#define MATRIX_ROWS 5
-#define MATRIX_COLS 14
-
-// Zeal60 PCB default pin-out
-#define MATRIX_ROW_PINS { F0, F1, F4, F6, F7 }
-#define MATRIX_COL_PINS { F5, D5, B1, B2, B3, D3, D2, C7, C6, B6, B5, B4, D7, D6 }
-#define UNUSED_PINS
-
 // IS31FL3731 driver
-#define DRIVER_COUNT 2
-#define DRIVER_LED_TOTAL 72
-
-// COL2ROW or ROW2COL
-#define DIODE_DIRECTION COL2ROW
-
-// Set 0 if debouncing isn't needed
-#define DEBOUNCE 5
+#define IS31FL3731_I2C_ADDRESS_1 IS31FL3731_I2C_ADDRESS_GND
+#define IS31FL3731_I2C_ADDRESS_2 IS31FL3731_I2C_ADDRESS_SDA
+#define IS31FL3731_LED_COUNT 72
 
 // Mechanical locking support. Use KC_LCAP, KC_LNUM or KC_LSCR instead in keymap
 #define LOCKING_SUPPORT_ENABLE
@@ -64,8 +40,6 @@
 //#define NO_ACTION_LAYER
 //#define NO_ACTION_TAPPING
 //#define NO_ACTION_ONESHOT
-//#define NO_ACTION_MACRO
-//#define NO_ACTION_FUNCTION
 
 #define RGB_BACKLIGHT_ENABLED 1
 
@@ -115,24 +89,6 @@
 #define RGB_BACKLIGHT_LAYER_2_INDICATOR { .color = { .h = 0, .s = 0 }, .index = 255 }
 #define RGB_BACKLIGHT_LAYER_3_INDICATOR { .color = { .h = 0, .s = 0 }, .index = 255 }
 
-#define DYNAMIC_KEYMAP_LAYER_COUNT 4
-
-// EEPROM usage
-
-// TODO: refactor with new user EEPROM code (coming soon)
-#define EEPROM_MAGIC 0x451F
-#define EEPROM_MAGIC_ADDR 34
-// Bump this every time we change what we store
-// This will automatically reset the EEPROM with defaults
-// and avoid loading invalid data from the EEPROM
-#define EEPROM_VERSION 0x08
-#define EEPROM_VERSION_ADDR 36
-
-// Backlight config starts after EEPROM version
-#define RGB_BACKLIGHT_CONFIG_EEPROM_ADDR 37
-// Dynamic keymap starts after backlight config (37+31)
-#define DYNAMIC_KEYMAP_EEPROM_ADDR 68
-// Dynamic macro starts after dynamic keymaps (68+(4*5*14*2)) = (68+560)
-#define DYNAMIC_KEYMAP_MACRO_EEPROM_ADDR 628
-#define DYNAMIC_KEYMAP_MACRO_EEPROM_SIZE 396
-#define DYNAMIC_KEYMAP_MACRO_COUNT 16
+// Backlight config starts after VIA's EEPROM usage,
+// dynamic keymaps start after this.
+#define VIA_EEPROM_CUSTOM_CONFIG_SIZE 31
