@@ -1,15 +1,55 @@
 {
+    "manufacturer": "hsgw",
     "keyboard_name": "ichi",
-    "url": "",
-    "maintainer": "Takuya Urakawa(dm9records.com 5z6p.com)",
-    "width": 3,
-    "height": 1,
+    "maintainer": "hsgw",
+    "bootloader": "atmel-dfu",
+    "features": {
+        "bootmagic": true,
+        "command": false,
+        "console": true,
+        "extrakey": true,
+        "mousekey": true,
+        "nkro": true,
+        "rgblight": true
+    },
+    "usb": {
+        "vid": "0xD449",
+        "pid": "0x0001",
+        "device_version": "0.0.1"
+    },
+    "rgblight": {
+        "led_count": 18,
+        "max_brightness": 150,
+        "saturation_steps": 20,
+        "brightness_steps": 20,
+        "sleep": false,
+        "animations": {
+          "breathing": true,
+          "rainbow_mood": true,
+          "rainbow_swirl": true,
+          "snake": true,
+          "knight": true,
+          "christmas": true,
+          "static_gradient": true,
+          "rgb_test": true,
+          "alternating": true,
+          "twinkle": true
+        }
+      },
+    "ws2812": {
+        "pin": "B6"
+    },
+    "matrix_pins": {
+        "direct": [
+            ["B5", "C7", "C6"]
+        ]
+    },
     "layouts": {
         "LAYOUT": {
             "layout": [
-                {"label":"k00", "x":0, "y":0},
-                {"label":"k01", "x":1, "y":0},
-                {"label":"k02", "x":2, "y":0}
+                {"x":0, "y":0, "matrix": [0, 0]},
+                {"x":1, "y":0, "matrix": [0, 1]},
+                {"x":2, "y":0, "matrix": [0, 2]}
             ]
         }
     }

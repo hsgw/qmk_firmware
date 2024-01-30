@@ -14,21 +14,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include QMK_KEYBOARD_H
-#include "../../util.h"
+#include "ichi.h"
 
 // Defines the keycodes used by our macros in process_record_user
-enum custom_keycodes {
-    BIGSW = SAFE_RANGE,
-    CONF1,
-    CONF2
-};
+enum custom_keycodes { BIGSW = SAFE_RANGE, CONF1, CONF2 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /* Base */
-    [0] = LAYOUT(
-        BIGSW,    CONF1,    CONF2
-    )
-};
+    [0] = LAYOUT(BIGSW, CONF1, CONF2)};
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
@@ -39,7 +32,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             break;
         case CONF2:
             if (record->event.pressed) {
-                if(rgblight_get_sat() + RGBLIGHT_SAT_STEP > 255) {
+                if (rgblight_get_sat() + RGBLIGHT_SAT_STEP > 255) {
                     rgbled_color_t current = get_current_color();
                     rgblight_sethsv(current.hue, 0, current.val);
                     rgblight_set();
@@ -54,19 +47,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             break;
     }
+    // eeconfig_debug_rgblight();
     return true;
 }
 
-/*
-void matrix_init_user(void) {
-
+void keyboard_post_init_user(void) {
+    // Customise these values to desired behaviour
+    // debug_enable = true;
+    // debug_matrix=true;
+    // debug_keyboard=true;
+    // debug_mouse=true;
 }
-
-void matrix_scan_user(void) {
-
-}
-
-bool led_update_user(led_t led_state) {
-    return true;
-}
-*/
