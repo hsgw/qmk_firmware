@@ -1,3 +1,3 @@
 VIA_ENABLE = yes
-OLED_DRIVER_ENABLE = yes    # OLED Driver Enable
+OLED_ENABLE = yes
 WPM_ENABLE = yes			# WPM counting Enable
