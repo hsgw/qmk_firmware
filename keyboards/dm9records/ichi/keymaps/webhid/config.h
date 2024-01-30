@@ -15,6 +15,3 @@
  */
 
 #pragma once
-
-// place overrides here
-#define BRIGHTNESS_STEP (2)

@@ -14,23 +14,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include QMK_KEYBOARD_H
-#include "raw_hid.h"
-#include "usb_descriptor.h"
-#include "../../util.h"
+#include <usb_descriptor.h>
+#include <raw_hid.h>
+#include "ichi.h"
 
 // Defines the keycodes used by our macros in process_record_user
-enum custom_keycodes {
-    BIGSW = SAFE_RANGE,
-    CONF1,
-    CONF2
-};
+enum custom_keycodes { BIGSW = SAFE_RANGE, CONF1, CONF2 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /* Base */
-    [0] = LAYOUT(
-        BIGSW,    CONF1,    CONF2
-    )
-};
+    [0] = LAYOUT(BIGSW, CONF1, CONF2)};
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
@@ -41,8 +34,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             break;
         case CONF2:
             if (record->event.pressed) {
-                if(rgblight_get_sat() + RGBLIGHT_SAT_STEP > 255) {
-                    rgbled_color_t current = getCurrentColor();
+                if (rgblight_get_sat() + RGBLIGHT_SAT_STEP > 255) {
+                    rgbled_color_t current = get_current_color();
                     rgblight_sethsv(current.hue, 0, current.val);
                     rgblight_set();
                 } else {
@@ -56,11 +49,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 //     stepBrightness();
                 // }
                 uint8_t data[RAW_EPSIZE] = {};
-                data[0] = 1;
-                rgbled_color_t current = getCurrentColor();
-                data[1] = current.hue;
-                data[2] = current.sat;
-                data[3] = current.val;
+                data[0]                  = 1;
+                rgbled_color_t current   = get_current_color();
+                data[1]                  = current.hue;
+                data[2]                  = current.sat;
+                data[3]                  = current.val;
                 raw_hid_send(data, RAW_EPSIZE);
             }
             break;
@@ -68,24 +61,24 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
-void raw_hid_receive( uint8_t *data, uint8_t length ) {
+void raw_hid_receive(uint8_t *data, uint8_t length) {
     uint8_t ret[RAW_EPSIZE] = {};
-    switch(data[0]) {
+    switch (data[0]) {
         case 0:
             raw_hid_send(ret, RAW_EPSIZE);
             break;
         case 1:
-            ret[0] = 1;
-            rgbled_color_t current = getCurrentColor();
-            ret[1] = current.hue;
-            ret[2] = current.sat;
-            ret[3] = current.val;
+            ret[0]                 = 1;
+            rgbled_color_t current = get_current_color();
+            ret[1]                 = current.hue;
+            ret[2]                 = current.sat;
+            ret[3]                 = current.val;
             raw_hid_send(ret, RAW_EPSIZE);
             break;
         case 2:
-            rgblight_sethsv_noeeprom(data[1],data[2],data[3]);
+            rgblight_sethsv_noeeprom(data[1], data[2], data[3]);
             rgblight_set();
-        default :
+        default:
             break;
     }
 }
