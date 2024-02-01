@@ -1,0 +1,107 @@
+{
+    "manufacturer": "Takuya Urakawa",
+    "keyboard_name": "meias",
+    "maintainer": "hsgw",
+    "bootloader": "stm32-dfu",
+    "diode_direction": "COL2ROW",
+    "features": {
+        "bootmagic": true,
+        "command": false,
+        "console": false,
+        "extrakey": true,
+        "mousekey": true,
+        "nkro": true
+    },
+    "matrix_pins": {
+        "direct": [
+            ["B1", "B2",  "B15", "A15", "B3", "B5"],
+            ["B0", "B10", "B11", "A14", "B4", "B6"],
+            ["A7", "A5",  "A2",  "C14", "B9", "B7"],
+            ["A6", "A4",  "A3",  "C15", "C13","B8"]
+        ]
+    },
+    "split": {
+        "enabled": true,
+        "soft_serial_pin": "A9",
+        "handedness": {
+            "pin": "A0"
+        },
+        "usb_detect": {
+            "enabled": true
+        }
+    },
+    "eeprom": {
+        "driver": "i2c"
+    },
+    "processor": "STM32F072",
+    "url": "",
+    "usb": {
+        "device_version": "1.0.0",
+        "pid": "0x0000",
+        "vid": "0xFEED"
+    },
+    "layout_aliases": {
+        "LAYOUT": "LAYOUT_ortho_4x12"
+    },
+    "layouts": {
+        "LAYOUT_ortho_4x12": {
+            "layout": [
+                {"matrix": [0, 0], "x": 0, "y": 0},
+                {"matrix": [0, 1], "x": 1, "y": 0},
+                {"matrix": [0, 2], "x": 2, "y": 0},
+                {"matrix": [0, 3], "x": 3, "y": 0},
+                {"matrix": [0, 4], "x": 4, "y": 0},
+                {"matrix": [0, 5], "x": 5, "y": 0},
+
+                {"matrix": [4, 5], "x": 7, "y": 0},
+                {"matrix": [4, 4], "x": 8, "y": 0},
+                {"matrix": [4, 3], "x": 9, "y": 0},
+                {"matrix": [4, 2], "x": 10, "y": 0},
+                {"matrix": [4, 1], "x": 11, "y": 0},
+                {"matrix": [4, 0], "x": 12, "y": 0},
+
+                {"matrix": [1, 0], "x": 0, "y": 1},
+                {"matrix": [1, 1], "x": 1, "y": 1},
+                {"matrix": [1, 2], "x": 2, "y": 1},
+                {"matrix": [1, 3], "x": 3, "y": 1},
+                {"matrix": [1, 4], "x": 4, "y": 1},
+                {"matrix": [1, 5], "x": 5, "y": 1},
+
+                {"matrix": [5, 5], "x": 7, "y": 1},
+                {"matrix": [5, 4], "x": 8, "y": 1},
+                {"matrix": [5, 3], "x": 9, "y": 1},
+                {"matrix": [5, 2], "x": 10, "y": 1},
+                {"matrix": [5, 1], "x": 11, "y": 1},
+                {"matrix": [5, 0], "x": 12, "y": 1},
+
+                {"matrix": [2, 0], "x": 0, "y": 2},
+                {"matrix": [2, 1], "x": 1, "y": 2},
+                {"matrix": [2, 2], "x": 2, "y": 2},
+                {"matrix": [2, 3], "x": 3, "y": 2},
+                {"matrix": [2, 4], "x": 4, "y": 2},
+                {"matrix": [2, 5], "x": 5, "y": 2},
+
+                {"matrix": [6, 5], "x": 7, "y": 2},
+                {"matrix": [6, 4], "x": 8, "y": 2},
+                {"matrix": [6, 3], "x": 9, "y": 2},
+                {"matrix": [6, 2], "x": 10, "y": 2},
+                {"matrix": [6, 1], "x": 11, "y": 2},
+                {"matrix": [6, 0], "x": 12, "y": 2},
+
+                {"matrix": [3, 0], "x": 0, "y": 3},
+                {"matrix": [3, 1], "x": 1, "y": 3},
+                {"matrix": [3, 2], "x": 2, "y": 3},
+                {"matrix": [3, 3], "x": 3, "y": 3},
+                {"matrix": [3, 4], "x": 4, "y": 3},
+                {"matrix": [3, 5], "x": 5, "y": 3},
+
+                {"matrix": [7, 5], "x": 7, "y": 3},
+                {"matrix": [7, 4], "x": 8, "y": 3},
+                {"matrix": [7, 3], "x": 9, "y": 3},
+                {"matrix": [7, 2], "x": 10, "y": 3},
+                {"matrix": [7, 1], "x": 11, "y": 3},
+                {"matrix": [7, 0], "x": 12, "y": 3}
+            ]
+        }
+    }
+}
