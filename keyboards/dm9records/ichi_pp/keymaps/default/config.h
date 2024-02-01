@@ -1,0 +1,12 @@
+// Copyright 2024 hsgw (Takuya Urakawa, Dm9Records, 5z6p.com)
+// SPDX-License-Identifier: GPL-2.0-or-later
+
+#define RGBLIGHT_LIMIT_VAL 255
+#define RGBLIGHT_DEFAULT_MODE RGBLIGHT_MODE_RAINBOW_SWIRL + 5
+#define RGBLIGHT_DEFAULT_HUE 0
+#define RGBLIGHT_DEFAULT_SAT 0
+#define RGBLIGHT_DEFAULT_VAL RGBLIGHT_LIMIT_VAL
+
+#define RGBLIGHT_DEFAULT_SPD 0
+
+#define BIG_SWITCH_HOLD_TIME 3000

@@ -26,7 +26,7 @@
     },
     "matrix_pins": {
         "direct": [
-            ["A14"]
+            ["A4","A3","A14"]
         ]
     },
     "rgblight": {
@@ -57,7 +57,11 @@
     },
     "layouts": {
         "LAYOUT": {
-        "layout": [{"matrix": [0, 0], "x": 0, "y": 0}]
+            "layout": [
+                {"matrix": [0, 0], "x": 0, "y": 0},
+                {"matrix": [0, 1], "x": 0, "y": 1.5},
+                {"matrix": [0, 2], "x": 1, "y": 1.5}
+            ]
         }
     }
 }
