@@ -1,0 +1,1 @@
+#define TYPE_LED_DWELL 20

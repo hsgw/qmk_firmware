@@ -3,8 +3,17 @@
 
 #pragma once
 
-#define LED_0_PIN "GP28"
-#define LED_1_PIN "GP29"
+#define LED_PINS \
+    { GP28, GP29 }
+
+//  Haptic feedback
+#define SOLENOID_PIN GP1
+#define SOLENOID_DEFAULT_DWELL 30
+
+#define DIP_SWITCH_MATRIX_GRID \
+    {                          \
+        { 0, 0 }               \
+    }
 
 /*
  * Feature disable options

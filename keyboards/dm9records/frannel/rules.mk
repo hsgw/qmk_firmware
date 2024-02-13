@@ -1,1 +1,1 @@
-# This file intentionally left blank
+HAPTIC_DRIVER = solenoid
