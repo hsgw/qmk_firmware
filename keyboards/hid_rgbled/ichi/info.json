@@ -1,0 +1,20 @@
+{
+    "bootloader": "atmel-dfu",
+    "processor": "atmega32u4",
+    "url": "",
+    "usb": {
+        "device_version": "1.0.0",
+        "pid": "0x0000",
+        "vid": "0xFEED"
+    },
+    "matrix_pins":{
+        "direct": [["B5"]]
+    },
+    "ws2812": {
+        "pin": "B6"
+    },
+    "rgblight": {
+        "led_count": 18,
+        "max_brightness": 150
+    }
+}
