@@ -1,6 +1,5 @@
 {
-    "manufacturer": "hsgw",
-    "keyboard_name": "hid_rgbled",
+    "manufacturer": "hid_rgbled",
     "maintainer": "hsgw",
     "url": "",
     "usb": {
