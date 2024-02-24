@@ -66,6 +66,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                     // save config to eeprom
                     rgblight_mode(rgblight_get_mode());
                     rgblight_sethsv(rgblight_get_hue(), rgblight_get_sat(), rgblight_get_val());
+                    rgblight_toggle_noeeprom();
+                    wait_ms(300);
+                    rgblight_toggle_noeeprom();
                 }
             }
             return false;
