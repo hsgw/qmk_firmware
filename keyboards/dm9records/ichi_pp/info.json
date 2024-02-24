@@ -53,7 +53,8 @@
     "usb": {
         "device_version": "1.0.0",
         "pid": "0x1101",
-        "vid": "0xD449"
+        "vid": "0xD449",
+        "no_startup_check": true
     },
     "layouts": {
         "LAYOUT": {
