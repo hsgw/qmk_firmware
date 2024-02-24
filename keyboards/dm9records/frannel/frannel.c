@@ -3,6 +3,16 @@
 static const pin_t led_pins[]   = LED_PINS;
 bool               led_states[] = {false, false};
 
+typedef union {
+    uint32_t raw;
+    struct {
+        uint8_t led_modes[2];
+        int8_t  haptic_led_no;
+    };
+} user_config_t;
+
+user_config_t user_config;
+
 bool     enable_haptic_led = false;
 uint16_t haptic_led_timer  = 0;
 
@@ -24,6 +34,14 @@ bool frannel_led_get_state(uint8_t no) {
     return led_states[no];
 }
 
+void frannel_enable_solenoid(bool flag) {
+    if (flag)
+        haptic_enable();
+    else
+        haptic_disable();
+    frannel_update_solenoid_leds();
+}
+
 void frannel_enable_haptic_led(bool flag) {
     enable_haptic_led = flag;
     if (flag == false) {
@@ -31,22 +49,123 @@ void frannel_enable_haptic_led(bool flag) {
     }
 }
 
-void keyboard_pre_init_kb(void) {
+void update_led_status(void) {
     for (uint8_t i = 0; i < 2; i++) {
-        setPinOutput(led_pins[i]);
+        switch (user_config.led_modes[i]) {
+            case FR_LED_NO:
+                frannel_led_set(i, 0);
+                break;
+            case FR_LED_CAPSLOCK:
+                frannel_led_set(i, host_keyboard_led_state().caps_lock);
+                break;
+            case FR_LED_NUMLOCK:
+                frannel_led_set(i, host_keyboard_led_state().num_lock);
+                break;
+            case FR_LED_SOLENOID:
+                frannel_led_set(i, haptic_get_enable());
+                break;
+            default:
+                // FR_LED_LAYER
+                frannel_led_set(i, layer_state_is(user_config.led_modes[i] - FR_LED_LAYER));
+                break;
+        }
     }
+}
+
+void frannel_set_led_mode_noeeprom(uint8_t no, uint8_t mode) {
+    user_config.led_modes[no] = mode;
+    update_led_status();
+}
+
+void frannel_set_led_mode(uint8_t no, uint8_t mode) {
+    frannel_set_led_mode_noeeprom(no, mode);
+    eeconfig_update_user(user_config.raw);
+}
+
+void frannel_set_haptic_led_noeeprom(int8_t no) {}
+
+void frannel_set_haptic_led(int8_t no) {
+    frannel_set_haptic_led_noeeprom(no);
+}
+
+void frannel_update_host_leds(led_t led_state) {
+    for (uint8_t i = 0; i < 2; i++) {
+        if (user_config.led_modes[i] == FR_LED_CAPSLOCK)
+            frannel_led_set(i, led_state.caps_lock);
+        else if (user_config.led_modes[i] == FR_LED_NUMLOCK)
+            frannel_led_set(i, led_state.num_lock);
+    }
+}
+
+void frannel_update_layer_leds(layer_state_t state) {
+    uint8_t current_layer = get_highest_layer(layer_state);
+    for (uint8_t i = 0; i < 2; i++) {
+        if (user_config.led_modes[i] >= FR_LED_LAYER) {
+            uint8_t layer = user_config.led_modes[i] - FR_LED_LAYER;
+            frannel_led_set(i, layer == current_layer);
+        }
+    }
+}
+
+void frannel_update_solenoid_leds(void) {
+    for (uint8_t i = 0; i < 2; i++) {
+        if (user_config.led_modes[i] == FR_LED_SOLENOID) {
+            frannel_led_set(i, haptic_get_enable());
+        }
+    }
+}
+
+void eeconfig_init_user(void) { // EEPROM is getting reset!
+    user_config.raw           = 0;
+    user_config.led_modes[0]  = DEFAULT_LED0_MODE;
+    user_config.led_modes[1]  = DEFAULT_LED1_MODE;
+    user_config.haptic_led_no = DEFAULT_HAPTIC_LED_NO;
+
+    eeconfig_update_user(user_config.raw);
+}
+
+void keyboard_pre_init_kb(void) {
+    setPinOutput(led_pins[0]);
+    setPinOutput(led_pins[1]);
+
+    writePin(led_pins[0], 1);
+    writePin(led_pins[1], 1);
+    wait_ms(500);
+
     keyboard_pre_init_user();
 }
-bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
-    if (enable_haptic_led && record->event.pressed) {
-        haptic_led_timer = timer_read();
-        frannel_led_toggle_temp(1);
-    }
-    return process_record_user(keycode, record);
-};
+
+void keyboard_post_init_kb(void) {
+    user_config.raw = eeconfig_read_user();
+    update_led_status();
+    keyboard_post_init_user();
+}
+
 void housekeeping_task_kb(void) {
     if (enable_haptic_led && TIMER_DIFF_16(timer_read(), haptic_led_timer) > TYPE_LED_DWELL) {
         frannel_led_restore();
     }
     housekeeping_task_user();
+}
+
+bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
+    // for haptic leds
+    if (enable_haptic_led && user_config.haptic_led_no != -1 && record->event.pressed) {
+        haptic_led_timer = timer_read();
+        frannel_led_toggle_temp(user_config.haptic_led_no);
+    }
+    return process_record_user(keycode, record);
+}
+
+bool led_update_kb(led_t led_state) {
+    bool res = led_update_user(led_state);
+    if (res) {
+        frannel_update_host_leds(led_state);
+    }
+    return res;
+}
+
+layer_state_t layer_state_set_kb(layer_state_t state) {
+    frannel_update_layer_leds(state);
+    return layer_state_set_user(state);
 }

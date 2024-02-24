@@ -16,17 +16,30 @@
     }
 
 /*
- * Feature disable options
- *  These options are also useful to firmware size reduction.
+ * You should define default led mode in keymaps/config.h
+ * select below modes
+ *
+ * FR_LED_NO, FR_LED_CAPSLOCK, FR_LED_NUMLOCK, FR_LED_SOLENOID, FR_LED_LAYER
+ *
+ * FR_LED_LAYER = LAYER0
+ * FR_LED_LAYER + 1 = LAYER1
+ * .....
+ *
+ * #define DEFAULT_LED0_MODE FR_LED_NUMLOCK
+ * #define DEFAULT_LED1_MODE FR_LED_SOLENOID
+ * #define DEFAULT_HAPTIC_LED_NO 1
+ * // if disable haptic led
+ * // #define DEFAULT_HAPTIC_LED_NO -1
  */
 
-/* disable debug print */
-//#define NO_DEBUG
+#ifndef DEFAULT_LED0_MODE
+#    define DEFAULT_LED0_MODE FR_LED_NUMLOCK
+#endif
 
-/* disable print */
-//#define NO_PRINT
+#ifndef DEFAULT_LED1_MODE
+#    define DEFAULT_LED1_MODE FR_LED_SOLENOID
+#endif
 
-/* disable action features */
-//#define NO_ACTION_LAYER
-//#define NO_ACTION_TAPPING
-//#define NO_ACTION_ONESHOT
+#ifndef DEFAULT_HAPTIC_LED_NO
+#    define DEFAULT_HAPTIC_LED_NO 1
+#endif
