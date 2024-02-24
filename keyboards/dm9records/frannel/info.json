@@ -8,7 +8,7 @@
     "usb": {
         "device_version": "1.0.0",
         "pid": "0x0000",
-        "vid": "0xFEED"
+        "vid": "0xD449"
     },
     "diode_direction": "COL2ROW",
     "features": {
@@ -34,7 +34,7 @@
         "rows": ["GP27", "GP23", "GP24", "GP25", "GP26"]
     },
     "layouts": {
-        "LAYOUT_ortholinear": {
+        "LAYOUT_ortho_4x12": {
             "layout": [
                 {"matrix": [0, 5], "x": 0, "y": 0},
                 {"matrix": [0, 4], "x": 1.5, "y": 0},
