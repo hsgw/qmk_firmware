@@ -46,3 +46,7 @@
 
 // Disable all dynamic led mode
 // #define FRANNEL_DISABLE_DYNAMIC_LED_MODE
+
+#ifndef TYPE_LED_DWELL
+#    define TYPE_LED_DWELL 20
+#endif
