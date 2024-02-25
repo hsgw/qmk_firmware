@@ -43,3 +43,6 @@
 #ifndef DEFAULT_HAPTIC_LED_NO
 #    define DEFAULT_HAPTIC_LED_NO 1
 #endif
+
+// Disable all dynamic led mode
+// #define FRANNEL_DISABLE_DYNAMIC_LED_MODE
