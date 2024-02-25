@@ -51,16 +51,19 @@ enum frannnel_keycode {
 #    define FRANNEL_SAFE_RANGE FR_HAPLED_1 + 1
 
 enum frannel_led_mode {
-    FR_LED_NO = 0,
-    FR_LED_CAPSLOCK,
-    FR_LED_NUMLOCK,
-    FR_LED_SOLENOID,
-    FR_LED_LAYER,
+    FR_LEDMODE_NO = 0,
+    FR_LEDMODE_CAPSLOCK,
+    FR_LEDMODE_NUMLOCK,
+    FR_LEDMODE_SOLENOID,
+    FR_LEDMODE_LAYER,
 };
+
+void frannel_led_mode_config_init(void);
 
 void frannel_led_mode_set_noeeprom(uint8_t no, uint8_t mode);
 void frannel_led_mode_set(uint8_t no, uint8_t mode);
 
 void frannel_haptic_led_set_noeeprom(int8_t no);
 void frannel_haptic_led_set(int8_t no);
+
 #endif

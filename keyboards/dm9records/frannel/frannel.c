@@ -52,7 +52,7 @@ void frannel_solenoid_enable(bool flag) {
 
 #ifndef FRANNEL_DISABLE_DYNAMIC_LED_MODE
     for (uint8_t i = 0; i < 2; i++) {
-        if (user_config.led_modes[i] == FR_LED_SOLENOID) {
+        if (user_config.led_modes[i] == FR_LEDMODE_SOLENOID) {
             frannel_led_set(i, haptic_get_enable());
         }
     }
@@ -63,24 +63,33 @@ void frannel_solenoid_enable(bool flag) {
 void update_led_status(void) {
     for (uint8_t i = 0; i < 2; i++) {
         switch (user_config.led_modes[i]) {
-            case FR_LED_NO:
+            case FR_LEDMODE_NO:
                 frannel_led_set(i, 0);
                 break;
-            case FR_LED_CAPSLOCK:
+            case FR_LEDMODE_CAPSLOCK:
                 frannel_led_set(i, host_keyboard_led_state().caps_lock);
                 break;
-            case FR_LED_NUMLOCK:
+            case FR_LEDMODE_NUMLOCK:
                 frannel_led_set(i, host_keyboard_led_state().num_lock);
                 break;
-            case FR_LED_SOLENOID:
+            case FR_LEDMODE_SOLENOID:
                 frannel_led_set(i, haptic_get_enable());
                 break;
             default:
-                // FR_LED_LAYER
-                frannel_led_set(i, layer_state_is(user_config.led_modes[i] - FR_LED_LAYER));
+                // FR_LEDMODE_LAYER
+                frannel_led_set(i, layer_state_is(user_config.led_modes[i] - FR_LEDMODE_LAYER));
                 break;
         }
     }
+}
+
+void frannel_led_mode_config_init(void) {
+    user_config.raw           = 0;
+    user_config.led_modes[0]  = DEFAULT_LED0_MODE;
+    user_config.led_modes[1]  = DEFAULT_LED1_MODE;
+    user_config.haptic_led_no = DEFAULT_HAPTIC_LED_NO;
+
+    eeconfig_update_user(user_config.raw);
 }
 
 void frannel_led_mode_set_noeeprom(uint8_t no, uint8_t mode) {
@@ -103,56 +112,24 @@ void frannel_haptic_led_set(int8_t no) {
     eeconfig_update_user(user_config.raw);
 }
 
-void eeconfig_init_user(void) { // EEPROM is getting reset!
-    user_config.raw           = 0;
-    user_config.led_modes[0]  = DEFAULT_LED0_MODE;
-    user_config.led_modes[1]  = DEFAULT_LED1_MODE;
-    user_config.haptic_led_no = DEFAULT_HAPTIC_LED_NO;
-
-    eeconfig_update_user(user_config.raw);
-}
-
 void keyboard_post_init_kb(void) {
     user_config.raw = eeconfig_read_user();
     update_led_status();
     keyboard_post_init_user();
 }
 
-bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
-    // for haptic leds
-    if (enable_haptic_led && user_config.haptic_led_no != -1 && record->event.pressed) {
-        haptic_led_timer = timer_read();
-        frannel_led_toggle_temp(user_config.haptic_led_no);
-    }
-
-    if (FR_LED0_NO <= keycode && keycode <= FR_LED1_L5 && record->event.pressed) {
-        uint8_t led_no = keycode < FR_LED1_NO ? 0 : 1;
-        uint8_t mode   = keycode - (led_no == 0 ? FR_LED0_NO : FR_LED1_NO);
-        frannel_led_mode_set(led_no, mode);
-        return false;
-    }
-
-    if ((keycode == FR_HAPLED_NO || keycode == FR_HAPLED_0 || keycode == FR_HAPLED_1) && record->event.pressed) {
-        frannel_haptic_led_set((int8_t)keycode - FR_HAPLED_0);
-    }
-
-    return process_record_user(keycode, record);
-}
-
-void housekeeping_task_kb(void) {
-    if (enable_haptic_led && TIMER_DIFF_16(timer_read(), haptic_led_timer) > TYPE_LED_DWELL) {
-        frannel_led_restore();
-    }
-    housekeeping_task_user();
+void eeconfig_init_kb(void) { // EEPROM is getting reset!
+    frannel_led_mode_config_init();
+    eeconfig_init_user();
 }
 
 bool led_update_kb(led_t led_state) {
     bool res = led_update_user(led_state);
     if (res) {
         for (uint8_t i = 0; i < 2; i++) {
-            if (user_config.led_modes[i] == FR_LED_CAPSLOCK)
+            if (user_config.led_modes[i] == FR_LEDMODE_CAPSLOCK)
                 frannel_led_set(i, led_state.caps_lock);
-            else if (user_config.led_modes[i] == FR_LED_NUMLOCK)
+            else if (user_config.led_modes[i] == FR_LEDMODE_NUMLOCK)
                 frannel_led_set(i, led_state.num_lock);
         }
     }
@@ -162,15 +139,44 @@ bool led_update_kb(led_t led_state) {
 layer_state_t layer_state_set_kb(layer_state_t state) {
     uint8_t current_layer = get_highest_layer(layer_state);
     for (uint8_t i = 0; i < 2; i++) {
-        if (user_config.led_modes[i] >= FR_LED_LAYER) {
-            uint8_t layer = user_config.led_modes[i] - FR_LED_LAYER;
+        if (user_config.led_modes[i] >= FR_LEDMODE_LAYER) {
+            uint8_t layer = user_config.led_modes[i] - FR_LEDMODE_LAYER;
             frannel_led_set(i, layer == current_layer);
         }
     }
     return layer_state_set_user(state);
 }
-
 #endif
+
+bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
+    // for haptic leds
+#ifndef FRANNEL_DISABLE_DYNAMIC_LED_MODE
+    int8_t haptic_led_no = user_config.haptic_led_no;
+#else
+    int8_t haptic_led_no = DEFAULT_HAPTIC_LED_NO;
+#endif
+    if (enable_haptic_led && haptic_led_no != -1 && record->event.pressed) {
+        haptic_led_timer = timer_read();
+        frannel_led_toggle_temp(haptic_led_no);
+    }
+
+#ifndef FRANNEL_DISABLE_DYNAMIC_LED_MODE
+    // Dynamic LED Mode key process
+    if (FR_LED0_NO <= keycode && keycode <= FR_LED1_L5 && record->event.pressed) {
+        uint8_t led_no = keycode < FR_LED1_NO ? 0 : 1;
+        uint8_t mode   = keycode - (led_no == 0 ? FR_LED0_NO : FR_LED1_NO);
+        frannel_led_mode_set(led_no, mode);
+        return false;
+    }
+
+    if ((keycode == FR_HAPLED_NO || keycode == FR_HAPLED_0 || keycode == FR_HAPLED_1) && record->event.pressed) {
+        frannel_haptic_led_set((int8_t)keycode - FR_HAPLED_0);
+        return false;
+    }
+#endif
+
+    return process_record_user(keycode, record);
+}
 
 void keyboard_pre_init_kb(void) {
     setPinOutput(led_pins[0]);
@@ -181,4 +187,11 @@ void keyboard_pre_init_kb(void) {
     wait_ms(500);
 
     keyboard_pre_init_user();
+}
+
+void housekeeping_task_kb(void) {
+    if (enable_haptic_led && TIMER_DIFF_16(timer_read(), haptic_led_timer) > TYPE_LED_DWELL) {
+        frannel_led_restore();
+    }
+    housekeeping_task_user();
 }
