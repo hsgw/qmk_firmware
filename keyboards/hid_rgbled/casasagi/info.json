@@ -1,0 +1,30 @@
+{
+    "keyboard_name": "casasagi",
+    "bootloader": "stm32-dfu",
+    "processor": "STM32F072",
+    "matrix_pins":{
+        "rows": ["A15"],
+        "cols": ["B2"]
+    },
+    "split": {
+        "enabled": true,
+        "handedness": {
+            "pin": "B12"
+        },
+        "usb_detect": {
+            "enabled": true
+        },
+        "soft_serial_pin": "B6"
+    },
+    "diode_direction": "COL2ROW",
+    "ws2812": {
+        "pin": "B15",
+        "driver": "bitbang"
+    },
+    "rgblight": {
+        "led_count": 56,
+        "split_count": [28,28],
+        "max_brightness": 100,
+        "split": true
+    }
+}
