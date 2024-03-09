@@ -26,5 +26,19 @@
         "split_count": [28,28],
         "max_brightness": 100,
         "split": true
+    },
+    "LAYOUT_split_1x1": {
+        "layout": [
+            {"matrix": [0, 0], "x": 0, "y": 0},
+            {"matrix": [1, 0], "x": 1, "y": 0}
+        ]
+    },
+    "layouts": {
+        "LAYOUT_split_1x1": {
+            "layout": [
+                {"matrix": [0, 0], "x": 0, "y": 0},
+                {"matrix": [1, 0], "x": 1, "y": 0}
+            ]
+        }
     }
 }
