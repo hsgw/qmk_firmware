@@ -15,14 +15,15 @@
         "nkro": false,
         "grave_esc": false,
         "magic": false,
-        "space_cadet": false
+        "space_cadet": false,
+        "raw": true
     },
     "processor": "attiny85",
     "url": "",
     "usb": {
         "device_version": "1.0.0",
-        "pid": "0x0000",
-        "vid": "0xFEED"
+        "pid": "0x123A",
+        "vid": "0xD449"
     },
     "matrix_size": {
         "cols": 8,

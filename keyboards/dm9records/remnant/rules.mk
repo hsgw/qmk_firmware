@@ -1,4 +1,5 @@
 CUSTOM_MATRIX = lite
+OPT_DEFS += -DBOOTLOADER_SIZE=1510
 
 SRC += matrix.c
 

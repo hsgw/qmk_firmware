@@ -1,4 +1,4 @@
-// Copyright 2023 QMK
+// Copyright 2024 Takuya Urakawa @hsgw (dm9records.com, 5z6p.com)
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include QMK_KEYBOARD_H

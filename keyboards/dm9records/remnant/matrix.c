@@ -1,5 +1,8 @@
+// Copyright 2024 Takuya Urakawa @hsgw (dm9records.com, 5z6p.com)
+// SPDX-License-Identifier: GPL-2.0-or-later
+
 #include "matrix.h"
-#include "wait.h"
+#include "_wait.h"
 
 #define PIN_165_DATA B0
 #define PIN_165_CLK B1
@@ -26,8 +29,7 @@ bool matrix_scan_custom(matrix_row_t current_matrix[]) {
     WAIT_165();
 
     uint8_t current_state = 0;
-
-    for (uint8_t i = 0; i < NUM_165_DATA; i++) {
+    for (uint8_t i = 0; i < NUM_165_DATA; ++i) {
         // read switch
         current_state |= gpio_read_pin(PIN_165_DATA) ? 0 : 1 << i;
 
