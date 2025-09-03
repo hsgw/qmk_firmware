@@ -1,0 +1,32 @@
+{
+    "manufacturer": "Takuya Urakawa, 5z6p.com",
+    "keyboard_name": "dm9records/cirque",
+    "maintainer": "hsgw",
+    "bootloader": "rp2040",
+    "features": {
+        "bootmagic": true,
+        "extrakey": true,
+        "mousekey": true,
+        "nkro": true,
+        "pointing_device": true
+    },
+    "matrix_pins": {
+        "direct": [
+            [ "GP26" ]
+        ]
+    },
+    "processor": "RP2040",
+    "url": "",
+    "usb": {
+        "device_version": "1.0.0",
+        "pid": "0x0000",
+        "vid": "0xFEED"
+    },
+    "layouts": {
+        "LAYOUT_ortho_1x1": {
+            "layout": [
+                { "matrix": [ 0, 0 ], "x": 0, "y": 0 }
+            ]
+        }
+    }
+}
