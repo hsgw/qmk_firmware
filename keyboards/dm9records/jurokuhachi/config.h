@@ -15,3 +15,27 @@
 #define HC165_LATCH GP10 // Latch pin (PL)
 #define HC165_CLOCK GP9  // Clock pin (CP)
 #define HC165_DATA GP11  // Data pin for the 74HC165 chain (QH)
+
+// SPI Configuration
+#define SPI_DRIVER SPID0 // SPI0
+
+#define SPI_SCK_PIN GP6
+#define SPI_SCK_PAL_MODE 1
+
+#define SPI_MOSI_PIN GP7
+#define SPI_MOSI_PAL_MODE 1
+
+#define SPI_MISO_PIN GP4
+#define SPI_MISO_PAL_MODE 1
+
+// LP5868 VSYNC pin
+#define LP5868_VSYNC_PIN GP8
+#define LP5868_CS_PIN GP3
+
+// LED Matrix configuration
+#define LED_MATRIX_ROWS 8
+#define LED_MATRIX_COLS 16
+#define LED_MATRIX_LED_COUNT (LED_MATRIX_ROWS * LED_MATRIX_COLS)
+#define LED_MATRIX_DEFAULT_ON true
+#define LED_MATRIX_DEFAULT_VAL 255
+#define LED_MATRIX_DEFAULT_MODE LED_MATRIX_SOLID
