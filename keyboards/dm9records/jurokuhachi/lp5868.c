@@ -4,9 +4,7 @@
 #include "lp5868.h"
 #include "config.h"
 #include "quantum.h"
-#include "led_matrix.h"
 #include "spi_master.h"
-#include "platforms/gpio.h"
 #include <string.h>
 #include <hal.h>
 
@@ -38,8 +36,7 @@ void lp5868_write_reg(uint16_t reg, uint8_t data) {
     create_spi_header(reg, true, header);
 
     if (spi_start(LP5868_CS_PIN, false, 0, 32)) {
-        spi_write(header[0]);
-        spi_write(header[1]);
+        spi_transmit(header, 2);
         spi_write(data);
         spi_stop();
     }
@@ -50,8 +47,7 @@ void lp5868_write_buffer(uint16_t reg, const uint8_t* data, uint16_t len) {
     create_spi_header(reg, true, header);
 
     if (spi_start(LP5868_CS_PIN, false, 0, 32)) {
-        spi_write(header[0]);
-        spi_write(header[1]);
+        spi_transmit(header, 2);
         spi_transmit(data, len);
         spi_stop();
     }
@@ -118,7 +114,7 @@ void lp5868_update(void) {
     lp5868_dma_buffer[1] = ((REG_PWM_BRI_BASE & 0x03) << 6) | 0x20;
     memcpy(&lp5868_dma_buffer[2], lp5868_buffer, LP5868_BYTES_PER_DRIVER);
 
-    // Start Async Transfer using ChibiOS HAL
+    // Start Async Transfer using ChibiOS HAL directly for DMA
     if (spi_start(LP5868_CS_PIN, false, 0, 32)) {
         // Bypass spi_transmit and use spiStartSend for DMA
         spiStartSend(&SPI_DRIVER, sizeof(lp5868_dma_buffer), lp5868_dma_buffer);
@@ -138,7 +134,7 @@ void lp5868_task(void) {
         case LP5868_TRANSFERRING:
             // Check if DMA transfer is complete
             if (SPI_DRIVER.state == SPI_READY) {
-                spi_stop(); // Release CS and Bus
+                spi_stop(); // Release CS and Bus using QMK abstraction
                 gpio_write_pin_high(LP5868_VSYNC_PIN);
                 vsync_start_time = timer_read32();
                 lp5868_state     = LP5868_VSYNC_PULSE;

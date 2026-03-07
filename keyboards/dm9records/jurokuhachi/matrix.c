@@ -2,8 +2,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "quantum.h"
-#include "config.h"         // Include our config for pin definitions
-#include "platforms/gpio.h" // Include QMK's GPIO abstraction
+#include "platforms/gpio.h"
 
 // Previous raw matrix state to detect changes
 static matrix_row_t prev_raw_matrix[MATRIX_ROWS] = {0};
