@@ -119,6 +119,12 @@ void lp5868_fill_pixel(uint8_t brightness) {
     memset(lp5868_buffer, brightness, sizeof(lp5868_buffer));
 }
 
+/**
+ * @brief Update the LED matrix.
+ *
+ * This function initiates the asynchronous DMA transfer process.
+ * In 256-key mode, it starts by sending data to the first driver board.
+ */
 void lp5868_update(void) {
     if (lp5868_state != LP5868_IDLE) return;
 
@@ -129,11 +135,25 @@ void lp5868_update(void) {
     memcpy(&lp5868_dma_buffer[2], &lp5868_buffer[0][0], LP5868_BYTES_PER_DRIVER);
 
     if (spi_start(LP5868_CS_PIN, false, 0, 32)) {
+        // Bypass spi_transmit and use spiStartSend for non-blocking DMA
         spiStartSend(&SPI_DRIVER, sizeof(lp5868_dma_buffer), lp5868_dma_buffer);
         lp5868_state = LP5868_TRANSFERRING_1;
     }
 }
 
+/**
+ * @brief Handle background tasks for the LP5868 driver.
+ *
+ * This function manages the asynchronous DMA transfer state machine and VSYNC pulse timing.
+ * It follows these steps:
+ * 1. Wait for Board 1 transfer to complete.
+ * 2. If in 256-key mode, initiate transfer for Board 2.
+ * 3. Once all transfers are done, generate a VSYNC pulse high to latch the data.
+ *    The original pulse width requirement is 250us.
+ * 4. Wait for the pulse duration (1ms used here for safety) and set VSYNC low.
+ *
+ * It should be called frequently from housekeeping_task_kb().
+ */
 void lp5868_task(void) {
     switch (lp5868_state) {
         case LP5868_TRANSFERRING_1:
@@ -150,11 +170,10 @@ void lp5868_task(void) {
                     spiStartSend(&SPI_DRIVER, sizeof(lp5868_dma_buffer), lp5868_dma_buffer);
                     lp5868_state = LP5868_TRANSFERRING_2;
                 } else {
-                    // Fallback if SPI failed
                     lp5868_state = LP5868_IDLE;
                 }
 #else
-                // Only one board, go to VSYNC
+                // Only one board, generate VSYNC pulse to latch data
                 gpio_write_pin_high(LP5868_VSYNC_PIN);
                 vsync_start_time = timer_read32();
                 lp5868_state     = LP5868_VSYNC_PULSE;
@@ -165,6 +184,7 @@ void lp5868_task(void) {
         case LP5868_TRANSFERRING_2:
             if (SPI_DRIVER.state == SPI_READY) {
                 spi_stop();
+                // All boards transferred, generate VSYNC pulse to latch data
                 gpio_write_pin_high(LP5868_VSYNC_PIN);
                 vsync_start_time = timer_read32();
                 lp5868_state     = LP5868_VSYNC_PULSE;
@@ -172,6 +192,7 @@ void lp5868_task(void) {
             break;
 
         case LP5868_VSYNC_PULSE:
+            // The original pulse width was 250us. 1ms is safe and easy to track with timer_read32.
             if (timer_elapsed32(vsync_start_time) >= 1) {
                 gpio_write_pin_low(LP5868_VSYNC_PIN);
                 lp5868_state = LP5868_IDLE;
