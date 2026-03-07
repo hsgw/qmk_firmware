@@ -26,5 +26,6 @@ void lp5868_init(void);
 void lp5868_set_pixel(uint8_t x, uint8_t y, uint8_t brightness);
 void lp5868_fill_pixel(uint8_t brightness);
 void lp5868_update(void);
+void lp5868_task(void);
 void lp5868_write_reg(uint16_t reg, uint8_t data);
 void lp5868_write_buffer(uint16_t reg, const uint8_t* data, uint16_t len);

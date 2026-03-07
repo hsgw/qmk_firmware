@@ -9,8 +9,7 @@
         "extrakey": true,
         "mousekey": true,
         "nkro": true,
-        "led_matrix": true,
-        "deferred_exec": true
+        "led_matrix": true
     },
     "matrix_pins": {
         "custom_lite": true
