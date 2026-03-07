@@ -4,8 +4,10 @@
 #include "lp5868.h"
 #include "config.h"
 #include "quantum.h"
+#include "led_matrix.h"
 #include "spi_master.h"
 #include "platforms/gpio.h"
+#include "deferred_exec.h"
 #include <string.h>
 
 // Frame buffer for 16x8 matrix (16 columns used out of 18 available in the driver)
@@ -106,12 +108,18 @@ void lp5868_fill_pixel(uint8_t brightness) {
     memset(lp5868_buffer, brightness, sizeof(lp5868_buffer));
 }
 
+// Callback to turn off VSYNC pulse
+static uint32_t lp5868_vsync_off(uint32_t trigger_time, void* cb_arg) {
+    gpio_write_pin_low(LP5868_VSYNC_PIN);
+    return 0; // Do not repeat
+}
+
 void lp5868_update(void) {
     // Write the entire buffer to the driver
     lp5868_write_buffer(REG_PWM_BRI_BASE, &lp5868_buffer[0][0], LP5868_BYTES_PER_DRIVER);
 
-    // Generate VSYNC pulse to latch data
+    // Generate VSYNC pulse to latch data. The original pulse width was 250us.
     gpio_write_pin_high(LP5868_VSYNC_PIN);
-    wait_us(250);
-    gpio_write_pin_low(LP5868_VSYNC_PIN);
+    // Defer turning off the VSYNC pulse by 1ms to avoid blocking the main loop
+    defer_exec(1, lp5868_vsync_off, NULL);
 }
