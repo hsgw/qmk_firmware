@@ -1,5 +1,5 @@
 {
-    "manufacturer": "Dm9Records",
+    "manufacturer": "5z6p Instruments",
     "keyboard_name": "jurokuhachi",
     "maintainer": "hsgw",
     "bootloader": "rp2040",
@@ -18,8 +18,8 @@
     "url": "https://5z6p.com/products/jurokuhachi",
     "usb": {
         "device_version": "1.0.0",
-        "pid": "0x0000",
-        "vid": "0xFEED"
+        "pid": "0x2E8A",
+        "vid": "0x1105"
     },
     "led_matrix": {
         "animations": {
