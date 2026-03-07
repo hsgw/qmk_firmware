@@ -1,8 +1,7 @@
-#pragma once
+// Copyright 2026 Takuya Urakawa (@hsgw 5z6p.com)
+// SPDX-License-Identifier: GPL-2.0-or-later
 
-// Set matrix dimensions
-#define MATRIX_ROWS 8
-#define MATRIX_COLS 16
+#pragma once
 
 // 74HC138 (Decoder) pins
 // Assuming 3 address pins for 8 rows
@@ -33,9 +32,5 @@
 #define LP5868_CS_PIN GP3
 
 // LED Matrix configuration
-#define LED_MATRIX_ROWS 8
-#define LED_MATRIX_COLS 16
-#define LED_MATRIX_LED_COUNT (LED_MATRIX_ROWS * LED_MATRIX_COLS)
 #define LED_MATRIX_DEFAULT_ON true
-#define LED_MATRIX_DEFAULT_VAL 255
 #define LED_MATRIX_DEFAULT_MODE LED_MATRIX_SOLID

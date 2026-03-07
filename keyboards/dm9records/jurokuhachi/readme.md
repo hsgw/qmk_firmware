@@ -2,11 +2,13 @@
 
 ![dm9records/jurokuhachi](imgur.com image replace me!)
 
-*A short description of the keyboard/project*
+16x8 matrix keyboard with RP2040 and LP5868 LED Driver.
 
 * Keyboard Maintainer: [Takuya Urakawa](https://github.com/hsgw)
-* Hardware Supported: *The PCBs, controllers supported*
-* Hardware Availability: *Links to where you can find this hardware*
+* Hardware Supported: jurokuhachi PCB, RP2040
+* Hardware Availability: [5z6p.com](https://5z6p.com/products/jurokuhachi)
+
+## Build and Flash
 
 Make example for this keyboard (after setting up your build environment):
 
@@ -22,6 +24,6 @@ See the [build environment setup](https://docs.qmk.fm/#/getting_started_build_to
 
 Enter the bootloader in 3 ways:
 
-* **Bootmagic reset**: Hold down the key at (0,0) in the matrix (usually the top left key or Escape) and plug in the keyboard
-* **Physical reset button**: Briefly press the button on the back of the PCB - some may have pads you must short instead
+* **Bootmagic reset**: Hold down the key at (0,0) in the matrix (the top left key) and plug in the keyboard
+* **Physical reset button**: Briefly press the button on the PCB
 * **Keycode in layout**: Press the key mapped to `QK_BOOT` if it is available

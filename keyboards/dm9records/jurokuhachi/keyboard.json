@@ -13,8 +13,12 @@
     "matrix_pins": {
         "custom_lite": true
     },
+    "matrix_size": {
+        "rows": 8,
+        "cols": 16
+    },
     "processor": "RP2040",
-    "url": "",
+    "url": "https://5z6p.com/products/jurokuhachi",
     "usb": {
         "device_version": "1.0.0",
         "pid": "0x0000",
