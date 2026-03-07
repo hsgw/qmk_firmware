@@ -1,0 +1,43 @@
+{
+    "manufacturer": "Dm9Records",
+    "keyboard_name": "jurokuhachi",
+    "maintainer": "hsgw",
+    "bootloader": "rp2040",
+    "diode_direction": "COL2ROW",
+    "features": {
+        "bootmagic": true,
+        "extrakey": true,
+        "mousekey": true,
+        "nkro": true,
+        "led_matrix": true
+    },
+    "matrix_pins": {
+        "custom_lite": true
+    },
+    "processor": "RP2040",
+    "url": "https://5z6p.com/products/jurokuhachi",
+    "usb": {
+        "device_version": "1.0.0",
+        "pid": "0x0000",
+        "vid": "0xFEED"
+    },
+    "led_matrix": {
+        "animations": {
+            "breathing": true,
+            "cycle_all": true,
+            "cycle_left_right": true,
+            "cycle_up_down": true,
+            "rainbow_moving_chevron": true,
+            "cycle_out_in": true,
+            "gradient_up_down": true,
+            "gradient_left_right": true,
+            "solid": true,
+            "solid_reactive": true,
+            "solid_reactive_wide": true,
+            "solid_reactive_cross": true,
+            "solid_reactive_nexus": true,
+            "solid_splash": true
+        },
+        "driver": "custom"
+    }
+}

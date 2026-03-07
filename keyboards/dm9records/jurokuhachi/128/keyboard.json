@@ -1,48 +1,15 @@
 {
-    "manufacturer": "Dm9Records",
-    "keyboard_name": "jurokuhachi",
-    "maintainer": "hsgw",
-    "bootloader": "rp2040",
-    "diode_direction": "COL2ROW",
-    "features": {
-        "bootmagic": true,
-        "extrakey": true,
-        "mousekey": true,
-        "nkro": true,
-        "led_matrix": true
-    },
-    "matrix_pins": {
-        "custom_lite": true
-    },
+    "keyboard_name": "jurokuhachi/128",
     "matrix_size": {
         "rows": 8,
         "cols": 16
     },
-    "processor": "RP2040",
-    "url": "https://5z6p.com/products/jurokuhachi",
-    "usb": {
-        "device_version": "1.0.0",
-        "pid": "0x0000",
-        "vid": "0xFEED"
+    "config_h": {
+        "define": {
+            "JUROKUHACHI_128": true
+        }
     },
     "led_matrix": {
-        "animations": {
-            "breathing": true,
-            "cycle_all": true,
-            "cycle_left_right": true,
-            "cycle_up_down": true,
-            "rainbow_moving_chevron": true,
-            "cycle_out_in": true,
-            "gradient_up_down": true,
-            "gradient_left_right": true,
-            "solid": true,
-            "solid_reactive": true,
-            "solid_reactive_wide": true,
-            "solid_reactive_cross": true,
-            "solid_reactive_nexus": true,
-            "solid_splash": true
-        },
-        "driver": "custom",
         "layout": [
             { "matrix": [ 0, 0 ], "x": 0, "y": 0, "flags": 4 }, { "matrix": [ 0, 1 ], "x": 15, "y": 0, "flags": 4 }, { "matrix": [ 0, 2 ], "x": 30, "y": 0, "flags": 4 }, { "matrix": [ 0, 3 ], "x": 45, "y": 0, "flags": 4 }, { "matrix": [ 0, 4 ], "x": 60, "y": 0, "flags": 4 }, { "matrix": [ 0, 5 ], "x": 75, "y": 0, "flags": 4 }, { "matrix": [ 0, 6 ], "x": 90, "y": 0, "flags": 4 }, { "matrix": [ 0, 7 ], "x": 105, "y": 0, "flags": 4 }, { "matrix": [ 0, 8 ], "x": 119, "y": 0, "flags": 4 }, { "matrix": [ 0, 9 ], "x": 134, "y": 0, "flags": 4 }, { "matrix": [ 0, 10 ], "x": 149, "y": 0, "flags": 4 }, { "matrix": [ 0, 11 ], "x": 164, "y": 0, "flags": 4 }, { "matrix": [ 0, 12 ], "x": 179, "y": 0, "flags": 4 }, { "matrix": [ 0, 13 ], "x": 194, "y": 0, "flags": 4 }, { "matrix": [ 0, 14 ], "x": 209, "y": 0, "flags": 4 }, { "matrix": [ 0, 15 ], "x": 224, "y": 0, "flags": 4 },
             { "matrix": [ 1, 0 ], "x": 0, "y": 9, "flags": 4 }, { "matrix": [ 1, 1 ], "x": 15, "y": 9, "flags": 4 }, { "matrix": [ 1, 2 ], "x": 30, "y": 9, "flags": 4 }, { "matrix": [ 1, 3 ], "x": 45, "y": 9, "flags": 4 }, { "matrix": [ 1, 4 ], "x": 60, "y": 9, "flags": 4 }, { "matrix": [ 1, 5 ], "x": 75, "y": 9, "flags": 4 }, { "matrix": [ 1, 6 ], "x": 90, "y": 9, "flags": 4 }, { "matrix": [ 1, 7 ], "x": 105, "y": 9, "flags": 4 }, { "matrix": [ 1, 8 ], "x": 119, "y": 9, "flags": 4 }, { "matrix": [ 1, 9 ], "x": 134, "y": 9, "flags": 4 }, { "matrix": [ 1, 10 ], "x": 149, "y": 9, "flags": 4 }, { "matrix": [ 1, 11 ], "x": 164, "y": 9, "flags": 4 }, { "matrix": [ 1, 12 ], "x": 179, "y": 9, "flags": 4 }, { "matrix": [ 1, 13 ], "x": 194, "y": 9, "flags": 4 }, { "matrix": [ 1, 14 ], "x": 209, "y": 9, "flags": 4 }, { "matrix": [ 1, 15 ], "x": 224, "y": 9, "flags": 4 },
