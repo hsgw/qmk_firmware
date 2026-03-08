@@ -1,0 +1,4 @@
+SRC += cy8cmbr3108.c
+
+I2C_DRIVER_REQUIRED = yes
+CONSOLE_ENABLE = yes
