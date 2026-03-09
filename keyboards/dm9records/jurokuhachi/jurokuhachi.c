@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "quantum.h"
-#include "lp5868.h"
+#include "lp5868-mono.h"
 
 void housekeeping_task_kb(void) {
     lp5868_task();

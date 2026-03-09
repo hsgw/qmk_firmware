@@ -28,10 +28,15 @@
 #define SPI_MISO_PIN GP4
 #define SPI_MISO_PAL_MODE 1
 
-// LP5868 VSYNC pin
+// LP5868 configuration
 #define LP5868_VSYNC_PIN GP8
-#define LP5868_CS_PIN GP3
-#define LP5868_CS_PIN_2 GP26 // Additional CS pin for 256-key config
+#ifdef JUROKUHACHI_256
+#    define LP5868_DRIVER_COUNT 2
+#    define LP5868_CS_PINS { GP3, GP26 }
+#else
+#    define LP5868_DRIVER_COUNT 1
+#    define LP5868_CS_PINS { GP3 }
+#endif
 
 // LED Matrix configuration
 #define LED_MATRIX_ROWS MATRIX_ROWS
