@@ -2,6 +2,7 @@
  * Copyright 2017 Jack Humbert
  * Copyright 2018 Yiancar
  * Copyright 2019 Clueboard
+ * Copyright 2026 Takuya Urakawa (@hsgw)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -134,13 +135,13 @@ void led_matrix_reload_from_eeprom(void) {
     }
 }
 
-__attribute__((weak)) uint8_t led_matrix_map_row_column_to_led_kb(uint8_t row, uint8_t column, uint8_t *led_i) {
+__attribute__((weak)) uint8_t led_matrix_map_row_column_to_led_kb(uint8_t row, uint8_t column, led_index_t *led_i) {
     return 0;
 }
 
-uint8_t led_matrix_map_row_column_to_led(uint8_t row, uint8_t column, uint8_t *led_i) {
-    uint8_t led_count = led_matrix_map_row_column_to_led_kb(row, column, led_i);
-    uint8_t led_index = g_led_config.matrix_co[row][column];
+uint8_t led_matrix_map_row_column_to_led(uint8_t row, uint8_t column, led_index_t *led_i) {
+    uint8_t     led_count = led_matrix_map_row_column_to_led_kb(row, column, led_i);
+    led_index_t led_index = g_led_config.matrix_co[row][column];
     if (led_index != NO_LED) {
         led_i[led_count] = led_index;
         led_count++;
@@ -170,7 +171,7 @@ void led_matrix_set_value(int index, uint8_t value) {
 
 void led_matrix_set_value_all(uint8_t value) {
 #if defined(LED_MATRIX_SPLIT)
-    for (uint8_t i = 0; i < LED_MATRIX_LED_COUNT; i++)
+    for (led_index_t i = 0; i < LED_MATRIX_LED_COUNT; i++)
         led_matrix_set_value(i, value);
 #else
 #    ifdef USE_CIE1931_CURVE
@@ -187,8 +188,8 @@ void led_matrix_handle_key_event(uint8_t row, uint8_t col, bool pressed) {
 #endif
 
 #ifdef LED_MATRIX_KEYREACTIVE_ENABLED
-    uint8_t led[LED_HITS_TO_REMEMBER];
-    uint8_t led_count = 0;
+    led_index_t led[LED_HITS_TO_REMEMBER];
+    uint8_t     led_count = 0;
 
 #    if defined(LED_MATRIX_KEYRELEASES)
     if (!pressed)
@@ -203,12 +204,12 @@ void led_matrix_handle_key_event(uint8_t row, uint8_t col, bool pressed) {
         memcpy(&last_hit_buffer.x[0], &last_hit_buffer.x[led_count], LED_HITS_TO_REMEMBER - led_count);
         memcpy(&last_hit_buffer.y[0], &last_hit_buffer.y[led_count], LED_HITS_TO_REMEMBER - led_count);
         memcpy(&last_hit_buffer.tick[0], &last_hit_buffer.tick[led_count], (LED_HITS_TO_REMEMBER - led_count) * 2); // 16 bit
-        memcpy(&last_hit_buffer.index[0], &last_hit_buffer.index[led_count], LED_HITS_TO_REMEMBER - led_count);
+        memcpy(&last_hit_buffer.index[0], &last_hit_buffer.index[led_count], (LED_HITS_TO_REMEMBER - led_count) * sizeof(led_index_t));
         last_hit_buffer.count = LED_HITS_TO_REMEMBER - led_count;
     }
 
     for (uint8_t i = 0; i < led_count; i++) {
-        uint8_t index                = last_hit_buffer.count;
+        uint8_t index = last_hit_buffer.count;
         last_hit_buffer.x[index]     = g_led_config.point[led[i]].x;
         last_hit_buffer.y[index]     = g_led_config.point[led[i]].y;
         last_hit_buffer.index[index] = led[i];
@@ -401,7 +402,7 @@ __attribute__((weak)) bool led_matrix_indicators_user(void) {
     return true;
 }
 
-__attribute__((weak)) bool led_matrix_indicators_advanced_modules(uint8_t led_min, uint8_t led_max) {
+__attribute__((weak)) bool led_matrix_indicators_advanced_modules(led_index_t led_min, led_index_t led_max) {
     return true;
 }
 
@@ -416,11 +417,11 @@ void led_matrix_indicators_advanced(effect_params_t *params) {
     led_matrix_indicators_advanced_kb(min, max);
 }
 
-__attribute__((weak)) bool led_matrix_indicators_advanced_kb(uint8_t led_min, uint8_t led_max) {
+__attribute__((weak)) bool led_matrix_indicators_advanced_kb(led_index_t led_min, led_index_t led_max) {
     return led_matrix_indicators_advanced_user(led_min, led_max);
 }
 
-__attribute__((weak)) bool led_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
+__attribute__((weak)) bool led_matrix_indicators_advanced_user(led_index_t led_min, led_index_t led_max) {
     return true;
 }
 
