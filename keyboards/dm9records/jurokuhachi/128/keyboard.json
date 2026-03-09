@@ -4,11 +4,6 @@
         "rows": 8,
         "cols": 16
     },
-    "config_h": {
-        "define": {
-            "JUROKUHACHI_128": true
-        }
-    },
     "led_matrix": {
         "layout": [
             { "matrix": [ 0, 0 ], "x": 0, "y": 0, "flags": 4 }, { "matrix": [ 0, 1 ], "x": 15, "y": 0, "flags": 4 }, { "matrix": [ 0, 2 ], "x": 30, "y": 0, "flags": 4 }, { "matrix": [ 0, 3 ], "x": 45, "y": 0, "flags": 4 }, { "matrix": [ 0, 4 ], "x": 60, "y": 0, "flags": 4 }, { "matrix": [ 0, 5 ], "x": 75, "y": 0, "flags": 4 }, { "matrix": [ 0, 6 ], "x": 90, "y": 0, "flags": 4 }, { "matrix": [ 0, 7 ], "x": 105, "y": 0, "flags": 4 }, { "matrix": [ 0, 8 ], "x": 119, "y": 0, "flags": 4 }, { "matrix": [ 0, 9 ], "x": 134, "y": 0, "flags": 4 }, { "matrix": [ 0, 10 ], "x": 149, "y": 0, "flags": 4 }, { "matrix": [ 0, 11 ], "x": 164, "y": 0, "flags": 4 }, { "matrix": [ 0, 12 ], "x": 179, "y": 0, "flags": 4 }, { "matrix": [ 0, 13 ], "x": 194, "y": 0, "flags": 4 }, { "matrix": [ 0, 14 ], "x": 209, "y": 0, "flags": 4 }, { "matrix": [ 0, 15 ], "x": 224, "y": 0, "flags": 4 },

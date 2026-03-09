@@ -1,6 +1,5 @@
 {
     "manufacturer": "5z6p Instruments",
-    "keyboard_name": "jurokuhachi",
     "maintainer": "hsgw",
     "bootloader": "rp2040",
     "diode_direction": "COL2ROW",
