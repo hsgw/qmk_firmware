@@ -1,10 +1,11 @@
 // Copyright 2026 Takuya Urakawa (@hsgw 5z6p.com)
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#include "lp5868.h"
+#include "lp5868-mono.h"
 #include "config.h"
 #include "quantum.h"
 #include "spi_master.h"
+#include "led_matrix.h"
 #include <string.h>
 #include <hal.h>
 
@@ -107,28 +108,29 @@ void lp5868_init(void) {
         wait_ms(10);
     }
 
-    lp5868_fill_pixel(0);
+    memset(lp5868_buffer, 0, sizeof(lp5868_buffer));
 }
 
-void lp5868_set_pixel(uint8_t x, uint8_t y, uint8_t brightness) {
-    if (x >= LED_MATRIX_COLS || y >= LED_MATRIX_ROWS) return;
-    lp5868_buffer[y][x] = brightness;
+void lp5868_set_value(int index, uint8_t value) {
+    if (index < 0 || index >= LED_MATRIX_LED_COUNT) return;
+    uint8_t row = (uint8_t)index / LED_MATRIX_COLS;
+    uint8_t col = (uint8_t)index % LED_MATRIX_COLS;
+    if (col >= LP5868_DRIVER_WIDTH || row >= LED_MATRIX_ROWS) return;
+    lp5868_buffer[row][col] = value;
 }
 
-void lp5868_fill_pixel(uint8_t brightness) {
-    memset(lp5868_buffer, brightness, sizeof(lp5868_buffer));
+void lp5868_set_value_all(uint8_t value) {
+    memset(lp5868_buffer, value, sizeof(lp5868_buffer));
 }
 
-/**
- * @brief Update the LED matrix.
- *
- * This function initiates the asynchronous DMA transfer process.
- * In 256-key mode, it starts by sending data to the first driver board.
- */
-void lp5868_update(void) {
+void lp5868_flush(void) {
     if (lp5868_state != LP5868_IDLE) return;
 
-    // Start transfer for Board 1
+    // Async DMA transfer sequence:
+    // 1. Start transfer for Board 1 (rows 0-7)
+    // 2. In task(), wait for Board 1 completion, then start Board 2 (rows 8-15) if enabled
+    // 3. In task(), wait for Board 2 completion, then generate VSYNC pulse to latch data
+
     lp5868_dma_buffer[0] = (REG_PWM_BRI_BASE >> 2) & 0xFF;
     lp5868_dma_buffer[1] = ((REG_PWM_BRI_BASE & 0x03) << 6) | 0x20;
     // For 256 mode, Board 1 is the first 8 rows
@@ -145,18 +147,11 @@ void lp5868_update(void) {
  * @brief Handle background tasks for the LP5868 driver.
  *
  * This function manages the asynchronous DMA transfer state machine and VSYNC pulse timing.
- * It follows these steps:
- * 1. Wait for Board 1 transfer to complete.
- * 2. If in 256-key mode, initiate transfer for Board 2.
- * 3. Once all transfers are done, generate a VSYNC pulse high to latch the data.
- *    The original pulse width requirement is 250us.
- * 4. Wait for the pulse duration (1ms used here for safety) and set VSYNC low.
- *
- * It should be called frequently from housekeeping_task_kb().
  */
 void lp5868_task(void) {
     switch (lp5868_state) {
         case LP5868_TRANSFERRING_1:
+            // Check if Board 1 transfer is complete
             if (SPI_DRIVER.state == SPI_READY) {
                 spi_stop();
 #ifdef JUROKUHACHI_256
@@ -182,6 +177,7 @@ void lp5868_task(void) {
             break;
 
         case LP5868_TRANSFERRING_2:
+            // Check if Board 2 transfer is complete
             if (SPI_DRIVER.state == SPI_READY) {
                 spi_stop();
                 // All boards transferred, generate VSYNC pulse to latch data
@@ -192,7 +188,8 @@ void lp5868_task(void) {
             break;
 
         case LP5868_VSYNC_PULSE:
-            // The original pulse width was 250us. 1ms is safe and easy to track with timer_read32.
+            // VSYNC pulse should be high for at least 250us to latch data.
+            // Using 1ms here for safety and easy tracking with timer_read32.
             if (timer_elapsed32(vsync_start_time) >= 1) {
                 gpio_write_pin_low(LP5868_VSYNC_PIN);
                 lp5868_state = LP5868_IDLE;
