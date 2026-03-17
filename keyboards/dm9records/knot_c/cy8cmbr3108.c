@@ -70,13 +70,13 @@ static i2c_status_t i2c_write_reg_retry(uint8_t devaddr, uint8_t regaddr, const 
 void cy8cmbr3108_init(void) {
     uint8_t data[2];
     uprintf("CY8CMBR3108: Starting init...\n");
-    
+
     // 1. Verify Family ID
     if (i2c_read_reg_retry(I2C_ADDRESS, FAMILY_ID_REG, data, 1, 100) != I2C_STATUS_SUCCESS || data[0] != EXPECTED_FAMILY_ID) {
         uprintf("CY8CMBR3108: ERR - Family ID mismatch or read failed\n");
         goto fail;
     }
-    
+
     // 2. Verify Device ID
     if (i2c_read_reg_retry(I2C_ADDRESS, DEVICE_ID_REG, data, 2, 100) != I2C_STATUS_SUCCESS) {
         uprintf("CY8CMBR3108: ERR - Device ID read failed\n");
@@ -88,10 +88,10 @@ void cy8cmbr3108_init(void) {
         goto fail;
     }
     uprintf("CY8CMBR3108: Hardware ID OK\n");
-    
+
     // 3. Compare CRC to check if configuration update is needed
     uint8_t crc_data[2];
-    bool needs_update = false;
+    bool    needs_update = false;
     if (i2c_read_reg_retry(I2C_ADDRESS, CONFIG_CRC_L_REG, crc_data, 2, 100) == I2C_STATUS_SUCCESS) {
         uint16_t device_crc = (crc_data[1] << 8) | crc_data[0];
         uint16_t config_crc = (CY8CMBR3108_LQXI_configuration[127] << 8) | CY8CMBR3108_LQXI_configuration[126];
@@ -103,7 +103,7 @@ void cy8cmbr3108_init(void) {
         uprintf("CY8CMBR3108: ERR - CRC read failed\n");
         goto fail;
     }
-    
+
     // 4. Update and save configuration if there's a mismatch
     if (needs_update) {
         uprintf("CY8CMBR3108: Updating configuration...\n");
@@ -111,11 +111,11 @@ void cy8cmbr3108_init(void) {
             uprintf("CY8CMBR3108: ERR - Configuration RAM write failed\n");
             goto fail;
         }
-        
+
         uint8_t save_cmd = SAVE_CHECK_CRC;
         i2c_write_reg_retry(I2C_ADDRESS, CTRL_CMD_REG, &save_cmd, 1, 100);
         wait_ms(220); // Required wait for flash write
-        
+
         if (i2c_read_reg_retry(I2C_ADDRESS, CTRL_CMD_STATUS_REG, data, 1, 100) != I2C_STATUS_SUCCESS || data[0] != 0) {
             uprintf("CY8CMBR3108: ERR - Configuration save to flash failed (Status: %d)\n", data[0]);
             goto fail;
@@ -124,7 +124,7 @@ void cy8cmbr3108_init(void) {
     } else {
         uprintf("CY8CMBR3108: Configuration OK\n");
     }
-    
+
     // 5. Software reset to apply changes and start sensing
     uint8_t reset_cmd = SW_RESET;
     if (i2c_write_reg_retry(I2C_ADDRESS, CTRL_CMD_REG, &reset_cmd, 1, 100) != I2C_STATUS_SUCCESS) {
@@ -132,7 +132,7 @@ void cy8cmbr3108_init(void) {
         goto fail;
     }
     wait_ms(30);
-    
+
     is_initialized = true;
     uprintf("CY8CMBR3108: Initialization Success\n");
     return;
@@ -143,7 +143,7 @@ fail:
 
 uint16_t cy8cmbr3108_read(void) {
     if (!is_initialized) return 0;
-    
+
     uint8_t stat_data[2];
     if (i2c_read_register(I2C_ADDRESS, BUTTON_STAT_REG, stat_data, 2, 100) == I2C_STATUS_SUCCESS) {
         return (stat_data[1] << 8) | stat_data[0];

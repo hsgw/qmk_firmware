@@ -7,8 +7,6 @@
 #endif
 
 void keyboard_pre_init_kb(void) {
-    gpio_set_pin_input(GP6);
-    gpio_set_pin_input(GP7);
     i2c_init();
 
 #ifndef KNOT_C_DEBUG
@@ -39,16 +37,16 @@ void matrix_scan_kb(void) {
         uint16_t     btn_stat = cy8cmbr3108_read();
         matrix_row_t row      = matrix[0];
 
-        // Map bits to matrix row (0x04 -> Bit 1, 0x20 -> Bit 2)
+        // Map bits to matrix row (0x04 -> Bit 0, 0x20 -> Bit 1)
         if (btn_stat & 0x04)
+            row |= (1 << 0);
+        else
+            row &= ~(1 << 0);
+
+        if (btn_stat & 0x20)
             row |= (1 << 1);
         else
             row &= ~(1 << 1);
-
-        if (btn_stat & 0x20)
-            row |= (1 << 2);
-        else
-            row &= ~(1 << 2);
 
         matrix[0] = row;
     }
