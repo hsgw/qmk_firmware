@@ -49,7 +49,7 @@ bool matrix_scan_custom(matrix_row_t current_matrix[]) {
         gpio_write_pin(HC138_ADDR_0, (row_addr >> 0) & 1);
         gpio_write_pin(HC138_ADDR_1, (row_addr >> 1) & 1);
         gpio_write_pin(HC138_ADDR_2, (row_addr >> 2) & 1);
-        wait_us(1); // Small delay for the 74HC138 to settle
+        wait_us(20); // Small delay for the 74HC138 to settle
 
         // Step 2: Key state latch using 74HC165
         gpio_write_pin_low(HC165_LATCH);  // Pulse Low to load data
