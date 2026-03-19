@@ -1,0 +1,1 @@
+#define PMW3610_CPI 200
