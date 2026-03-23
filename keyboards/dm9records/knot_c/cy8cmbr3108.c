@@ -1,3 +1,6 @@
+// Copyright 2026 Takuya Urakawa @hsgw (5z6p.ccom)
+// SPDX-License-Identifier: GPL-2.0-or-later
+
 #include "cy8cmbr3108.h"
 #include "i2c_master.h"
 #include "cy8cmbr3108_config.h"

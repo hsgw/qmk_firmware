@@ -1,5 +1,5 @@
-// Copyright 2023 QMK
-// SPDX-License-Identifier: GPL-2.0-later
+// Copyright 2026 Takuya Urakawa @hsgw (5z6p.ccom)
+// SPDX-License-Identifier: GPL-2.0-or-later
 
 #include QMK_KEYBOARD_H
 
