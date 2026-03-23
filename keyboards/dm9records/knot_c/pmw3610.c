@@ -1,3 +1,6 @@
+// This code is from https://github.com/cormoran/qmk_firmware
+// author: cormoran
+
 // This code is based on https://github.com/inorichi/zmk-pmw3610-driver
 #include "pointing_device_internal.h"
 #include "pmw3610.h"

@@ -1,3 +1,6 @@
+// This code is from https://github.com/cormoran/qmk_firmware
+
+// Original comment
 // This code is based on https://github.com/inorichi/zmk-pmw3610-driver
 #pragma once
 
